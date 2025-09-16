@@ -1,0 +1,19 @@
+{
+  "name": "borracha-de-roupa",
+  "version": "1.0.0",
+  "description": "Borracha de Roupa - IA Fashion Revolution",
+  "scripts": {
+    "build": "cd frontend && npm run build",
+    "start": "cd backend && npm start",
+    "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm start\"",
+    "install-all": "npm install && cd frontend && npm install && cd ../backend && npm install",
+    "deploy": "npm run build && pm2 start ecosystem.config.js"
+  },
+  "keywords": ["fashion", "ai", "virtual-try-on", "react", "nodejs"],
+  "author": "Seu Nome",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^7.6.0"
+  }
+}
+

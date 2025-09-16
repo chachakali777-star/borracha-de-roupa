@@ -1,0 +1,250 @@
+{
+  "usuarios": [
+    {
+      "id": "bbac8138-beb8-43d2-9d9e-4bdb0ad7b972",
+      "nome": "Administrador",
+      "email": "admin@fashn.ai",
+      "senha": "$2a$10$ty5hsTSW8KsopEH7HKNCXuChY6YP5bfFWylEgBpZX20MrxRznQZbG",
+      "tokens": 725,
+      "role": "admin",
+      "createdAt": "2025-09-07T22:46:33.479Z"
+    },
+    {
+      "id": "d4149a10-8ef7-467c-a5d0-9e8496708ac1",
+      "nome": "chacha",
+      "email": "charles00giesen@hotmail.com",
+      "senha": "$2a$10$KFsfnSjKLYwspvtCTPfuyeSAtDZI0ZyPa8p2SiwKzdCU5LHl.MBLC",
+      "tokens": 0,
+      "role": "user",
+      "createdAt": "2025-09-07T23:50:38.973Z"
+    },
+    {
+      "id": "test-user-123",
+      "nome": "aaaaa",
+      "email": "devgiesen@outlook.com",
+      "senha": "$2a$10$test.hash.for.testing",
+      "tokens": 25,
+      "role": "user",
+      "createdAt": "2025-09-08T00:30:00.000Z"
+    }
+  ],
+  "historico": [
+    {
+      "id": "35bf0397-b254-433a-b736-347d3db5092b",
+      "usuario_id": "bbac8138-beb8-43d2-9d9e-4bdb0ad7b972",
+      "data": "2025-09-07T22:46:33.480Z",
+      "tipo_acao": "user_created",
+      "descricao": "Usuário criado"
+    },
+    {
+      "id": "80ff7929-2f0a-4f1e-9f02-384479c98702",
+      "usuario_id": "bbac8138-beb8-43d2-9d9e-4bdb0ad7b972",
+      "data": "2025-09-07T22:48:36.256Z",
+      "tipo_acao": "token_consumed",
+      "descricao": "Token consumido para upload"
+    },
+    {
+      "id": "81db1776-71d6-4ead-9b6d-b10c3c4304ea",
+      "usuario_id": "bbac8138-beb8-43d2-9d9e-4bdb0ad7b972",
+      "data": "2025-09-07T22:52:38.590Z",
+      "tipo_acao": "token_consumed",
+      "descricao": "Token consumido para upload"
+    },
+    {
+      "id": "29a02f64-2177-47b4-ad94-5cc3c0fb8e69",
+      "usuario_id": "bbac8138-beb8-43d2-9d9e-4bdb0ad7b972",
+      "data": "2025-09-07T22:58:48.621Z",
+      "tipo_acao": "token_consumed",
+      "descricao": "Token consumido para upload"
+    },
+    {
+      "id": "154621af-441a-41ca-bab2-bb302efcb9ec",
+      "usuario_id": "bbac8138-beb8-43d2-9d9e-4bdb0ad7b972",
+      "data": "2025-09-07T23:04:14.830Z",
+      "tipo_acao": "token_consumed",
+      "descricao": "Token consumido para upload"
+    },
+    {
+      "id": "b067fbd0-34f6-4b48-bdf9-920ed00f59f5",
+      "usuario_id": "bbac8138-beb8-43d2-9d9e-4bdb0ad7b972",
+      "data": "2025-09-07T23:05:13.048Z",
+      "tipo_acao": "token_consumed",
+      "descricao": "Token consumido para upload"
+    },
+    {
+      "id": "e77dd610-dc76-4cd9-bb67-e880b60b34b3",
+      "usuario_id": "d4149a10-8ef7-467c-a5d0-9e8496708ac1",
+      "data": "2025-09-07T23:50:38.975Z",
+      "tipo_acao": "user_created",
+      "descricao": "Usuário criado"
+    },
+    {
+      "id": "09bfaf4e-64ce-4ad5-8710-660b8b25ef09",
+      "usuario_id": "d4149a10-8ef7-467c-a5d0-9e8496708ac1",
+      "data": "2025-09-07T23:59:27.621Z",
+      "tipo_acao": "tokens_updated",
+      "descricao": "Tokens atualizados para 50"
+    },
+    {
+      "id": "53437a62-7ea0-4e0d-90e8-cd3117ede2a6",
+      "usuario_id": "bbac8138-beb8-43d2-9d9e-4bdb0ad7b972",
+      "data": "2025-09-07T23:59:34.227Z",
+      "tipo_acao": "tokens_updated",
+      "descricao": "Tokens atualizados para 100"
+    },
+    {
+      "id": "996999b2-f72e-4341-9f00-14b70748a5c4",
+      "usuario_id": "bbac8138-beb8-43d2-9d9e-4bdb0ad7b972",
+      "data": "2025-09-08T00:04:35.324Z",
+      "tipo_acao": "token_consumed",
+      "descricao": "Token consumido para upload"
+    },
+    {
+      "id": "22952db9-d4db-4a40-989b-08ed45b281fc",
+      "usuario_id": "bbac8138-beb8-43d2-9d9e-4bdb0ad7b972",
+      "data": "2025-09-08T00:11:34.887Z",
+      "tipo_acao": "token_consumed",
+      "descricao": "Token consumido para upload"
+    },
+    {
+      "id": "bfd50059-869d-480e-98dd-2ad424644f05",
+      "usuario_id": "bbac8138-beb8-43d2-9d9e-4bdb0ad7b972",
+      "data": "2025-09-08T00:17:31.377Z",
+      "tipo_acao": "token_consumed",
+      "descricao": "25 tokens consumidos para geração de imagem"
+    },
+    {
+      "id": "98515645-f1bb-4240-995b-0eef27d9750a",
+      "usuario_id": "bbac8138-beb8-43d2-9d9e-4bdb0ad7b972",
+      "data": "2025-09-08T00:58:00.016Z",
+      "tipo_acao": "token_consumed",
+      "descricao": "25 tokens consumidos para geração de imagem"
+    },
+    {
+      "id": "webhook-payment-123",
+      "usuario_id": "test-user-123",
+      "data": "2025-09-08T00:30:00.000Z",
+      "tipo_acao": "tokens_updated",
+      "descricao": "25 tokens adicionados via pagamento PIX (R$ 5,00)"
+    },
+    {
+      "id": "manual-payment-10566288",
+      "usuario_id": "d4149a10-8ef7-467c-a5d0-9e8496708ac1",
+      "data": "2025-09-08T00:40:00.000Z",
+      "tipo_acao": "tokens_updated",
+      "descricao": "25 tokens adicionados via pagamento PIX manual (Transação ID: 10566288)"
+    },
+    {
+      "id": "aec96a4a-d32d-46f1-af65-1276f94c8a7d",
+      "usuario_id": "d4149a10-8ef7-467c-a5d0-9e8496708ac1",
+      "data": "2025-09-08T19:55:14.138Z",
+      "tipo_acao": "token_consumed",
+      "descricao": "25 tokens consumidos para geração de imagem"
+    },
+    {
+      "id": "58de9dd4-b683-409b-8ab0-05186a02b4da",
+      "usuario_id": "d4149a10-8ef7-467c-a5d0-9e8496708ac1",
+      "data": "2025-09-08T19:59:13.165Z",
+      "tipo_acao": "token_consumed",
+      "descricao": "25 tokens consumidos para geração de imagem"
+    },
+    {
+      "id": "0ea0432f-2e61-4dd2-b38d-271bc938d71b",
+      "usuario_id": "d4149a10-8ef7-467c-a5d0-9e8496708ac1",
+      "data": "2025-09-08T20:03:50.691Z",
+      "tipo_acao": "token_consumed",
+      "descricao": "25 tokens consumidos para geração de imagem"
+    },
+    {
+      "id": "f44a00fa-5814-4cfd-9a2f-607ebb23eab6",
+      "usuario_id": "bbac8138-beb8-43d2-9d9e-4bdb0ad7b972",
+      "data": "2025-09-08T20:22:36.634Z",
+      "tipo_acao": "token_consumed",
+      "descricao": "25 tokens consumidos para geração de imagem"
+    },
+    {
+      "id": "5bdb1b61-7c59-4a10-a768-2318a616073f",
+      "usuario_id": "bbac8138-beb8-43d2-9d9e-4bdb0ad7b972",
+      "data": "2025-09-08T20:23:54.445Z",
+      "tipo_acao": "tokens_updated",
+      "descricao": "Tokens atualizados para 1000"
+    },
+    {
+      "id": "13df0d92-3119-4e94-8070-809fe0353bb0",
+      "usuario_id": "bbac8138-beb8-43d2-9d9e-4bdb0ad7b972",
+      "data": "2025-09-08T20:24:04.621Z",
+      "tipo_acao": "token_consumed",
+      "descricao": "25 tokens consumidos para geração de imagem"
+    },
+    {
+      "id": "c01ff0a9-395a-435a-98e9-497ea5da0360",
+      "usuario_id": "bbac8138-beb8-43d2-9d9e-4bdb0ad7b972",
+      "data": "2025-09-08T20:26:57.207Z",
+      "tipo_acao": "token_consumed",
+      "descricao": "25 tokens consumidos para geração de imagem"
+    },
+    {
+      "id": "59fdbf0f-d393-43fd-ab8d-1252388697f8",
+      "usuario_id": "bbac8138-beb8-43d2-9d9e-4bdb0ad7b972",
+      "data": "2025-09-08T20:27:21.510Z",
+      "tipo_acao": "token_consumed",
+      "descricao": "25 tokens consumidos para geração de imagem"
+    },
+    {
+      "id": "5f8fea56-876d-4d14-b28f-21106e33f8d8",
+      "usuario_id": "bbac8138-beb8-43d2-9d9e-4bdb0ad7b972",
+      "data": "2025-09-08T20:30:05.752Z",
+      "tipo_acao": "token_consumed",
+      "descricao": "25 tokens consumidos para geração de imagem"
+    },
+    {
+      "id": "4ab5eed5-5e87-43ef-8d42-46c839906cf8",
+      "usuario_id": "bbac8138-beb8-43d2-9d9e-4bdb0ad7b972",
+      "data": "2025-09-08T20:32:53.602Z",
+      "tipo_acao": "token_consumed",
+      "descricao": "25 tokens consumidos para geração de imagem"
+    },
+    {
+      "id": "ff73f7e3-fca1-415f-a5ba-2859a1277cf7",
+      "usuario_id": "bbac8138-beb8-43d2-9d9e-4bdb0ad7b972",
+      "data": "2025-09-08T20:35:27.145Z",
+      "tipo_acao": "token_consumed",
+      "descricao": "25 tokens consumidos para geração de imagem"
+    },
+    {
+      "id": "3d314ed6-8a77-4ab4-8d34-c83f82a58791",
+      "usuario_id": "bbac8138-beb8-43d2-9d9e-4bdb0ad7b972",
+      "data": "2025-09-08T20:44:23.806Z",
+      "tipo_acao": "token_consumed",
+      "descricao": "25 tokens consumidos para geração de imagem"
+    },
+    {
+      "id": "3c63e7c6-a6e7-4140-a507-bb556f05e692",
+      "usuario_id": "bbac8138-beb8-43d2-9d9e-4bdb0ad7b972",
+      "data": "2025-09-16T15:26:11.197Z",
+      "tipo_acao": "token_consumed",
+      "descricao": "25 tokens consumidos para geração de imagem"
+    },
+    {
+      "id": "08ba07b7-d4ca-472b-ae68-fb71f4edd817",
+      "usuario_id": "bbac8138-beb8-43d2-9d9e-4bdb0ad7b972",
+      "data": "2025-09-16T15:30:30.565Z",
+      "tipo_acao": "token_consumed",
+      "descricao": "25 tokens consumidos para geração de imagem"
+    },
+    {
+      "id": "69a60207-8e0a-4ad6-a080-607dafd2269c",
+      "usuario_id": "bbac8138-beb8-43d2-9d9e-4bdb0ad7b972",
+      "data": "2025-09-16T15:36:16.412Z",
+      "tipo_acao": "token_consumed",
+      "descricao": "25 tokens consumidos para geração de imagem"
+    },
+    {
+      "id": "9bb8a064-0c0a-4631-a454-e772d9cc261b",
+      "usuario_id": "bbac8138-beb8-43d2-9d9e-4bdb0ad7b972",
+      "data": "2025-09-16T17:22:42.736Z",
+      "tipo_acao": "token_consumed",
+      "descricao": "25 tokens consumidos para geração de imagem"
+    }
+  ]
+}
