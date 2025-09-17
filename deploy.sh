@@ -44,3 +44,4 @@ echo "3. Execute npm install nos diretórios frontend e backend"
 echo "4. Configure o Nginx"
 echo "5. Inicie a aplicação com PM2"
 
+

@@ -14,7 +14,7 @@ module.exports = {
         PORT: 5000,
         JWT_SECRET: 'seu_jwt_secret_super_seguro_aqui',
         NITRO_API_TOKEN: 'pPWKFgks1X57ACaNYwwPevsH74aFub8UkzeLnrCK88tNZwqoCukdRXDoCqg0',
-        FRONTEND_URL: 'https://SEU_DOMINIO_AQUI.com',
+        FRONTEND_URL: 'https://borracharoupa.fun',
         FASHN_API_KEY: 'sua_fashn_api_key_aqui'
       },
       error_file: '/var/log/pm2/borracha-backend-error.log',
@@ -31,7 +31,7 @@ module.exports = {
   deploy: {
     production: {
       user: 'borracha-app',
-      host: 'SEU_IP_VPS_AQUI',
+      host: '31.97.162.251',
       ref: 'origin/main',
       repo: 'https://github.com/SEU_USUARIO/borracha-de-roupa.git',
       path: '/var/www/borracha-de-roupa',
@@ -41,4 +41,5 @@ module.exports = {
     }
   }
 };
+
 

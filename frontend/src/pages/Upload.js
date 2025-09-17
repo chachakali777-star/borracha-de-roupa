@@ -297,7 +297,7 @@ const Upload = () => {
                 <div className="max-w-2xl mx-auto">
                   <div className="bg-black/30 border border-green-500/20 rounded-2xl p-6 shadow-2xl">
                     <img
-                      src={`http://localhost:5000${result.processedImageUrl}`}
+                      src={`https://borracharoupa.fun${result.processedImageUrl}`}
                       alt="Resultado do Virtual Try-On"
                       className="w-full h-auto rounded-xl shadow-2xl"
                     />
