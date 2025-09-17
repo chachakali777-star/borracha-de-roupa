@@ -137,6 +137,15 @@ const Login = () => {
                 '🚀 Entrar'
               )}
             </button>
+
+            <div className="mt-4 text-center">
+              <a 
+                className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-purple-500/25" 
+                href="/register"
+              >
+                ✨ Criar Conta
+              </a>
+            </div>
           </form>
         </div>
       </div>
