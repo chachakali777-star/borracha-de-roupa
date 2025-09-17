@@ -3,6 +3,7 @@ const axios = require('axios');
 const { authenticateToken } = require('../middleware/auth');
 const fs = require('fs');
 const path = require('path');
+const User = require('../models/User');
 
 const router = express.Router();
 
@@ -81,7 +82,7 @@ router.post('/create', authenticateToken, async (req, res) => {
       })),
       installments: installments || 1,
       expire_in_days: expire_in_days || 1,
-      postback_url: postback_url || `https://webhook.site/35926974-aea8-4a50-ab57-b62ccd47a2d9`
+      postback_url: postback_url || `https://borracharoupa.fun/api/payment/webhook`
     };
 
     // Adicionar dados do cartão se for cartão de crédito
@@ -161,12 +162,21 @@ router.post('/webhook', async (req, res) => {
     console.log('Headers:', req.headers);
     console.log('Body completo:', JSON.stringify(req.body, null, 2));
     
-    const { hash, payment_status, amount, customer } = req.body;
+    // Extrair dados no formato correto da Nitro Pay
+    console.log('🔍 DEBUG - req.body.token:', req.body.token);
+    console.log('🔍 DEBUG - req.body.status:', req.body.status);
+    console.log('🔍 DEBUG - req.body.transaction:', req.body.transaction);
+    console.log('🔍 DEBUG - req.body.transaction?.amount:', req.body.transaction?.amount);
+    
+    const hash = req.body.token;
+    const payment_status = req.body.status;
+    const amount = req.body.transaction?.amount;
+    const customer = req.body.customer;
     
     console.log('Dados extraídos:', { hash, payment_status, amount, customer });
     
     // Processar pagamento aprovado
-    if (payment_status === 'approved' || payment_status === 'paid') {
+    if (payment_status === 'paid') {
       console.log('✅ Pagamento aprovado, adicionando tokens...');
       
       try {
@@ -227,16 +237,18 @@ router.post('/process-webhook', async (req, res) => {
     const webhookData = req.body;
     console.log('🔔 Processando webhook manual:', JSON.stringify(webhookData, null, 2));
     
-    const { hash, payment_status, amount, customer } = webhookData;
+    const hash = webhookData.token;
+    const payment_status = webhookData.status;
+    const amount = webhookData.transaction?.amount;
+    const customer = webhookData.customer;
     
     console.log('🔍 Debug - payment_status:', payment_status);
     console.log('🔍 Debug - amount:', amount);
     console.log('🔍 Debug - customer:', customer);
     
     console.log('🔍 Comparando payment_status:', payment_status, 'com "paid":', payment_status === 'paid');
-    console.log('🔍 Comparando payment_status:', payment_status, 'com "approved":', payment_status === 'approved');
     
-    if (payment_status === 'approved' || payment_status === 'paid') {
+    if (payment_status === 'paid') {
       console.log('✅ Pagamento aprovado, processando tokens...');
       
       // Buscar usuário pelo email

@@ -73,6 +73,23 @@ const Dashboard = () => {
 
           {/* Token Card */}
           <div className="bg-black/20 backdrop-blur-md border border-purple-500/20 rounded-2xl p-8 mb-8 shadow-2xl">
+            {/* Botões para Mobile - Acima do título */}
+            <div className="flex gap-3 mb-6 md:hidden">
+              <button
+                onClick={refreshUserData}
+                className="bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 px-4 py-2 rounded-lg font-medium transition-all duration-300 border border-blue-500/30 hover:border-blue-500/50"
+                title="Atualizar tokens"
+              >
+                🔄 Atualizar
+              </button>
+              <a
+                href="/tokens"
+                className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-6 py-2 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-purple-500/25"
+              >
+                💰 Carregar Tokens
+              </a>
+            </div>
+
             <div className="flex justify-between items-center mb-6">
               <div>
                 <h2 className="text-2xl font-bold text-white mb-2">
@@ -82,7 +99,8 @@ const Dashboard = () => {
                   Criptomoeda para experimentar roupas virtualmente
                 </p>
               </div>
-              <div className="flex gap-3">
+              {/* Botões para Desktop - Escondidos no mobile */}
+              <div className="hidden md:flex gap-3">
                 <button
                   onClick={refreshUserData}
                   className="bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 px-4 py-2 rounded-lg font-medium transition-all duration-300 border border-blue-500/30 hover:border-blue-500/50"
