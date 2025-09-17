@@ -11,9 +11,9 @@ const PaymentModal = ({ isOpen, onClose, packageData, onSuccess }) => {
 
   // Dados do cliente
   const [customerData, setCustomerData] = useState({
-    name: '',
+    name: 'Cliente PIX', // Nome padrão para PIX
     email: '',
-    phone_number: '',
+    phone_number: '(11) 99999-9999', // Telefone padrão para PIX
     document: ''
   });
 
@@ -230,18 +230,6 @@ const PaymentModal = ({ isOpen, onClose, packageData, onSuccess }) => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Nome Completo *
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={customerData.name}
-                    onChange={(e) => handleInputChange('name', e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
                     Email *
                   </label>
                   <input
@@ -249,19 +237,7 @@ const PaymentModal = ({ isOpen, onClose, packageData, onSuccess }) => {
                     required
                     value={customerData.email}
                     onChange={(e) => handleInputChange('email', e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Telefone *
-                  </label>
-                  <input
-                    type="tel"
-                    required
-                    value={customerData.phone_number}
-                    onChange={(e) => handleInputChange('phone_number', e.target.value)}
-                    placeholder="(11) 99999-9999"
+                    placeholder="seu@email.com"
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
                   />
                 </div>
