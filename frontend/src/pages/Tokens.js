@@ -144,7 +144,7 @@ const Tokens = () => {
                   )}
                   {pkg.test && (
                     <div className="absolute -top-2 -left-2 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-medium">
-                      🧪 Teste
+                      ✨ Ativar conta
                     </div>
                   )}
                   
