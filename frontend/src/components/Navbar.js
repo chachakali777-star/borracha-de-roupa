@@ -180,18 +180,7 @@ const Navbar = () => {
             ) : (
               /* Navigation for non-logged users */
               <div className="flex items-center space-x-4">
-                <Link
-                  to="/login"
-                  className="text-gray-300 hover:text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-300 hover:bg-white/10"
-                >
-                  🚀 Entrar
-                </Link>
-                <Link
-                  to="/register"
-                  className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-purple-500/25"
-                >
-                  ✨ Criar Conta
-                </Link>
+                {/* Botões removidos - usuários não logados verão apenas o logo */}
               </div>
             )}
           </div>
