@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import Navbar from '../components/Navbar';
+import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 
 const Profile = () => {
   const { user, updateUser } = useAuth();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -60,193 +61,198 @@ const Profile = () => {
   };
 
   return (
-    <div className="min-h-screen relative overflow-hidden">
-      <Navbar />
-      
-      {/* Background Effects */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900"></div>
-      <div className="absolute inset-0 opacity-20">
-        <div className="absolute inset-0 bg-gradient-to-r from-purple-500/5 to-pink-500/5"></div>
-        <div className="absolute inset-0" style={{
-          backgroundImage: `radial-gradient(circle at 1px 1px, rgba(156, 146, 172, 0.1) 1px, transparent 0)`,
-          backgroundSize: '20px 20px'
-        }}></div>
+    <div className="min-h-screen bg-gradient-to-br from-purple-100 via-purple-50 to-white">
+      {/* Header */}
+      <div className="bg-white shadow-sm">
+        <div className="max-w-md mx-auto px-4 py-3 flex items-center justify-between">
+          {/* VIP Badge */}
+          <div className="bg-yellow-400 text-black px-3 py-1 rounded-full text-sm font-bold flex items-center">
+            👑 VIP
+          </div>
+          
+          {/* Title */}
+          <h1 className="text-2xl font-bold text-pink-500">
+            Meu Perfil
+          </h1>
+          
+          {/* Tokens Display */}
+          <div className="bg-pink-100 text-pink-600 px-3 py-1 rounded-full text-sm font-medium">
+            💎 {user?.tokens || 0}
+          </div>
+        </div>
       </div>
-      
-      {/* Floating Elements */}
-      <div className="absolute top-20 left-20 w-32 h-32 bg-purple-500/10 rounded-full blur-xl animate-pulse"></div>
-      <div className="absolute bottom-20 right-20 w-40 h-40 bg-pink-500/10 rounded-full blur-xl animate-pulse delay-1000"></div>
-      
-      <div className="relative z-10 max-w-4xl mx-auto py-6 sm:px-6 lg:px-8 pt-24">
-        <div className="px-4 py-6 sm:px-0">
-          {/* Header */}
-          <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-4">
-              👤 Meu Perfil
-            </h1>
-            <p className="text-xl text-gray-300">
-              Gerencie suas informações pessoais e configurações
-            </p>
+
+      {/* Main Content */}
+      <div className="max-w-md mx-auto px-4 py-6">
+        {/* Profile Card */}
+        <div className="bg-white rounded-2xl shadow-lg p-6 mb-6">
+          <div className="text-center mb-6">
+            <div className="w-20 h-20 bg-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span className="text-white font-bold text-2xl">
+                {user?.nome?.charAt(0)?.toUpperCase() || 'U'}
+              </span>
+            </div>
+            <h2 className="text-xl font-bold text-gray-800 mb-1">
+              {user?.nome || 'Usuário'}
+            </h2>
+            <p className="text-gray-600 text-sm">{user?.email}</p>
+          </div>
+          
+          {/* Token Info */}
+          <div className="bg-pink-50 rounded-xl p-4 mb-6">
+            <div className="text-center">
+              <div className="text-2xl font-bold text-pink-600 mb-1">
+                {user?.tokens || 0}
+              </div>
+              <p className="text-gray-600 text-sm">Tokens disponíveis</p>
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Profile Card */}
-            <div className="lg:col-span-1">
-              <div className="bg-black/20 backdrop-blur-md border border-purple-500/20 rounded-2xl p-8 shadow-2xl">
-                <div className="text-center">
-                  <div className="w-24 h-24 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span className="text-white font-bold text-3xl">
-                      {user?.nome?.charAt(0)?.toUpperCase() || 'U'}
-                    </span>
-                  </div>
-                  <h2 className="text-2xl font-bold text-white mb-2">
-                    {user?.nome || 'Usuário'}
-                  </h2>
-                  <p className="text-gray-400 mb-4">{user?.email}</p>
-                  
-                  {/* Token Display */}
-                  <div className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 backdrop-blur-sm border border-purple-500/30 rounded-xl p-4 mb-6">
-                    <div className="text-center">
-                      <div className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-2">
-                        {user?.tokens || 0}
-                      </div>
-                      <p className="text-gray-300 text-sm">Tokens disponíveis</p>
-                    </div>
-                  </div>
+          {/* Quick Actions */}
+          <div className="space-y-3">
+            <button
+              onClick={() => navigate('/tokens')}
+              className="w-full bg-pink-500 hover:bg-pink-600 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200"
+            >
+              💰 Carregar Tokens
+            </button>
+            <button
+              onClick={() => navigate('/upload')}
+              className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-3 px-6 rounded-xl transition-all duration-200"
+            >
+              ✨ Experimentar Roupas
+            </button>
+          </div>
+        </div>
 
-                  {/* Quick Actions */}
-                  <div className="space-y-3">
-                    <a
-                      href="/tokens"
-                      className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-4 py-2 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-purple-500/25 block text-center"
-                    >
-                      💎 Carregar Tokens
-                    </a>
-                    <a
-                      href="/upload"
-                      className="w-full bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 hover:text-blue-300 px-4 py-2 rounded-lg font-medium transition-all duration-300 border border-blue-500/30 hover:border-blue-500/50 block text-center"
-                    >
-                      ✨ Experimentar Roupas
-                    </a>
-                  </div>
-                </div>
-              </div>
+        {/* Profile Form */}
+        <div className="bg-white rounded-2xl shadow-lg p-6 mb-20">
+          <h3 className="text-lg font-bold text-gray-800 mb-6 text-center">
+            📝 Informações Pessoais
+          </h3>
+          
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label htmlFor="nome" className="block text-gray-700 text-sm font-medium mb-2">
+                Nome Completo
+              </label>
+              <input
+                type="text"
+                id="nome"
+                name="nome"
+                value={formData.nome}
+                onChange={handleChange}
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all duration-200"
+                placeholder="Seu nome completo"
+              />
+            </div>
+            
+            <div>
+              <label htmlFor="email" className="block text-gray-700 text-sm font-medium mb-2">
+                Email
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all duration-200"
+                placeholder="seu@email.com"
+              />
+            </div>
+            
+            <div>
+              <label htmlFor="telefone" className="block text-gray-700 text-sm font-medium mb-2">
+                Telefone
+              </label>
+              <input
+                type="tel"
+                id="telefone"
+                name="telefone"
+                value={formData.telefone}
+                onChange={handleChange}
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all duration-200"
+                placeholder="(11) 99999-9999"
+              />
+            </div>
+            
+            <div>
+              <label htmlFor="endereco" className="block text-gray-700 text-sm font-medium mb-2">
+                Endereço
+              </label>
+              <input
+                type="text"
+                id="endereco"
+                name="endereco"
+                value={formData.endereco}
+                onChange={handleChange}
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all duration-200"
+                placeholder="Sua cidade, estado"
+              />
             </div>
 
-            {/* Profile Form */}
-            <div className="lg:col-span-2">
-              <div className="bg-black/20 backdrop-blur-md border border-purple-500/20 rounded-2xl p-8 shadow-2xl">
-                <h3 className="text-2xl font-bold text-white mb-6">
-                  📝 Informações Pessoais
-                </h3>
-                
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                      <label htmlFor="nome" className="block text-sm font-medium text-gray-300 mb-2">
-                        Nome Completo
-                      </label>
-                      <input
-                        type="text"
-                        id="nome"
-                        name="nome"
-                        value={formData.nome}
-                        onChange={handleChange}
-                        className="w-full px-4 py-3 bg-black/30 border border-purple-500/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300"
-                        placeholder="Seu nome completo"
-                      />
-                    </div>
-                    
-                    <div>
-                      <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
-                        Email
-                      </label>
-                      <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        className="w-full px-4 py-3 bg-black/30 border border-purple-500/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300"
-                        placeholder="seu@email.com"
-                      />
-                    </div>
-                    
-                    <div>
-                      <label htmlFor="telefone" className="block text-sm font-medium text-gray-300 mb-2">
-                        Telefone
-                      </label>
-                      <input
-                        type="tel"
-                        id="telefone"
-                        name="telefone"
-                        value={formData.telefone}
-                        onChange={handleChange}
-                        className="w-full px-4 py-3 bg-black/30 border border-purple-500/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300"
-                        placeholder="(11) 99999-9999"
-                      />
-                    </div>
-                    
-                    <div>
-                      <label htmlFor="endereco" className="block text-sm font-medium text-gray-300 mb-2">
-                        Endereço
-                      </label>
-                      <input
-                        type="text"
-                        id="endereco"
-                        name="endereco"
-                        value={formData.endereco}
-                        onChange={handleChange}
-                        className="w-full px-4 py-3 bg-black/30 border border-purple-500/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300"
-                        placeholder="Sua cidade, estado"
-                      />
-                    </div>
-                  </div>
-
-                  {error && (
-                    <div className="bg-red-500/10 border border-red-500/30 text-red-400 px-4 py-3 rounded-lg backdrop-blur-sm">
-                      <div className="flex items-center space-x-2">
-                        <span className="text-xl">⚠️</span>
-                        <span className="font-medium">{error}</span>
-                      </div>
-                    </div>
-                  )}
-
-                  {success && (
-                    <div className="bg-green-500/10 border border-green-500/30 text-green-400 px-4 py-3 rounded-lg backdrop-blur-sm">
-                      <div className="flex items-center space-x-2">
-                        <span className="text-xl">✅</span>
-                        <span className="font-medium">{success}</span>
-                      </div>
-                    </div>
-                  )}
-
-                  <div className="flex justify-end space-x-4">
-                    <button
-                      type="button"
-                      onClick={refreshUserData}
-                      className="px-6 py-3 bg-gray-600/20 hover:bg-gray-600/30 text-gray-300 hover:text-white rounded-lg font-medium transition-all duration-300 border border-gray-500/30 hover:border-gray-500/50"
-                    >
-                      🔄 Atualizar
-                    </button>
-                    <button
-                      type="submit"
-                      disabled={loading}
-                      className="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-purple-500/25 disabled:opacity-50 disabled:transform-none"
-                    >
-                      {loading ? (
-                        <div className="flex items-center space-x-2">
-                          <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                          <span>Salvando...</span>
-                        </div>
-                      ) : (
-                        '💾 Salvar Alterações'
-                      )}
-                    </button>
-                  </div>
-                </form>
+            {error && (
+              <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-xl text-sm">
+                {error}
               </div>
+            )}
+
+            {success && (
+              <div className="bg-green-50 border border-green-200 text-green-600 px-4 py-3 rounded-xl text-sm">
+                {success}
+              </div>
+            )}
+
+            <div className="flex gap-3 pt-4">
+              <button
+                type="button"
+                onClick={refreshUserData}
+                className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-3 px-6 rounded-xl transition-all duration-200"
+              >
+                🔄 Atualizar
+              </button>
+              <button
+                type="submit"
+                disabled={loading}
+                className="flex-1 bg-pink-500 hover:bg-pink-600 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {loading ? 'Salvando...' : '💾 Salvar'}
+              </button>
             </div>
+          </form>
+        </div>
+      </div>
+
+      {/* Bottom Navigation */}
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200">
+        <div className="max-w-md mx-auto px-4 py-3">
+          <div className="flex justify-center space-x-8">
+            {/* Ver Conta */}
+            <button
+              onClick={() => navigate('/profile')}
+              className="flex flex-col items-center space-y-1 text-pink-500"
+            >
+              <div className="w-8 h-8 bg-pink-500 rounded-full flex items-center justify-center">
+                <svg fill="white" viewBox="0 0 24 24" className="w-5 h-5">
+                  <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+              </div>
+              <span className="text-xs font-medium">Ver Conta</span>
+            </button>
+
+            {/* Início */}
+            <button
+              onClick={() => navigate('/')}
+              className="flex flex-col items-center space-y-1 text-gray-600 hover:text-pink-500 transition-colors duration-200"
+            >
+              <div className="w-6 h-6 flex items-center justify-center">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" className="w-6 h-6">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                </svg>
+              </div>
+              <span className="text-xs font-medium">Início</span>
+            </button>
           </div>
         </div>
       </div>

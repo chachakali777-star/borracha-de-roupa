@@ -44,14 +44,24 @@ router.post('/create', authenticateToken, async (req, res) => {
 
     // Determinar offer_hash baseado no valor
     let offerHash = 'qd3cr'; // Hash padrão
-    if (nitroConfig && nitroConfig.offers) {
+    const valueInCents = parseInt(amount);
+    console.log('💰 Valor recebido:', valueInCents, 'centavos');
+    
+    // Para VIP (R$ 49,90), usar o mesmo hash que funciona para R$ 100,00
+    // A Nitro Pay vai processar o valor correto independente do offer_hash
+    if (valueInCents === 4990) {
+      offerHash = 'qd3cr'; // Usar hash padrão que sabemos que funciona
+      console.log('👑 Pagamento VIP detectado, usando hash padrão');
+    } else if (nitroConfig && nitroConfig.offers) {
       // Mapear valor para tokens e encontrar offer_hash correspondente
-      const valueInCents = parseInt(amount);
-      if (valueInCents === 1000) offerHash = nitroConfig.offers['30'];
-      else if (valueInCents === 3000) offerHash = nitroConfig.offers['230'];
-      else if (valueInCents === 6000) offerHash = nitroConfig.offers['470'];
-      else if (valueInCents === 10000) offerHash = nitroConfig.offers['1000'];
+      if (valueInCents === 500) offerHash = nitroConfig.offers['30'];      // R$ 5,00 = 25 tokens
+      else if (valueInCents === 1000) offerHash = nitroConfig.offers['30']; // R$ 10,00 = 100 tokens  
+      else if (valueInCents === 3000) offerHash = nitroConfig.offers['230']; // R$ 30,00 = 500 tokens
+      else if (valueInCents === 6000) offerHash = nitroConfig.offers['470']; // R$ 60,00 = 1000 tokens
+      else if (valueInCents === 10000) offerHash = nitroConfig.offers['1000']; // R$ 100,00 = 2000 tokens
     }
+    
+    console.log('🎯 Offer Hash selecionado:', offerHash);
 
     // Preparar dados para a Nitro Pay
     const nitroData = {
@@ -85,6 +95,8 @@ router.post('/create', authenticateToken, async (req, res) => {
       postback_url: postback_url || `https://borracharoupa.fun/api/payment/webhook`
     };
 
+    console.log('📤 Dados enviados para Nitro Pay:', JSON.stringify(nitroData, null, 2));
+
     // Adicionar dados do cartão se for cartão de crédito
     if (payment_method === 'credit_card' && card) {
       nitroData.card = {
@@ -109,15 +121,22 @@ router.post('/create', authenticateToken, async (req, res) => {
     );
 
     // Verificar se a transação foi criada com sucesso
+    console.log('📡 Resposta completa da Nitro Pay:', JSON.stringify(response.data, null, 2));
+    
     if (response.data && response.data.success !== false) {
-      console.log('Resposta da Nitro Pay:', response.data);
+      // Extrair dados do boleto (fallback para PIX)
+      const billetUrl = response.data.billet?.billet_url || response.data.billet_url || null;
+      const billetBarcode = response.data.billet?.billet_barcode || response.data.billet_barcode || null;
       
-      // Extrair dados do PIX corretamente
-      const pixQrCode = response.data.pix?.pix_qr_code || response.data.pix_qr_code || null;
-      const pixUrl = response.data.pix?.pix_url || response.data.pix_url || null;
+      // Extrair dados do PIX (se funcionar)
+      const pixQrCode = response.data.pix?.pix_qr_code || response.data.pix_qr_code || response.data.qr_code || null;
+      const pixUrl = response.data.pix?.pix_url || response.data.pix_url || response.data.payment_url || null;
       
-      console.log('QR Code extraído:', pixQrCode);
-      console.log('PIX URL extraída:', pixUrl);
+      console.log('🔍 Boleto URL extraída:', billetUrl);
+      console.log('🔍 Boleto código de barras:', billetBarcode);
+      console.log('🔍 QR Code PIX extraído:', pixQrCode);
+      console.log('🔍 PIX URL extraída:', pixUrl);
+      console.log('🔍 Status do pagamento:', response.data.payment_status);
       
       const transactionData = {
         hash: response.data.hash,
@@ -126,21 +145,36 @@ router.post('/create', authenticateToken, async (req, res) => {
         payment_method: response.data.payment_method,
         qr_code: pixQrCode,
         payment_url: pixUrl,
+        billet_url: billetUrl,
+        billet_barcode: billetBarcode,
         created_at: response.data.created_at
       };
 
-      res.json({
-        success: true,
-        message: 'Transação criada com sucesso',
-        transaction: transactionData,
-        payment_url: pixUrl,
-        qr_code: pixQrCode
-      });
+      // Verificar se temos boleto ou PIX
+      if (billetUrl || pixQrCode || pixUrl) {
+        res.json({
+          success: true,
+          message: 'Transação criada com sucesso',
+          transaction: transactionData,
+          payment_url: pixUrl || billetUrl,
+          qr_code: pixQrCode,
+          billet_url: billetUrl,
+          billet_barcode: billetBarcode
+        });
+      } else {
+        console.log('⚠️ Nenhum método de pagamento encontrado na resposta');
+        res.json({
+          success: false,
+          message: 'Nenhum método de pagamento foi gerado pela Nitro Pay',
+          transaction: transactionData
+        });
+      }
     } else {
-      console.log('Erro na resposta da Nitro Pay:', response.data);
+      console.log('❌ Erro na resposta da Nitro Pay:', response.data);
       res.json({
         success: false,
-        message: response.data.message || 'Erro ao criar transação'
+        message: response.data.message || 'Erro ao criar transação',
+        details: response.data
       });
     }
 

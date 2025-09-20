@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Teste de Imagens - Borracha de Roupa</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-container { margin: 20px 0; border: 1px solid #ccc; padding: 20px; }
+        img, video { max-width: 200px; max-height: 200px; object-fit: cover; margin: 10px; }
+        .error { color: red; }
+        .success { color: green; }
+    </style>
+</head>
+<body>
+    <h1>Teste de Imagens e Vídeos</h1>
+    
+    <div class="test-container">
+        <h2>Teste 1: MainImage.webp</h2>
+        <img src="frontend/public/img/MainImage.webp" alt="MainImage" onerror="this.style.border='2px solid red'; this.alt='ERRO: Imagem não carregada';">
+        <p>Status: <span id="status1">Carregando...</span></p>
+    </div>
+    
+    <div class="test-container">
+        <h2>Teste 2: 1.jpeg</h2>
+        <img src="frontend/public/img/1.jpeg" alt="1" onerror="this.style.border='2px solid red'; this.alt='ERRO: Imagem não carregada';">
+        <p>Status: <span id="status2">Carregando...</span></p>
+    </div>
+    
+    <div class="test-container">
+        <h2>Teste 3: 2.jpeg</h2>
+        <img src="frontend/public/img/2.jpeg" alt="2" onerror="this.style.border='2px solid red'; this.alt='ERRO: Imagem não carregada';">
+        <p>Status: <span id="status3">Carregando...</span></p>
+    </div>
+    
+    <div class="test-container">
+        <h2>Teste 4: 3.mp4</h2>
+        <video src="frontend/public/img/3.mp4" controls onerror="this.style.border='2px solid red';">
+            Seu navegador não suporta vídeo.
+        </video>
+        <p>Status: <span id="status4">Carregando...</span></p>
+    </div>
+    
+    <div class="test-container">
+        <h2>Teste 5: 4.mp4</h2>
+        <video src="frontend/public/img/4.mp4" controls onerror="this.style.border='2px solid red';">
+            Seu navegador não suporta vídeo.
+        </video>
+        <p>Status: <span id="status5">Carregando...</span></p>
+    </div>
+
+    <script>
+        // Teste de carregamento das imagens
+        const images = [
+            { src: 'frontend/public/img/MainImage.webp', statusId: 'status1' },
+            { src: 'frontend/public/img/1.jpeg', statusId: 'status2' },
+            { src: 'frontend/public/img/2.jpeg', statusId: 'status3' }
+        ];
+        
+        images.forEach(img => {
+            const imgElement = new Image();
+            imgElement.onload = () => {
+                document.getElementById(img.statusId).innerHTML = '<span class="success">✅ Carregada com sucesso</span>';
+            };
+            imgElement.onerror = () => {
+                document.getElementById(img.statusId).innerHTML = '<span class="error">❌ Erro ao carregar</span>';
+            };
+            imgElement.src = img.src;
+        });
+        
+        // Teste de carregamento dos vídeos
+        const videos = [
+            { src: 'frontend/public/img/3.mp4', statusId: 'status4' },
+            { src: 'frontend/public/img/4.mp4', statusId: 'status5' }
+        ];
+        
+        videos.forEach(vid => {
+            const videoElement = document.createElement('video');
+            videoElement.onloadeddata = () => {
+                document.getElementById(vid.statusId).innerHTML = '<span class="success">✅ Carregado com sucesso</span>';
+            };
+            videoElement.onerror = () => {
+                document.getElementById(vid.statusId).innerHTML = '<span class="error">❌ Erro ao carregar</span>';
+            };
+            videoElement.src = vid.src;
+        });
+    </script>
+</body>
+</html>

@@ -13,6 +13,8 @@ const uploadRoutes = require('./routes/upload');
 const adminRoutes = require('./routes/admin');
 const tokenRoutes = require('./routes/tokens');
 const paymentRoutes = require('./routes/payment');
+const boletoRoutes = require('./routes/boleto');
+const pixRoutes = require('./routes/pix');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -35,6 +37,8 @@ app.use('/api/upload', uploadRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/tokens', tokenRoutes);
 app.use('/api/payment', paymentRoutes);
+app.use('/boleto', boletoRoutes);
+app.use('/api/pix', pixRoutes);
 
 // Rota de teste
 app.get('/api/test', (req, res) => {
