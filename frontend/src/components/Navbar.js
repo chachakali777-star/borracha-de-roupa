@@ -45,7 +45,6 @@ const Navbar = () => {
                 <h1 className="text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
                   Borracha de Roupa
                 </h1>
-                <p className="text-xs text-gray-400 -mt-1">IA Fashion</p>
               </div>
             </Link>
           </div>
