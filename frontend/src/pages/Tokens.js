@@ -12,34 +12,27 @@ const Tokens = () => {
 
   const tokenPackages = [
     {
-      id: 0,
-      tokens: 25,
-      price: 5.00,
-      popular: false,
-      test: true
-    },
-    {
-      id: 1,
-      tokens: 100,
-      price: 10.00,
-      popular: false
-    },
-    {
-      id: 2,
-      tokens: 500,
-      price: 30.00,
+      id: 5,
+      tokens: 50,
+      price: 20.00,
       popular: true
     },
     {
-      id: 3,
-      tokens: 1000,
-      price: 60.00,
+      id: 6,
+      tokens: 375,
+      price: 50.00,
+      popular: false
+    },
+    {
+      id: 7,
+      tokens: 500,
+      price: 75.00,
       popular: false
     },
     {
       id: 4,
       tokens: 2000,
-      price: 100.00,
+      price: 180.00,
       popular: false
     }
   ];
@@ -132,19 +125,12 @@ const Tokens = () => {
                   className={`relative bg-white border-2 rounded-lg p-6 flex items-center justify-between ${
                     pkg.popular 
                       ? 'border-pink-300 shadow-lg' 
-                      : pkg.test
-                      ? 'border-green-300 shadow-lg'
                       : 'border-gray-200 hover:border-pink-200'
                   }`}
                 >
                   {pkg.popular && (
                     <div className="absolute -top-2 -left-2 bg-pink-500 text-white px-3 py-1 rounded-full text-sm font-medium">
-                      Teste mais vezes
-                    </div>
-                  )}
-                  {pkg.test && (
-                    <div className="absolute -top-2 -left-2 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-medium">
-                      ✨ Ativar conta
+                      Mais popular
                     </div>
                   )}
                   

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import QRCode from 'qrcode';
 import api from '../services/api';
+import { loadUTM } from '../utils/utm';
 
 const PaymentModal = ({ isOpen, onClose, packageData, onSuccess }) => {
   const [loading, setLoading] = useState(false);
@@ -23,6 +24,7 @@ const PaymentModal = ({ isOpen, onClose, packageData, onSuccess }) => {
     setMessage('');
 
     try {
+      const utm = loadUTM();
       const paymentData = {
         amount: Math.round(packageData.price * 100), // Converter para centavos
         payment_method: 'pix',
@@ -38,7 +40,7 @@ const PaymentModal = ({ isOpen, onClose, packageData, onSuccess }) => {
         }],
         installments: 1,
         expire_in_days: 1,
-        postback_url: `https://webhook.site/35926974-aea8-4a50-ab57-b62ccd47a2d9`
+        utm
       };
 
       // PIX não precisa de dados de cartão
@@ -120,7 +122,6 @@ const PaymentModal = ({ isOpen, onClose, packageData, onSuccess }) => {
       console.error('Erro ao verificar status:', error);
     }
   }, [onSuccess, onClose]);
-
 
   // Polling para verificar status do PIX
   useEffect(() => {
@@ -207,7 +208,7 @@ const PaymentModal = ({ isOpen, onClose, packageData, onSuccess }) => {
             </div>
           )}
 
-          {/* Método de pagamento - apenas PIX */}
+          {/* Método de Pagamento - apenas PIX */}
           <div className="mb-6">
             <h3 className="text-lg font-semibold text-gray-800 mb-4">
               Método de Pagamento

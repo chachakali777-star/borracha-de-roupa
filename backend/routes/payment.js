@@ -11,13 +11,23 @@ const router = express.Router();
 const NITRO_API_URL = 'https://api.nitropagamentos.com/api/public/v1';
 const NITRO_API_TOKEN = process.env.NITRO_API_TOKEN || '';
 
-  // Carregar configuração das ofertas
-  let nitroConfig = null;
+// Carregar configuração das ofertas
+let nitroConfig = null;
 try {
   const configPath = path.join(__dirname, '..', 'nitro-config.json');
   nitroConfig = JSON.parse(fs.readFileSync(configPath, 'utf8'));
 } catch (error) {
   console.error('Erro ao carregar configuração da Nitro Pay:', error);
+}
+
+function withQuery(baseUrl, params) {
+  try {
+    const url = new URL(baseUrl);
+    Object.entries(params || {}).forEach(([k, v]) => { if (v) url.searchParams.set(k, v); });
+    return url.toString();
+  } catch (e) {
+    return baseUrl;
+  }
 }
 
 // Criar transação de pagamento
@@ -31,8 +41,21 @@ router.post('/create', authenticateToken, async (req, res) => {
       installments,
       expire_in_days,
       postback_url,
-      card
+      card,
+      utm: utmFromBody
     } = req.body;
+
+    // Coletar UTM dos headers também
+    const utmFromHeaders = {
+      utm_source: req.headers['x-utm-source'],
+      utm_medium: req.headers['x-utm-medium'],
+      utm_campaign: req.headers['x-utm-campaign'],
+      utm_term: req.headers['x-utm-term'],
+      utm_content: req.headers['x-utm-content'],
+      referrer: req.headers['x-referrer'],
+      landing_page: req.headers['x-landing-page']
+    };
+    const utm = Object.fromEntries(Object.entries({ ...(utmFromHeaders || {}), ...(utmFromBody || {}) }).filter(([, v]) => v));
 
     // Validar dados obrigatórios
     if (!amount || !payment_method || !customer || !cart) {
@@ -46,7 +69,7 @@ router.post('/create', authenticateToken, async (req, res) => {
     let offerHash = 'qd3cr'; // Hash padrão
     const valueInCents = parseInt(amount);
     console.log('💰 Valor recebido:', valueInCents, 'centavos');
-    
+
     // Para VIP (R$ 49,90), usar o mesmo hash que funciona para R$ 100,00
     // A Nitro Pay vai processar o valor correto independente do offer_hash
     if (valueInCents === 4990) {
@@ -55,13 +78,16 @@ router.post('/create', authenticateToken, async (req, res) => {
     } else if (nitroConfig && nitroConfig.offers) {
       // Mapear valor para tokens e encontrar offer_hash correspondente
       if (valueInCents === 500) offerHash = nitroConfig.offers['30'];      // R$ 5,00 = 25 tokens
-      else if (valueInCents === 1000) offerHash = nitroConfig.offers['30']; // R$ 10,00 = 100 tokens  
+      else if (valueInCents === 1000) offerHash = nitroConfig.offers['30']; // R$ 10,00 = 100 tokens
       else if (valueInCents === 3000) offerHash = nitroConfig.offers['230']; // R$ 30,00 = 500 tokens
       else if (valueInCents === 6000) offerHash = nitroConfig.offers['470']; // R$ 60,00 = 1000 tokens
       else if (valueInCents === 10000) offerHash = nitroConfig.offers['1000']; // R$ 100,00 = 2000 tokens
     }
-    
+
     console.log('🎯 Offer Hash selecionado:', offerHash);
+
+    const defaultWebhook = `https://borracharoupa.fun/api/payment/webhook`;
+    const webhookWithUtm = withQuery(postback_url || defaultWebhook, utm);
 
     // Preparar dados para a Nitro Pay
     const nitroData = {
@@ -92,7 +118,7 @@ router.post('/create', authenticateToken, async (req, res) => {
       })),
       installments: installments || 1,
       expire_in_days: expire_in_days || 1,
-      postback_url: postback_url || `https://borracharoupa.fun/api/payment/webhook`
+      postback_url: webhookWithUtm
     };
 
     console.log('📤 Dados enviados para Nitro Pay:', JSON.stringify(nitroData, null, 2));
@@ -122,22 +148,22 @@ router.post('/create', authenticateToken, async (req, res) => {
 
     // Verificar se a transação foi criada com sucesso
     console.log('📡 Resposta completa da Nitro Pay:', JSON.stringify(response.data, null, 2));
-    
+
     if (response.data && response.data.success !== false) {
       // Extrair dados do boleto (fallback para PIX)
       const billetUrl = response.data.billet?.billet_url || response.data.billet_url || null;
       const billetBarcode = response.data.billet?.billet_barcode || response.data.billet_barcode || null;
-      
+
       // Extrair dados do PIX (se funcionar)
       const pixQrCode = response.data.pix?.pix_qr_code || response.data.pix_qr_code || response.data.qr_code || null;
       const pixUrl = response.data.pix?.pix_url || response.data.pix_url || response.data.payment_url || null;
-      
+
       console.log('🔍 Boleto URL extraída:', billetUrl);
       console.log('🔍 Boleto código de barras:', billetBarcode);
       console.log('🔍 QR Code PIX extraído:', pixQrCode);
       console.log('🔍 PIX URL extraída:', pixUrl);
       console.log('🔍 Status do pagamento:', response.data.payment_status);
-      
+
       const transactionData = {
         hash: response.data.hash,
         status: response.data.payment_status,
@@ -147,7 +173,8 @@ router.post('/create', authenticateToken, async (req, res) => {
         payment_url: pixUrl,
         billet_url: billetUrl,
         billet_barcode: billetBarcode,
-        created_at: response.data.created_at
+        created_at: response.data.created_at,
+        utm
       };
 
       // Verificar se temos boleto ou PIX
@@ -180,7 +207,7 @@ router.post('/create', authenticateToken, async (req, res) => {
 
   } catch (error) {
     console.error('Erro ao criar transação:', error.response?.data || error.message);
-    
+
     res.status(500).json({
       success: false,
       message: error.response?.data?.message || 'Erro interno do servidor'
@@ -195,53 +222,70 @@ router.post('/webhook', async (req, res) => {
     console.log('Timestamp:', new Date().toISOString());
     console.log('Headers:', req.headers);
     console.log('Body completo:', JSON.stringify(req.body, null, 2));
-    
+
+    const utm = {
+      utm_source: req.query.utm_source,
+      utm_medium: req.query.utm_medium,
+      utm_campaign: req.query.utm_campaign,
+      utm_term: req.query.utm_term,
+      utm_content: req.query.utm_content,
+      referrer: req.query.referrer,
+      landing_page: req.query.landing_page
+    };
+    console.log('UTM no webhook:', utm);
+
     // Extrair dados no formato correto da Nitro Pay
     console.log('🔍 DEBUG - req.body.token:', req.body.token);
     console.log('🔍 DEBUG - req.body.status:', req.body.status);
     console.log('🔍 DEBUG - req.body.transaction:', req.body.transaction);
     console.log('🔍 DEBUG - req.body.transaction?.amount:', req.body.transaction?.amount);
-    
+
     const hash = req.body.token;
     const payment_status = req.body.status;
     const amount = req.body.transaction?.amount;
     const customer = req.body.customer;
-    
+
     console.log('Dados extraídos:', { hash, payment_status, amount, customer });
-    
+
     // Processar pagamento aprovado
     if (payment_status === 'paid') {
       console.log('✅ Pagamento aprovado, adicionando tokens...');
-      
+
       try {
         // Buscar usuário pelo email
         const user = User.findByEmail(customer.email);
         if (user) {
           console.log('👤 Usuário encontrado:', user.email);
-          
+
           // Calcular tokens baseado no valor pago
           let tokensToAdd = 0;
           const amountInReais = amount / 100;
-          
+
           console.log('💰 Valor pago:', amountInReais, 'reais');
-          
-          if (amountInReais === 5) tokensToAdd = 25;      // Pacote de teste
-          else if (amountInReais === 10) tokensToAdd = 100;
-          else if (amountInReais === 30) tokensToAdd = 500;
-          else if (amountInReais === 60) tokensToAdd = 1000;
-          else if (amountInReais === 100) tokensToAdd = 2000;
+
+          if (amountInReais === 20) tokensToAdd = 50;
+          else if (amountInReais === 50) tokensToAdd = 375;
+          else if (amountInReais === 75) tokensToAdd = 500;
+          else if (amountInReais === 180) tokensToAdd = 2000;
           else {
             // Fallback: 1 token = R$ 0,33
             tokensToAdd = Math.floor(amountInReais / 0.33);
           }
-          
+
           console.log('🎯 Tokens a adicionar:', tokensToAdd);
           console.log('📊 Tokens atuais do usuário:', user.tokens);
-          
+
           // Atualizar tokens do usuário
           const updatedUser = User.updateTokens(user.id, user.tokens + tokensToAdd);
-          
+
           console.log(`✅ SUCESSO! Usuário ${user.email} recebeu ${tokensToAdd} tokens. Total: ${updatedUser.tokens}`);
+
+          // Registrar UTM no histórico
+          try {
+            User.addToHistory(user.id, 'utm_conversion', `Conversão com UTM: ${JSON.stringify(utm)}`);
+          } catch (e) {
+            console.error('Erro ao salvar UTM no histórico', e);
+          }
         } else {
           console.log('❌ Usuário não encontrado:', customer.email);
         }
@@ -251,7 +295,7 @@ router.post('/webhook', async (req, res) => {
     } else {
       console.log('⏳ Status do pagamento:', payment_status);
     }
-    
+
     res.json({ success: true });
   } catch (error) {
     console.error('Erro no webhook:', error);
@@ -270,50 +314,49 @@ router.post('/process-webhook', async (req, res) => {
   try {
     const webhookData = req.body;
     console.log('🔔 Processando webhook manual:', JSON.stringify(webhookData, null, 2));
-    
+
     const hash = webhookData.token;
     const payment_status = webhookData.status;
     const amount = webhookData.transaction?.amount;
     const customer = webhookData.customer;
-    
+
     console.log('🔍 Debug - payment_status:', payment_status);
     console.log('🔍 Debug - amount:', amount);
     console.log('🔍 Debug - customer:', customer);
-    
+
     console.log('🔍 Comparando payment_status:', payment_status, 'com "paid":', payment_status === 'paid');
-    
+
     if (payment_status === 'paid') {
       console.log('✅ Pagamento aprovado, processando tokens...');
-      
+
       // Buscar usuário pelo email
       const user = User.findByEmail(customer.email);
       if (user) {
         console.log('👤 Usuário encontrado:', user.email);
-        
+
         // Calcular tokens baseado no valor pago
         let tokensToAdd = 0;
         const amountInReais = amount / 100;
-        
+
         console.log('💰 Valor pago:', amountInReais, 'reais');
-        
-        if (amountInReais === 5) tokensToAdd = 25;      // Pacote de teste
-        else if (amountInReais === 10) tokensToAdd = 100;
-        else if (amountInReais === 30) tokensToAdd = 500;
-        else if (amountInReais === 60) tokensToAdd = 1000;
-        else if (amountInReais === 100) tokensToAdd = 2000;
+
+        if (amountInReais === 20) tokensToAdd = 50;      // Novo pacote
+        else if (amountInReais === 50) tokensToAdd = 375;
+        else if (amountInReais === 75) tokensToAdd = 500;
+        else if (amountInReais === 180) tokensToAdd = 2000;
         else {
           // Fallback: 1 token = R$ 0,33
           tokensToAdd = Math.floor(amountInReais / 0.33);
         }
-        
+
         console.log('🎯 Tokens a adicionar:', tokensToAdd);
         console.log('📊 Tokens atuais do usuário:', user.tokens);
-        
+
         // Atualizar tokens do usuário
         const updatedUser = User.updateTokens(user.id, user.tokens + tokensToAdd);
-        
+
         console.log(`✅ SUCESSO! Usuário ${user.email} recebeu ${tokensToAdd} tokens. Total: ${updatedUser.tokens}`);
-        
+
         res.json({
           success: true,
           message: `Tokens adicionados com sucesso! ${tokensToAdd} tokens creditados.`,
@@ -347,7 +390,7 @@ router.post('/process-webhook', async (req, res) => {
 router.get('/status/:hash', authenticateToken, async (req, res) => {
   try {
     const { hash } = req.params;
-    
+
     const response = await axios.get(
       `${NITRO_API_URL}/transactions/${hash}?api_token=${NITRO_API_TOKEN}`,
       {
@@ -356,15 +399,15 @@ router.get('/status/:hash', authenticateToken, async (req, res) => {
         }
       }
     );
-    
+
     res.json({
       success: true,
       transaction: response.data
     });
-    
+
   } catch (error) {
     console.error('Erro ao consultar transação:', error.response?.data || error.message);
-    
+
     res.status(500).json({
       success: false,
       message: 'Erro ao consultar transação'
@@ -383,15 +426,15 @@ router.get('/transactions', authenticateToken, async (req, res) => {
         }
       }
     );
-    
+
     res.json({
       success: true,
       transactions: response.data
     });
-    
+
   } catch (error) {
     console.error('Erro ao listar transações:', error.response?.data || error.message);
-    
+
     res.status(500).json({
       success: false,
       message: 'Erro ao listar transações'

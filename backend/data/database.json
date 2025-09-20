@@ -23,7 +23,7 @@
       "nome": "aaaaa",
       "email": "devgiesen@outlook.com",
       "senha": "$2a$10$test.hash.for.testing",
-      "tokens": 25,
+      "tokens": 125,
       "role": "user",
       "createdAt": "2025-09-08T00:30:00.000Z"
     }
@@ -245,6 +245,20 @@
       "data": "2025-09-16T17:22:42.736Z",
       "tipo_acao": "token_consumed",
       "descricao": "25 tokens consumidos para geração de imagem"
+    },
+    {
+      "id": "438a452e-b385-4669-b120-bce941084723",
+      "usuario_id": "test-user-123",
+      "data": "2025-09-20T20:03:46.508Z",
+      "tipo_acao": "tokens_updated",
+      "descricao": "Tokens atualizados para 125"
+    },
+    {
+      "id": "16176dda-753f-41a3-970e-24e438f293e0",
+      "usuario_id": "test-user-123",
+      "data": "2025-09-20T20:03:46.513Z",
+      "tipo_acao": "utm_conversion",
+      "descricao": "Conversão com UTM: {\"utm_source\":\"meta\",\"utm_medium\":\"cpc\",\"utm_campaign\":\"vip\",\"utm_term\":\"teste\",\"utm_content\":\"criativo_a\",\"referrer\":\"http://facebook.com\",\"landing_page\":\"http://localhost:3000/\"}"
     }
   ]
 }

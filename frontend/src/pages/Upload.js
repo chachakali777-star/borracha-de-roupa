@@ -14,6 +14,7 @@ const Upload = () => {
   const [downloadLoading, setDownloadLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState('');
+  const [showVipModal, setShowVipModal] = useState(false);
 
   const handlePersonFileSelect = (e) => {
     const file = e.target.files[0];
@@ -99,13 +100,21 @@ const Upload = () => {
     setError('');
   };
 
+  const handleVipPayment = () => {
+    window.open('https://checkout.perfectpay.com.br/pay/PPU38CQ11JB', '_blank');
+    setShowVipModal(false);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-100 via-purple-50 to-white">
       {/* Header */}
       <div className="bg-white shadow-sm">
         <div className="max-w-md mx-auto px-4 py-3 flex items-center justify-between">
           {/* VIP Badge */}
-          <div className="bg-yellow-400 text-black px-3 py-1 rounded-full text-sm font-bold flex items-center">
+          <div
+            className="bg-yellow-400 text-black px-3 py-1 rounded-full text-sm font-bold flex items-center cursor-pointer"
+            onClick={() => setShowVipModal(true)}
+          >
             👑 VIP
           </div>
           
@@ -143,128 +152,128 @@ const Upload = () => {
 
         <div className="bg-white rounded-2xl shadow-lg p-6 mb-20">
 
-            {!result ? (
-              <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Upload da pessoa */}
-                <div>
-                  <div className="text-center mb-4">
-                    <h3 className="text-lg font-bold text-gray-800 mb-1">👤 Sua Foto</h3>
-                    <p className="text-gray-600 text-sm">Faça upload de uma foto sua clara</p>
-                  </div>
-                  <div className="border-2 border-dashed border-pink-300 rounded-2xl p-6 text-center hover:border-pink-400 transition-all duration-300 bg-pink-50">
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handlePersonFileSelect}
-                      className="hidden"
-                      id="person-upload"
-                    />
-                    <label
-                      htmlFor="person-upload"
-                      className="cursor-pointer flex flex-col items-center space-y-3"
-                    >
-                      {personPreview ? (
-                        <div className="relative">
-                          <img
-                            src={personPreview}
-                            alt="Preview da pessoa"
-                            className="w-32 h-32 object-cover rounded-xl shadow-lg"
-                          />
-                          <div className="absolute inset-0 bg-black/20 rounded-xl flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
-                            <span className="text-white text-xs font-medium">Trocar foto</span>
-                          </div>
-                        </div>
-                      ) : (
-                        <div className="w-32 h-32 bg-pink-100 rounded-xl flex items-center justify-center border-2 border-pink-200">
-                          <div className="text-center">
-                            <span className="text-4xl mb-1 block text-pink-400">👤</span>
-                            <span className="text-pink-600 text-xs">Clique para selecionar</span>
-                          </div>
-                        </div>
-                      )}
-                      <div className="text-center">
-                        <span className="text-gray-800 text-sm font-medium block">
-                          {personFile ? personFile.name : 'Nenhuma foto selecionada'}
-                        </span>
-                        <p className="text-gray-500 text-xs mt-1">
-                          JPG, PNG, GIF (máx. 10MB)
-                        </p>
-                      </div>
-                    </label>
-                  </div>
+          {!result ? (
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Upload da pessoa */}
+              <div>
+                <div className="text-center mb-4">
+                  <h3 className="text-lg font-bold text-gray-800 mb-1">👤 Sua Foto</h3>
+                  <p className="text-gray-600 text-sm">Faça upload de uma foto sua clara</p>
                 </div>
-
-                {/* Upload da roupa */}
-                <div>
-                  <div className="text-center mb-4">
-                    <h3 className="text-lg font-bold text-gray-800 mb-1">👕 Roupa</h3>
-                    <p className="text-gray-600 text-sm">Faça upload da roupa que deseja experimentar</p>
-                  </div>
-                  <div className="border-2 border-dashed border-purple-300 rounded-2xl p-6 text-center hover:border-purple-400 transition-all duration-300 bg-purple-50">
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleClothingFileSelect}
-                      className="hidden"
-                      id="clothing-upload"
-                    />
-                    <label
-                      htmlFor="clothing-upload"
-                      className="cursor-pointer flex flex-col items-center space-y-3"
-                    >
-                      {clothingPreview ? (
-                        <div className="relative">
-                          <img
-                            src={clothingPreview}
-                            alt="Preview da roupa"
-                            className="w-32 h-32 object-cover rounded-xl shadow-lg"
-                          />
-                          <div className="absolute inset-0 bg-black/20 rounded-xl flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
-                            <span className="text-white text-xs font-medium">Trocar roupa</span>
-                          </div>
+                <div className="border-2 border-dashed border-pink-300 rounded-2xl p-6 text-center hover:border-pink-400 transition-all duration-300 bg-pink-50">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handlePersonFileSelect}
+                    className="hidden"
+                    id="person-upload"
+                  />
+                  <label
+                    htmlFor="person-upload"
+                    className="cursor-pointer flex flex-col items-center space-y-3"
+                  >
+                    {personPreview ? (
+                      <div className="relative">
+                        <img
+                          src={personPreview}
+                          alt="Preview da pessoa"
+                          className="w-32 h-32 object-cover rounded-xl shadow-lg"
+                        />
+                        <div className="absolute inset-0 bg-black/20 rounded-xl flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
+                          <span className="text-white text-xs font-medium">Trocar foto</span>
                         </div>
-                      ) : (
-                        <div className="w-32 h-32 bg-purple-100 rounded-xl flex items-center justify-center border-2 border-purple-200">
-                          <div className="text-center">
-                            <span className="text-4xl mb-1 block text-purple-400">👕</span>
-                            <span className="text-purple-600 text-xs">Clique para selecionar</span>
-                          </div>
-                        </div>
-                      )}
-                      <div className="text-center">
-                        <span className="text-gray-800 text-sm font-medium block">
-                          {clothingFile ? clothingFile.name : 'Nenhuma roupa selecionada'}
-                        </span>
-                        <p className="text-gray-500 text-xs mt-1">
-                          JPG, PNG, GIF (máx. 10MB)
-                        </p>
                       </div>
-                    </label>
-                  </div>
-                </div>
-
-                {error && (
-                  <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-xl text-sm">
-                    {error}
-                  </div>
-                )}
-
-                <button
-                  type="submit"
-                  disabled={loading || !personFile || !clothingFile}
-                  className="w-full bg-pink-500 hover:bg-pink-600 text-white font-bold py-4 px-6 rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {loading ? (
-                    <div className="flex items-center justify-center space-x-2">
-                      <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                      <span>Processando com IA...</span>
+                    ) : (
+                      <div className="w-32 h-32 bg-pink-100 rounded-xl flex items-center justify-center border-2 border-pink-200">
+                        <div className="text-center">
+                          <span className="text-4xl mb-1 block text-pink-400">👤</span>
+                          <span className="text-pink-600 text-xs">Clique para selecionar</span>
+                        </div>
+                      </div>
+                    )}
+                    <div className="text-center">
+                      <span className="text-gray-800 text-sm font-medium block">
+                        {personFile ? personFile.name : 'Nenhuma foto selecionada'}
+                      </span>
+                      <p className="text-gray-500 text-xs mt-1">
+                        JPG, PNG, GIF (máx. 10MB)
+                      </p>
                     </div>
-                  ) : (
-                    '🚀 Experimentar Agora ✨'
-                  )}
-                </button>
-              </form>
-            ) : (
+                  </label>
+                </div>
+              </div>
+
+              {/* Upload da roupa */}
+              <div>
+                <div className="text-center mb-4">
+                  <h3 className="text-lg font-bold text-gray-800 mb-1">👕 Roupa</h3>
+                  <p className="text-gray-600 text-sm">Faça upload da roupa que deseja experimentar</p>
+                </div>
+                <div className="border-2 border-dashed border-purple-300 rounded-2xl p-6 text-center hover:border-purple-400 transition-all duration-300 bg-purple-50">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleClothingFileSelect}
+                    className="hidden"
+                    id="clothing-upload"
+                  />
+                  <label
+                    htmlFor="clothing-upload"
+                    className="cursor-pointer flex flex-col items-center space-y-3"
+                  >
+                    {clothingPreview ? (
+                      <div className="relative">
+                        <img
+                          src={clothingPreview}
+                          alt="Preview da roupa"
+                          className="w-32 h-32 object-cover rounded-xl shadow-lg"
+                        />
+                        <div className="absolute inset-0 bg-black/20 rounded-xl flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
+                          <span className="text-white text-xs font-medium">Trocar roupa</span>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="w-32 h-32 bg-purple-100 rounded-xl flex items-center justify-center border-2 border-purple-200">
+                        <div className="text-center">
+                          <span className="text-4xl mb-1 block text-purple-400">👕</span>
+                          <span className="text-purple-600 text-xs">Clique para selecionar</span>
+                        </div>
+                      </div>
+                    )}
+                    <div className="text-center">
+                      <span className="text-gray-800 text-sm font-medium block">
+                        {clothingFile ? clothingFile.name : 'Nenhuma roupa selecionada'}
+                      </span>
+                      <p className="text-gray-500 text-xs mt-1">
+                        JPG, PNG, GIF (máx. 10MB)
+                      </p>
+                    </div>
+                  </label>
+                </div>
+              </div>
+
+              {error && (
+                <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-xl text-sm">
+                  {error}
+                </div>
+              )}
+
+              <button
+                type="submit"
+                disabled={loading || !personFile || !clothingFile}
+                className="w-full bg-pink-500 hover:bg-pink-600 text-white font-bold py-4 px-6 rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {loading ? (
+                  <div className="flex items-center justify-center space-x-2">
+                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                    <span>Processando com IA...</span>
+                  </div>
+                ) : (
+                  '🚀 Experimentar Agora ✨'
+                )}
+              </button>
+            </form>
+          ) : (
             <div className="space-y-6">
               {/* Success Message */}
               <div className="text-center">
@@ -344,7 +353,7 @@ const Upload = () => {
                 </button>
               </div>
             </div>
-            )}
+          )}
         </div>
       </div>
 
@@ -380,6 +389,49 @@ const Upload = () => {
           </div>
         </div>
       </div>
+
+      {/* VIP Modal (igual ao da Dashboard) */}
+      {showVipModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl shadow-xl max-w-md w-full p-6">
+            <div className="text-center mb-6">
+              <div className="w-16 h-16 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-3xl">👑</span>
+              </div>
+              <h2 className="text-2xl font-bold text-gray-800 mb-2">Upgrade para VIP</h2>
+              <p className="text-gray-600">Desbloqueie todos os recursos premium</p>
+            </div>
+            <div className="space-y-3 mb-6">
+              <div className="flex items-center space-x-3">
+                <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center">
+                  <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>
+                </div>
+                <span className="text-gray-700">Acesso a todos os recursos</span>
+              </div>
+              <div className="flex items-center space-x-3">
+                <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center">
+                  <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>
+                </div>
+                <span className="text-gray-700">Processamento ilimitado</span>
+              </div>
+              <div className="flex items-center space-x-3">
+                <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center">
+                  <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>
+                </div>
+                <span className="text-gray-700">Suporte prioritário</span>
+              </div>
+            </div>
+            <div className="text-center mb-6">
+              <div className="text-3xl font-bold text-pink-600 mb-1">R$ 49,90</div>
+              <div className="text-gray-500 text-sm">Pagamento único</div>
+            </div>
+            <div className="space-y-3">
+              <button onClick={handleVipPayment} className="w-full bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200">💰 Comprar VIP Agora</button>
+              <button onClick={() => setShowVipModal(false)} className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-3 px-6 rounded-xl transition-all duration-200">Cancelar</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

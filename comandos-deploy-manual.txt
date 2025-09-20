@@ -1,0 +1,49 @@
+========================================
+  COMANDOS PARA DEPLOY MANUAL NA VPS
+========================================
+
+1. Conectar na VPS via SSH:
+   ssh root@31.97.162.251
+
+2. Ir para o diretório do projeto:
+   cd /var/www/borracha-de-roupa
+
+3. Fazer backup (opcional):
+   cp -r . ../backup-$(date +%Y%m%d-%H%M%S)
+
+4. Atualizar código do repositório:
+   git pull origin main
+
+5. Atualizar dependências do backend:
+   cd backend
+   npm install --production
+   cd ..
+
+6. Atualizar dependências do frontend:
+   cd frontend
+   npm install
+   npm run build
+   cd ..
+
+7. Reiniciar aplicação:
+   pm2 restart borracha-backend
+
+8. Verificar status:
+   pm2 status
+
+9. Ver logs (opcional):
+   pm2 logs borracha-backend
+
+========================================
+  COMANDOS ÚTEIS PARA MONITORAMENTO
+========================================
+
+- Ver status dos processos: pm2 status
+- Ver logs em tempo real: pm2 logs borracha-backend
+- Reiniciar aplicação: pm2 restart borracha-backend
+- Parar aplicação: pm2 stop borracha-backend
+- Verificar uso de memória: pm2 monit
+- Verificar logs do Nginx: tail -f /var/log/nginx/borracha-de-roupa.error.log
+
+========================================
+

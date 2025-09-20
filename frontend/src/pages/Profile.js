@@ -9,6 +9,7 @@ const Profile = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [showVipModal, setShowVipModal] = useState(false);
   const [formData, setFormData] = useState({
     nome: '',
     email: '',
@@ -60,13 +61,21 @@ const Profile = () => {
     }
   };
 
+  const handleVipPayment = () => {
+    window.open('https://checkout.perfectpay.com.br/pay/PPU38CQ11JB', '_blank');
+    setShowVipModal(false);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-100 via-purple-50 to-white">
       {/* Header */}
       <div className="bg-white shadow-sm">
         <div className="max-w-md mx-auto px-4 py-3 flex items-center justify-between">
           {/* VIP Badge */}
-          <div className="bg-yellow-400 text-black px-3 py-1 rounded-full text-sm font-bold flex items-center">
+          <div
+            className="bg-yellow-400 text-black px-3 py-1 rounded-full text-sm font-bold flex items-center cursor-pointer"
+            onClick={() => setShowVipModal(true)}
+          >
             👑 VIP
           </div>
           
@@ -157,7 +166,7 @@ const Profile = () => {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all duration-200"
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all duração-200"
                 placeholder="seu@email.com"
               />
             </div>
@@ -256,6 +265,51 @@ const Profile = () => {
           </div>
         </div>
       </div>
+
+      {/* VIP Modal (igual ao da Dashboard) */}
+      {showVipModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl shadow-xl max-w-md w-full p-6">
+            <div className="text-center mb-6">
+              <div className="w-16 h-16 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-3xl">👑</span>
+              </div>
+              <h2 className="text-2xl font-bold text-gray-800 mb-2">
+                Upgrade para VIP
+              </h2>
+              <p className="text-gray-600">Desbloqueie todos os recursos premium</p>
+            </div>
+            <div className="space-y-3 mb-6">
+              <div className="flex items-center space-x-3">
+                <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center">
+                  <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>
+                </div>
+                <span className="text-gray-700">Acesso a todos os recursos</span>
+              </div>
+              <div className="flex items-center space-x-3">
+                <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center">
+                  <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>
+                </div>
+                <span className="text-gray-700">Processamento ilimitado</span>
+              </div>
+              <div className="flex items-center space-x-3">
+                <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center">
+                  <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>
+                </div>
+                <span className="text-gray-700">Suporte prioritário</span>
+              </div>
+            </div>
+            <div className="text-center mb-6">
+              <div className="text-3xl font-bold text-pink-600 mb-1">R$ 49,90</div>
+              <div className="text-gray-500 text-sm">Pagamento único</div>
+            </div>
+            <div className="space-y-3">
+              <button onClick={handleVipPayment} className="w-full bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200">💰 Comprar VIP Agora</button>
+              <button onClick={() => setShowVipModal(false)} className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-3 px-6 rounded-xl transition-all duration-200">Cancelar</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

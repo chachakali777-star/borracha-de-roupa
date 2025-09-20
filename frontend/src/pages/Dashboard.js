@@ -17,12 +17,8 @@ const Dashboard = () => {
   }, [refreshUser]);
 
   const handleVipPayment = () => {
-    console.log('🚀 Redirecionando para Nitro Pagamentos...');
-    
-    // Redirecionar diretamente para o link do Nitro Pagamentos
-    window.open('https://go.nitropagamentos.com/uwivxoxyie_ct54df4qkt', '_blank');
-    
-    // Fechar o modal
+    console.log('🚀 Redirecionando para PerfectPay...');
+    window.open('https://checkout.perfectpay.com.br/pay/PPU38CQ11JB', '_blank');
     setShowVipModal(false);
   };
 
