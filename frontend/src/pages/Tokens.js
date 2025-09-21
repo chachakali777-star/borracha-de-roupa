@@ -2,13 +2,31 @@ import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import Navbar from '../components/Navbar';
 import PaymentModal from '../components/PaymentModal';
-import { Link } from 'react-router-dom';
+import AccessModal from '../components/AccessModal';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Tokens = () => {
-  const { user, updateUser, refreshUser } = useAuth();
+  const { user, updateUser, refreshUser, loading } = useAuth();
+  const navigate = useNavigate();
   const [message, setMessage] = useState('');
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState(null);
+  const [showAccessModal, setShowAccessModal] = useState(false);
+
+  // Debug: mostrar estado atual
+  console.log('🔍 Tokens: loading =', loading, 'user =', user);
+
+  // Mostrar loading se ainda estiver carregando
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-pink-50">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-pink-500 mx-auto mb-4"></div>
+          <p className="text-gray-600">Carregando...</p>
+        </div>
+      </div>
+    );
+  }
 
   const tokenPackages = [
     {
@@ -38,6 +56,12 @@ const Tokens = () => {
   ];
 
   const handlePurchase = (packageData) => {
+    // Verificar se o usuário está logado
+    if (!user) {
+      setShowAccessModal(true);
+      return;
+    }
+    
     setSelectedPackage(packageData);
     setShowPaymentModal(true);
   };
@@ -68,15 +92,17 @@ const Tokens = () => {
                 <span className="text-white text-sm font-bold">T</span>
               </div>
               <span className="text-gray-700 font-medium">
-                {user?.tokens || 0} tokens disponíveis
+                {user ? `${user.tokens || 0} tokens disponíveis` : 'Faça login para ver seus tokens'}
               </span>
-              <button
-                onClick={async () => await refreshUser()}
-                className="ml-3 bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 rounded text-sm transition-colors"
-                title="Atualizar tokens"
-              >
-                🔄
-              </button>
+              {user && (
+                <button
+                  onClick={async () => await refreshUser()}
+                  className="ml-3 bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 rounded text-sm transition-colors"
+                  title="Atualizar tokens"
+                >
+                  🔄
+                </button>
+              )}
             </div>
             <Link
               to="/"
@@ -117,6 +143,7 @@ const Tokens = () => {
             <h2 className="text-2xl font-bold text-gray-800 text-center mb-8">
               Compre Tokens
             </h2>
+            
             
             <div className="space-y-4">
               {tokenPackages.map((pkg) => (
@@ -186,6 +213,15 @@ const Tokens = () => {
           onSuccess={handlePaymentSuccess}
         />
       )}
+
+      {/* Modal de Acesso */}
+      <AccessModal
+        isOpen={showAccessModal}
+        onClose={() => setShowAccessModal(false)}
+        title="Acesso Necessário"
+        message="Você precisa fazer login para comprar tokens"
+        redirectTo="/tokens"
+      />
     </div>
   );
 };

@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
+import AccessModal from '../components/AccessModal';
 
 const Upload = () => {
-  const { user, updateUser } = useAuth();
+  const { user, updateUser, loading: authLoading } = useAuth();
   const navigate = useNavigate();
   const [personFile, setPersonFile] = useState(null);
   const [clothingFile, setClothingFile] = useState(null);
@@ -15,6 +16,22 @@ const Upload = () => {
   const [result, setResult] = useState(null);
   const [error, setError] = useState('');
   const [showVipModal, setShowVipModal] = useState(false);
+  const [showAccessModal, setShowAccessModal] = useState(false);
+
+  // Debug: mostrar estado atual
+  console.log('🔍 Upload: loading =', authLoading, 'user =', user);
+
+  // Mostrar loading se ainda estiver carregando
+  if (authLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-100 via-purple-50 to-white">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-pink-500 mx-auto mb-4"></div>
+          <p className="text-gray-600">Carregando...</p>
+        </div>
+      </div>
+    );
+  }
 
   const handlePersonFileSelect = (e) => {
     const file = e.target.files[0];
@@ -48,6 +65,12 @@ const Upload = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Verificar se o usuário está logado
+    if (!user) {
+      setShowAccessModal(true);
+      return;
+    }
     
     if (!personFile) {
       setError('Selecione uma foto da pessoa');
@@ -140,12 +163,28 @@ const Upload = () => {
           <p className="text-gray-600 text-sm mb-3">
             Faça upload de sua foto e de uma roupa para experimentar virtualmente
           </p>
+          
+          {/* Aviso para usuários não logados */}
+          {!user && (
+            <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-3 mb-3">
+              <div className="flex items-center justify-center space-x-2">
+                <span className="text-yellow-600 text-lg">⚠️</span>
+                <p className="text-yellow-800 text-sm font-medium">
+                  Você precisa fazer login para gerar imagens
+                </p>
+              </div>
+              <p className="text-yellow-700 text-xs mt-1">
+                Faça seu cadastro e compre tokens para começar!
+              </p>
+            </div>
+          )}
+          
           <div className="bg-pink-50 rounded-xl p-3">
             <p className="text-gray-700 text-sm">
               <span className="font-semibold">Custo:</span> 25 tokens por experimento
             </p>
             <p className="text-gray-700 text-sm">
-              <span className="font-semibold">Disponível:</span> {user?.tokens || 0} tokens
+              <span className="font-semibold">Disponível:</span> {user ? `${user.tokens || 0} tokens` : 'Faça login para ver'}
             </p>
           </div>
         </div>
@@ -432,6 +471,15 @@ const Upload = () => {
           </div>
         </div>
       )}
+
+      {/* Modal de Acesso */}
+      <AccessModal
+        isOpen={showAccessModal}
+        onClose={() => setShowAccessModal(false)}
+        title="Acesso Necessário"
+        message="Você precisa fazer login para gerar imagens com IA"
+        redirectTo="/upload"
+      />
     </div>
   );
 };

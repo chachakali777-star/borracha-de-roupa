@@ -23,19 +23,11 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route 
               path="/" 
-              element={
-                <ProtectedRoute>
-                  <Dashboard />
-                </ProtectedRoute>
-              } 
+              element={<Dashboard />}
             />
             <Route 
               path="/upload" 
-              element={
-                <ProtectedRoute>
-                  <Upload />
-                </ProtectedRoute>
-              } 
+              element={<Upload />}
             />
             <Route 
               path="/admin" 
@@ -47,11 +39,7 @@ function App() {
             />
             <Route 
               path="/tokens" 
-              element={
-                <ProtectedRoute>
-                  <Tokens />
-                </ProtectedRoute>
-              } 
+              element={<Tokens />}
             />
             <Route 
               path="/profile" 

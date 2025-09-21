@@ -17,27 +17,35 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
+    console.log('🔍 AuthContext: Token encontrado?', !!token);
     if (token) {
       api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       verifyToken();
     } else {
+      console.log('🔍 AuthContext: Sem token, definindo loading como false');
       setLoading(false);
     }
   }, []);
 
   const verifyToken = async () => {
     try {
+      console.log('🔍 AuthContext: Verificando token...');
       const response = await api.get('/auth/verify');
+      console.log('🔍 AuthContext: Resposta da verificação:', response.data);
       if (response.data.valid) {
         setUser(response.data.user);
+        console.log('🔍 AuthContext: Usuário definido:', response.data.user);
       } else {
+        console.log('🔍 AuthContext: Token inválido, removendo...');
         localStorage.removeItem('token');
         delete api.defaults.headers.common['Authorization'];
       }
     } catch (error) {
+      console.log('🔍 AuthContext: Erro na verificação:', error);
       localStorage.removeItem('token');
       delete api.defaults.headers.common['Authorization'];
     } finally {
+      console.log('🔍 AuthContext: Definindo loading como false');
       setLoading(false);
     }
   };
@@ -103,6 +111,9 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const isLoggedIn = !!user;
+  const hasTokens = user && user.tokens > 0;
+
   const value = {
     user,
     login,
@@ -110,7 +121,9 @@ export const AuthProvider = ({ children }) => {
     logout,
     updateUser,
     refreshUser,
-    loading
+    loading,
+    isLoggedIn,
+    hasTokens
   };
 
   return (

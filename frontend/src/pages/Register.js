@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import Navbar from '../components/Navbar';
 
@@ -15,6 +15,10 @@ const Register = () => {
 
   const { register } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  
+  // Obter URL de redirecionamento dos parâmetros da URL
+  const redirectTo = new URLSearchParams(location.search).get('redirect') || '/';
 
   const handleChange = (e) => {
     setFormData({
@@ -43,7 +47,8 @@ const Register = () => {
     const result = await register(formData.name, formData.email, formData.password);
     
     if (result.success) {
-      navigate('/');
+      // Redirecionar para a página solicitada ou dashboard
+      navigate(redirectTo);
     } else {
       setError(result.message);
     }
@@ -90,6 +95,15 @@ const Register = () => {
                 faça login
               </Link>
             </p>
+            
+            {/* Mensagem de redirecionamento */}
+            {redirectTo === '/tokens' && (
+              <div className="mt-4 p-3 bg-pink-500/10 border border-pink-500/30 rounded-lg">
+                <p className="text-pink-300 text-sm">
+                  💎 Após criar sua conta, você será direcionado para comprar tokens
+                </p>
+              </div>
+            )}
           </div>
 
           {/* Register Form */}

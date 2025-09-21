@@ -179,7 +179,37 @@ const Navbar = () => {
             ) : (
               /* Navigation for non-logged users */
               <div className="flex items-center space-x-4">
-                {/* Botões removidos - usuários não logados verão apenas o logo */}
+                {/* Main Navigation Buttons for non-logged users */}
+                <div className="hidden md:flex items-center space-x-2">
+                  <Link
+                    to="/upload"
+                    className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-purple-500/25"
+                  >
+                    ✨ Experimentar
+                  </Link>
+                  <Link
+                    to="/tokens"
+                    className="text-gray-300 hover:text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-300 hover:bg-white/10"
+                  >
+                    💎 Tokens
+                  </Link>
+                </div>
+                
+                {/* Login/Register Buttons */}
+                <div className="flex items-center space-x-2">
+                  <Link
+                    to="/login"
+                    className="text-gray-300 hover:text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-300 hover:bg-white/10"
+                  >
+                    Entrar
+                  </Link>
+                  <Link
+                    to="/register"
+                    className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-purple-500/25"
+                  >
+                    Cadastrar
+                  </Link>
+                </div>
               </div>
             )}
           </div>

@@ -2,19 +2,28 @@ import React, { useEffect, useCallback, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
+import AccessModal from '../components/AccessModal';
 
 const Dashboard = () => {
-  const { user, refreshUser } = useAuth();
+  const { user, refreshUser, isLoggedIn, loading } = useAuth();
   const navigate = useNavigate();
   const [showVipModal, setShowVipModal] = useState(false);
+  const [showAccessModal, setShowAccessModal] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+
+  // Debug: mostrar estado atual
+  console.log('🔍 Dashboard: loading =', loading, 'isLoggedIn =', isLoggedIn, 'user =', user);
 
   const refreshUserData = useCallback(async () => {
+    // Só tenta atualizar se o usuário estiver logado
+    if (!isLoggedIn) return;
+    
     try {
       await refreshUser();
     } catch (error) {
       console.error('Erro ao atualizar dados do usuário:', error);
     }
-  }, [refreshUser]);
+  }, [refreshUser, isLoggedIn]);
 
   const handleVipPayment = () => {
     console.log('🚀 Redirecionando para PerfectPay...');
@@ -22,16 +31,31 @@ const Dashboard = () => {
     setShowVipModal(false);
   };
 
+  const handleCategoryClick = (category) => {
+    // Se a categoria requer login e o usuário não está logado
+    if (category.requiresLogin && !isLoggedIn) {
+      setSelectedCategory(category);
+      setShowAccessModal(true);
+      return;
+    }
+    
+    // Se o usuário está logado ou a categoria não requer login, executar ação
+    category.action();
+  };
+
 
 
   useEffect(() => {
-    refreshUserData();
-    
-    // Refresh automático a cada 30 segundos
-    const interval = setInterval(refreshUserData, 30000);
-    
-    return () => clearInterval(interval);
-  }, [refreshUserData]);
+    // Só executa refresh se o usuário estiver logado
+    if (isLoggedIn) {
+      refreshUserData();
+      
+      // Refresh automático a cada 30 segundos
+      const interval = setInterval(refreshUserData, 30000);
+      
+      return () => clearInterval(interval);
+    }
+  }, [refreshUserData, isLoggedIn]);
 
   const categories = [
     {
@@ -39,6 +63,7 @@ const Dashboard = () => {
       title: "Trocar roupa",
       description: "Experimente roupas virtualmente",
       image: `${process.env.PUBLIC_URL}/img/MainImage.webp`,
+      requiresLogin: false,
       action: () => navigate('/upload')
     },
     {
@@ -46,6 +71,7 @@ const Dashboard = () => {
       title: "Despir",
       description: "Remover roupas das fotos",
       image: `${process.env.PUBLIC_URL}/img/1.jpeg`,
+      requiresLogin: true,
       action: () => navigate('/upload')
     },
     {
@@ -53,6 +79,7 @@ const Dashboard = () => {
       title: "Ações sexuais e fluidos",
       description: "Conteúdo adulto avançado",
       image: `${process.env.PUBLIC_URL}/img/2.jpeg`,
+      requiresLogin: true,
       action: () => navigate('/upload')
     },
     {
@@ -60,6 +87,7 @@ const Dashboard = () => {
       title: "Despir Animar",
       description: "Animações de despir",
       video: `${process.env.PUBLIC_URL}/img/3.mp4`,
+      requiresLogin: true,
       action: () => navigate('/upload')
     },
     {
@@ -67,9 +95,22 @@ const Dashboard = () => {
       title: "Posições Diversas",
       description: "Diferentes posições e poses",
       video: `${process.env.PUBLIC_URL}/img/4.mp4`,
+      requiresLogin: true,
       action: () => navigate('/upload')
     }
   ];
+
+  // Mostrar loading se ainda estiver carregando
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-100 via-purple-50 to-white">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-pink-500 mx-auto mb-4"></div>
+          <p className="text-gray-600">Carregando...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-100 via-purple-50 to-white">
@@ -83,17 +124,41 @@ const Dashboard = () => {
           
           {/* Tokens Display */}
           <div className="bg-pink-100 text-pink-600 px-3 py-1 rounded-full text-sm font-medium">
-            💎 {user?.tokens || 0}
+            💎 {isLoggedIn ? (user?.tokens || 0) : 'Faça login'}
           </div>
       </div>
       </div>
       
       {/* Main Content */}
       <div className="max-w-md mx-auto px-4 py-6">
+        {/* Mensagem de boas-vindas para usuários não logados */}
+        {!isLoggedIn && (
+          <div className="bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-2xl p-4 mb-6 text-center">
+            <h2 className="text-lg font-bold mb-2">✨ Bem-vindo ao Borracha de Roupas!</h2>
+            <p className="text-sm opacity-90 mb-3">
+              Explore nossa plataforma de IA para experimentar roupas virtualmente
+            </p>
+            <div className="flex space-x-2 justify-center">
+              <button
+                onClick={() => navigate('/register')}
+                className="bg-white text-purple-600 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-gray-100 transition-colors"
+              >
+                Criar Conta
+              </button>
+              <button
+                onClick={() => navigate('/login')}
+                className="bg-white/20 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-white/30 transition-colors"
+              >
+                Fazer Login
+              </button>
+            </div>
+          </div>
+        )}
+        
         {/* Featured Card - Trocar roupa */}
         <div className="mb-6">
           <div
-            onClick={categories[0].action}
+            onClick={() => handleCategoryClick(categories[0])}
             className="bg-white rounded-2xl shadow-lg overflow-hidden cursor-pointer transform transition-all duration-200 hover:scale-105 hover:shadow-xl"
           >
             {/* Featured Image */}
@@ -137,7 +202,7 @@ const Dashboard = () => {
           {categories.slice(1).map((category) => (
             <div
               key={category.id}
-              onClick={() => setShowVipModal(true)}
+              onClick={() => handleCategoryClick(category)}
               className="bg-white rounded-2xl shadow-lg overflow-hidden cursor-pointer transform transition-all duration-200 hover:scale-105 hover:shadow-xl relative"
             >
               {/* Media Content */}
@@ -395,6 +460,18 @@ const Dashboard = () => {
       </div>
         </div>
       )}
+
+      {/* Modal de Acesso */}
+      <AccessModal
+        isOpen={showAccessModal}
+        onClose={() => {
+          setShowAccessModal(false);
+          setSelectedCategory(null);
+        }}
+        title="Acesso Necessário"
+        message={`Você precisa fazer login para acessar "${selectedCategory?.title}"`}
+        redirectTo="/upload"
+      />
     </div>
   );
 };
