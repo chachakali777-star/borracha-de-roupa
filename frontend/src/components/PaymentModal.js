@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import QRCode from 'qrcode';
 import api from '../services/api';
-import { loadUTM } from '../utils/utm';
+import { loadUTM, trackConversion } from '../utils/utm';
 
 const PaymentModal = ({ isOpen, onClose, packageData, onSuccess }) => {
   const [loading, setLoading] = useState(false);
@@ -108,6 +108,9 @@ const PaymentModal = ({ isOpen, onClose, packageData, onSuccess }) => {
         setPaymentStatus(status);
         
         if (status === 'approved') {
+          // Disparar tracking de conversão UTMify
+          trackConversion(response.data.transaction);
+          
           onSuccess(response.data.transaction);
           setMessage('✅ Pagamento aprovado! Tokens creditados na sua conta.');
           setTimeout(() => {

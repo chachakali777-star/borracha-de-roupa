@@ -232,7 +232,9 @@ router.post('/webhook', async (req, res) => {
       referrer: req.query.referrer,
       landing_page: req.query.landing_page
     };
-    console.log('UTM no webhook:', utm);
+    console.log('🔍 UTM no webhook:', utm);
+    console.log('🔍 Query params recebidos:', req.query);
+    console.log('🔍 Headers recebidos:', req.headers);
 
     // Extrair dados no formato correto da Nitro Pay
     console.log('🔍 DEBUG - req.body.token:', req.body.token);

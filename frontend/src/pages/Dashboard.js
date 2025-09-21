@@ -39,7 +39,13 @@ const Dashboard = () => {
       return;
     }
     
-    // Se o usuário está logado ou a categoria não requer login, executar ação
+    // Se a categoria requer login e o usuário está logado, mostrar modal VIP
+    if (category.requiresLogin && isLoggedIn) {
+      setShowVipModal(true);
+      return;
+    }
+    
+    // Se a categoria não requer login, executar ação diretamente
     category.action();
   };
 

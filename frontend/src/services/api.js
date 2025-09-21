@@ -5,10 +5,15 @@ function getUTMHeaders() {
     const utm = JSON.parse(localStorage.getItem('utm_data') || '{}');
     const headers = {};
     Object.entries(utm).forEach(([key, value]) => {
-      if (value) headers['x-' + key.replace(/_/g, '-')] = value;
+      if (value) {
+        headers['x-' + key.replace(/_/g, '-')] = value;
+        console.log(`📤 Header UTM: x-${key.replace(/_/g, '-')} = ${value}`);
+      }
     });
+    console.log('📤 Headers UTM enviados:', headers);
     return headers;
   } catch (e) {
+    console.error('❌ Erro ao criar headers UTM:', e);
     return {};
   }
 }

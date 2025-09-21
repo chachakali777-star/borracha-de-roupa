@@ -57,23 +57,15 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-purple-100 via-purple-50 to-white">
       <Navbar />
       
       <div className="flex items-center justify-center min-h-screen pt-20">
         {/* Background Effects */}
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900"></div>
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute inset-0 bg-gradient-to-r from-purple-500/5 to-pink-500/5"></div>
-          <div className="absolute inset-0" style={{
-            backgroundImage: `radial-gradient(circle at 1px 1px, rgba(156, 146, 172, 0.1) 1px, transparent 0)`,
-            backgroundSize: '20px 20px'
-          }}></div>
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse"></div>
+          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse delay-1000"></div>
         </div>
-        
-        {/* Floating Elements */}
-        <div className="absolute top-20 left-20 w-32 h-32 bg-purple-500/10 rounded-full blur-xl animate-pulse"></div>
-        <div className="absolute bottom-20 right-20 w-40 h-40 bg-pink-500/10 rounded-full blur-xl animate-pulse delay-1000"></div>
         
         <div className="relative z-10 max-w-md w-full space-y-8 py-12 px-4 sm:px-6 lg:px-8">
           {/* Logo and Title */}
@@ -83,14 +75,14 @@ const Register = () => {
                 <span className="text-white font-bold text-3xl">B</span>
               </div>
             </div>
-            <h2 className="text-4xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-2">
+            <h2 className="text-4xl font-bold text-pink-500 mb-2">
               Borracha de Roupa
             </h2>
-            <p className="mt-4 text-gray-300">
+            <p className="mt-4 text-gray-600">
               Crie sua conta ou{' '}
               <Link
                 to="/login"
-                className="font-medium text-purple-400 hover:text-pink-400 transition-colors duration-300"
+                className="font-medium text-pink-500 hover:text-pink-600 transition-colors duration-300"
               >
                 faça login
               </Link>
@@ -99,7 +91,7 @@ const Register = () => {
             {/* Mensagem de redirecionamento */}
             {redirectTo === '/tokens' && (
               <div className="mt-4 p-3 bg-pink-500/10 border border-pink-500/30 rounded-lg">
-                <p className="text-pink-300 text-sm">
+                <p className="text-pink-600 text-sm">
                   💎 Após criar sua conta, você será direcionado para comprar tokens
                 </p>
               </div>
@@ -107,11 +99,11 @@ const Register = () => {
           </div>
 
           {/* Register Form */}
-          <div className="bg-black/20 backdrop-blur-md border border-purple-500/20 rounded-2xl p-8 shadow-2xl">
+          <div className="bg-white rounded-3xl shadow-xl p-8 border border-gray-100">
             <form className="space-y-6" onSubmit={handleSubmit}>
               <div className="space-y-4">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
+                  <label htmlFor="name" className="block text-gray-700 text-sm font-medium mb-2">
                     Nome Completo
                   </label>
                   <input
@@ -119,7 +111,7 @@ const Register = () => {
                     name="name"
                     type="text"
                     required
-                    className="w-full px-4 py-3 bg-black/30 border border-purple-500/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300"
+                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all duration-200"
                     placeholder="Seu nome completo"
                     value={formData.name}
                     onChange={handleChange}
@@ -127,7 +119,7 @@ const Register = () => {
                 </div>
                 
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
+                  <label htmlFor="email" className="block text-gray-700 text-sm font-medium mb-2">
                     Email
                   </label>
                   <input
@@ -135,7 +127,7 @@ const Register = () => {
                     name="email"
                     type="email"
                     required
-                    className="w-full px-4 py-3 bg-black/30 border border-purple-500/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300"
+                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all duration-200"
                     placeholder="seu@email.com"
                     value={formData.email}
                     onChange={handleChange}
@@ -143,7 +135,7 @@ const Register = () => {
                 </div>
                 
                 <div>
-                  <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-2">
+                  <label htmlFor="password" className="block text-gray-700 text-sm font-medium mb-2">
                     Senha
                   </label>
                   <input
@@ -151,7 +143,7 @@ const Register = () => {
                     name="password"
                     type="password"
                     required
-                    className="w-full px-4 py-3 bg-black/30 border border-purple-500/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300"
+                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all duration-200"
                     placeholder="••••••••"
                     value={formData.password}
                     onChange={handleChange}
@@ -159,7 +151,7 @@ const Register = () => {
                 </div>
                 
                 <div>
-                  <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-300 mb-2">
+                  <label htmlFor="confirmPassword" className="block text-gray-700 text-sm font-medium mb-2">
                     Confirmar Senha
                   </label>
                   <input
@@ -167,7 +159,7 @@ const Register = () => {
                     name="confirmPassword"
                     type="password"
                     required
-                    className="w-full px-4 py-3 bg-black/30 border border-purple-500/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300"
+                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all duration-200"
                     placeholder="••••••••"
                     value={formData.confirmPassword}
                     onChange={handleChange}
@@ -176,18 +168,15 @@ const Register = () => {
               </div>
 
               {error && (
-                <div className="bg-red-500/10 border border-red-500/30 text-red-400 px-4 py-3 rounded-lg backdrop-blur-sm">
-                  <div className="flex items-center space-x-2">
-                    <span className="text-xl">⚠️</span>
-                    <span className="font-medium">{error}</span>
-                  </div>
+                <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-xl text-sm">
+                  {error}
                 </div>
               )}
 
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-purple-500/25 disabled:opacity-50 disabled:transform-none"
+                className="w-full bg-pink-500 hover:bg-pink-600 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 transform hover:scale-[1.02] shadow-lg hover:shadow-pink-500/25 disabled:opacity-50 disabled:transform-none disabled:cursor-not-allowed"
               >
                 {loading ? (
                   <div className="flex items-center justify-center">
@@ -195,7 +184,7 @@ const Register = () => {
                     Criando conta...
                   </div>
                 ) : (
-                  '🚀 Criar Conta'
+                  'Criar Conta'
                 )}
               </button>
             </form>
