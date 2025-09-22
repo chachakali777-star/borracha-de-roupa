@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
+import LoadingTokensModal from '../components/LoadingTokensModal';
+import { trackViewContent, trackInitiateCheckout, trackAddToCart } from '../utils/metaPixel';
 
 const Profile = () => {
   const { user, updateUser } = useAuth();
@@ -10,6 +12,7 @@ const Profile = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [showVipModal, setShowVipModal] = useState(false);
+  const [showLoadingTokensModal, setShowLoadingTokensModal] = useState(false);
   const [formData, setFormData] = useState({
     nome: '',
     email: '',
@@ -18,6 +21,9 @@ const Profile = () => {
   });
 
   useEffect(() => {
+    // Rastrear visualização da página de perfil
+    trackViewContent('profile_page', 'page');
+    
     if (user) {
       setFormData({
         nome: user.nome || '',
@@ -62,7 +68,18 @@ const Profile = () => {
   };
 
   const handleVipPayment = () => {
-    window.open('https://checkout.perfectpay.com.br/pay/PPU38CQ11JB', '_blank');
+    console.log('🚀 Redirecionando para Nitro Pagamentos...');
+    
+    // Rastrear início de checkout no Meta Pixel
+    trackInitiateCheckout(49.90, 'BRL', ['vip_upgrade']);
+    
+    // Rastrear adição ao carrinho no Meta Pixel
+    trackAddToCart(49.90, 'BRL', 'vip_upgrade');
+    
+    // Redirecionar diretamente para o link do Nitro Pagamentos
+    window.open('https://go.nitropagamentos.com/uwivxoxyie_ct54df4qkt', '_blank');
+    
+    // Fechar o modal
     setShowVipModal(false);
   };
 
@@ -120,7 +137,7 @@ const Profile = () => {
           {/* Quick Actions */}
           <div className="space-y-3">
             <button
-              onClick={() => navigate('/tokens')}
+              onClick={() => setShowLoadingTokensModal(true)}
               className="w-full bg-pink-500 hover:bg-pink-600 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200"
             >
               💰 Carregar Tokens
@@ -310,6 +327,12 @@ const Profile = () => {
           </div>
         </div>
       )}
+
+      {/* Modal de Carregamento de Tokens */}
+      <LoadingTokensModal
+        isOpen={showLoadingTokensModal}
+        onClose={() => setShowLoadingTokensModal(false)}
+      />
     </div>
   );
 };

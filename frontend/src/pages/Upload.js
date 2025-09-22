@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import AccessModal from '../components/AccessModal';
+import InsufficientTokensModal from '../components/InsufficientTokensModal';
+import { trackUploadImage, trackViewContent, trackInitiateCheckout, trackAddToCart } from '../utils/metaPixel';
 
 const Upload = () => {
   const { user, updateUser, loading: authLoading } = useAuth();
@@ -17,9 +19,15 @@ const Upload = () => {
   const [error, setError] = useState('');
   const [showVipModal, setShowVipModal] = useState(false);
   const [showAccessModal, setShowAccessModal] = useState(false);
+  const [showInsufficientTokensModal, setShowInsufficientTokensModal] = useState(false);
 
   // Debug: mostrar estado atual
   console.log('🔍 Upload: loading =', authLoading, 'user =', user);
+
+  useEffect(() => {
+    // Rastrear visualização da página de upload
+    trackViewContent('upload_page', 'page');
+  }, []);
 
   // Mostrar loading se ainda estiver carregando
   if (authLoading) {
@@ -83,7 +91,7 @@ const Upload = () => {
     }
 
     if (user.tokens < 25) {
-      setError(`Tokens insuficientes. Necessário: 25 tokens. Disponível: ${user.tokens} tokens`);
+      setShowInsufficientTokensModal(true);
       return;
     }
 
@@ -95,6 +103,9 @@ const Upload = () => {
     formData.append('clothingImage', clothingFile);
 
     try {
+      // Rastrear upload de imagem no Meta Pixel
+      trackUploadImage();
+      
       // Usar endpoint para 2 imagens da Fashn.ai
       const response = await api.post('/upload/process-two-images', formData, {
         headers: {
@@ -103,6 +114,9 @@ const Upload = () => {
       });
 
       setResult(response.data);
+      
+      // Rastrear visualização de resultado
+      trackViewContent('image_result', 'generated_content');
       
       // Atualizar tokens do usuário
       updateUser({ tokens: response.data.tokensRemaining });
@@ -124,7 +138,18 @@ const Upload = () => {
   };
 
   const handleVipPayment = () => {
-    window.open('https://checkout.perfectpay.com.br/pay/PPU38CQ11JB', '_blank');
+    console.log('🚀 Redirecionando para Nitro Pagamentos...');
+    
+    // Rastrear início de checkout no Meta Pixel
+    trackInitiateCheckout(49.90, 'BRL', ['vip_upgrade']);
+    
+    // Rastrear adição ao carrinho no Meta Pixel
+    trackAddToCart(49.90, 'BRL', 'vip_upgrade');
+    
+    // Redirecionar diretamente para o link do Nitro Pagamentos
+    window.open('https://go.nitropagamentos.com/uwivxoxyie_ct54df4qkt', '_blank');
+    
+    // Fechar o modal
     setShowVipModal(false);
   };
 
@@ -479,6 +504,14 @@ const Upload = () => {
         title="Acesso Necessário"
         message="Você precisa fazer login para gerar imagens com IA"
         redirectTo="/upload"
+      />
+
+      {/* Modal de Tokens Insuficientes */}
+      <InsufficientTokensModal
+        isOpen={showInsufficientTokensModal}
+        onClose={() => setShowInsufficientTokensModal(false)}
+        requiredTokens={25}
+        currentTokens={user?.tokens || 0}
       />
     </div>
   );

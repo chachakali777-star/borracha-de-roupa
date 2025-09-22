@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import Navbar from '../components/Navbar';
 import PaymentModal from '../components/PaymentModal';
 import AccessModal from '../components/AccessModal';
 import { Link, useNavigate } from 'react-router-dom';
+import { trackPurchase, trackInitiateCheckout, trackViewContent } from '../utils/metaPixel';
 
 const Tokens = () => {
   const { user, updateUser, refreshUser, loading } = useAuth();
@@ -15,6 +16,11 @@ const Tokens = () => {
 
   // Debug: mostrar estado atual
   console.log('🔍 Tokens: loading =', loading, 'user =', user);
+
+  useEffect(() => {
+    // Rastrear visualização da página de tokens
+    trackViewContent('tokens_page', 'page');
+  }, []);
 
   // Mostrar loading se ainda estiver carregando
   if (loading) {
@@ -62,11 +68,17 @@ const Tokens = () => {
       return;
     }
     
+    // Rastrear início de checkout no Meta Pixel
+    trackInitiateCheckout(packageData.price, 'BRL', [`tokens_${packageData.tokens}`]);
+    
     setSelectedPackage(packageData);
     setShowPaymentModal(true);
   };
 
   const handlePaymentSuccess = (paymentData) => {
+    // Rastrear compra no Meta Pixel
+    trackPurchase(selectedPackage.price, 'BRL', [`tokens_${selectedPackage.tokens}`]);
+    
     // Atualizar tokens do usuário
     updateUser({ tokens: user.tokens + selectedPackage.tokens });
     

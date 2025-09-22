@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import Navbar from '../components/Navbar';
+import { trackLogin } from '../utils/metaPixel';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -34,6 +35,9 @@ const Login = () => {
     const result = await login(formData.email, formData.password);
     
     if (result.success) {
+      // Rastrear login no Meta Pixel
+      trackLogin();
+      
       // Redirecionar para a página solicitada ou dashboard
       navigate(redirectTo);
     } else {

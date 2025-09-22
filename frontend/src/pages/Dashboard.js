@@ -3,12 +3,19 @@ import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import AccessModal from '../components/AccessModal';
+import InsufficientTokensModal from '../components/InsufficientTokensModal';
+import LoadingTokensModal from '../components/LoadingTokensModal';
+import SimpleLoadingModal from '../components/SimpleLoadingModal';
+import { trackViewContent, trackAddToCart, trackInitiateCheckout } from '../utils/metaPixel';
 
 const Dashboard = () => {
   const { user, refreshUser, isLoggedIn, loading } = useAuth();
   const navigate = useNavigate();
   const [showVipModal, setShowVipModal] = useState(false);
   const [showAccessModal, setShowAccessModal] = useState(false);
+  const [showInsufficientTokensModal, setShowInsufficientTokensModal] = useState(false);
+  const [showLoadingTokensModal, setShowLoadingTokensModal] = useState(false);
+  const [showSimpleModal, setShowSimpleModal] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
 
   // Debug: mostrar estado atual
@@ -26,8 +33,18 @@ const Dashboard = () => {
   }, [refreshUser, isLoggedIn]);
 
   const handleVipPayment = () => {
-    console.log('🚀 Redirecionando para PerfectPay...');
-    window.open('https://checkout.perfectpay.com.br/pay/PPU38CQ11JB', '_blank');
+    console.log('🚀 Redirecionando para Nitro Pagamentos...');
+    
+    // Rastrear início de checkout no Meta Pixel
+    trackInitiateCheckout(49.90, 'BRL', ['vip_upgrade']);
+    
+    // Rastrear adição ao carrinho no Meta Pixel
+    trackAddToCart(49.90, 'BRL', 'vip_upgrade');
+    
+    // Redirecionar diretamente para o link do Nitro Pagamentos
+    window.open('https://go.nitropagamentos.com/uwivxoxyie_ct54df4qkt', '_blank');
+    
+    // Fechar o modal
     setShowVipModal(false);
   };
 
@@ -39,19 +56,33 @@ const Dashboard = () => {
       return;
     }
     
-    // Se a categoria requer login e o usuário está logado, mostrar modal VIP
+    // Se a categoria requer login e o usuário está logado, verificar tokens
     if (category.requiresLogin && isLoggedIn) {
+      // Rastrear visualização de conteúdo premium
+      trackViewContent(category.id, 'premium_content');
+      
+      // Verificar se tem tokens suficientes (25 tokens por imagem)
+      if (user.tokens < 25) {
+        setShowInsufficientTokensModal(true);
+        return;
+      }
+      
       setShowVipModal(true);
       return;
     }
     
     // Se a categoria não requer login, executar ação diretamente
+    // Rastrear visualização de conteúdo gratuito
+    trackViewContent(category.id, 'free_content');
     category.action();
   };
 
 
 
   useEffect(() => {
+    // Rastrear visualização da página principal
+    trackViewContent('dashboard', 'page');
+    
     // Só executa refresh se o usuário estiver logado
     if (isLoggedIn) {
       refreshUserData();
@@ -272,7 +303,7 @@ const Dashboard = () => {
               Cada processamento consome 25 tokens
             </p>
                 <button
-              onClick={() => navigate('/tokens')}
+              onClick={() => setShowSimpleModal(true)}
               className="w-full bg-pink-500 hover:bg-pink-600 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200"
                 >
                   💰 Carregar Tokens
@@ -477,6 +508,26 @@ const Dashboard = () => {
         title="Acesso Necessário"
         message={`Você precisa fazer login para acessar "${selectedCategory?.title}"`}
         redirectTo="/upload"
+      />
+
+      {/* Modal de Tokens Insuficientes */}
+      <InsufficientTokensModal
+        isOpen={showInsufficientTokensModal}
+        onClose={() => setShowInsufficientTokensModal(false)}
+        requiredTokens={25}
+        currentTokens={user?.tokens || 0}
+      />
+
+      {/* Modal de Carregamento de Tokens */}
+      <LoadingTokensModal
+        isOpen={showLoadingTokensModal}
+        onClose={() => setShowLoadingTokensModal(false)}
+      />
+
+      {/* Modal Simples para Teste */}
+      <SimpleLoadingModal
+        isOpen={showSimpleModal}
+        onClose={() => setShowSimpleModal(false)}
       />
     </div>
   );

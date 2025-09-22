@@ -77,7 +77,13 @@ router.post('/create', authenticateToken, async (req, res) => {
       console.log('👑 Pagamento VIP detectado, usando hash padrão');
     } else if (nitroConfig && nitroConfig.offers) {
       // Mapear valor para tokens e encontrar offer_hash correspondente
-      if (valueInCents === 500) offerHash = nitroConfig.offers['30'];      // R$ 5,00 = 25 tokens
+      // Pacotes atuais
+      if (valueInCents === 2000) offerHash = nitroConfig.offers['50'];      // R$ 20,00 = 50 tokens
+      else if (valueInCents === 5000) offerHash = nitroConfig.offers['375']; // R$ 50,00 = 375 tokens
+      else if (valueInCents === 7500) offerHash = nitroConfig.offers['500']; // R$ 75,00 = 500 tokens
+      else if (valueInCents === 18000) offerHash = nitroConfig.offers['2000']; // R$ 180,00 = 2000 tokens
+      // Pacotes antigos (manter para compatibilidade)
+      else if (valueInCents === 500) offerHash = nitroConfig.offers['30'];      // R$ 5,00 = 25 tokens
       else if (valueInCents === 1000) offerHash = nitroConfig.offers['30']; // R$ 10,00 = 100 tokens
       else if (valueInCents === 3000) offerHash = nitroConfig.offers['230']; // R$ 30,00 = 500 tokens
       else if (valueInCents === 6000) offerHash = nitroConfig.offers['470']; // R$ 60,00 = 1000 tokens
@@ -237,14 +243,14 @@ router.post('/webhook', async (req, res) => {
     console.log('🔍 Headers recebidos:', req.headers);
 
     // Extrair dados no formato correto da Nitro Pay
-    console.log('🔍 DEBUG - req.body.token:', req.body.token);
-    console.log('🔍 DEBUG - req.body.status:', req.body.status);
-    console.log('🔍 DEBUG - req.body.transaction:', req.body.transaction);
-    console.log('🔍 DEBUG - req.body.transaction?.amount:', req.body.transaction?.amount);
+    console.log('🔍 DEBUG - req.body.hash:', req.body.hash);
+    console.log('🔍 DEBUG - req.body.payment_status:', req.body.payment_status);
+    console.log('🔍 DEBUG - req.body.amount:', req.body.amount);
+    console.log('🔍 DEBUG - req.body.customer:', req.body.customer);
 
-    const hash = req.body.token;
-    const payment_status = req.body.status;
-    const amount = req.body.transaction?.amount;
+    const hash = req.body.hash;
+    const payment_status = req.body.payment_status;
+    const amount = req.body.amount;
     const customer = req.body.customer;
 
     console.log('Dados extraídos:', { hash, payment_status, amount, customer });
@@ -317,9 +323,9 @@ router.post('/process-webhook', async (req, res) => {
     const webhookData = req.body;
     console.log('🔔 Processando webhook manual:', JSON.stringify(webhookData, null, 2));
 
-    const hash = webhookData.token;
-    const payment_status = webhookData.status;
-    const amount = webhookData.transaction?.amount;
+    const hash = webhookData.hash || webhookData.token;
+    const payment_status = webhookData.payment_status || webhookData.status;
+    const amount = webhookData.amount || webhookData.transaction?.amount;
     const customer = webhookData.customer;
 
     console.log('🔍 Debug - payment_status:', payment_status);

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import Navbar from '../components/Navbar';
+import { trackCompleteRegistration } from '../utils/metaPixel';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -47,6 +48,9 @@ const Register = () => {
     const result = await register(formData.name, formData.email, formData.password);
     
     if (result.success) {
+      // Rastrear registro no Meta Pixel
+      trackCompleteRegistration();
+      
       // Redirecionar para a página solicitada ou dashboard
       navigate(redirectTo);
     } else {
