@@ -26,6 +26,15 @@
       "tokens": 125,
       "role": "user",
       "createdAt": "2025-09-08T00:30:00.000Z"
+    },
+    {
+      "id": "fc812d43-16a1-49ce-b33f-ee1531b0f409",
+      "nome": " aaaaaaaaaa",
+      "email": "a@a.aaa",
+      "senha": "$2a$10$seMYZJOv7Zc/kUF0FOzmLOeKrbM4JYnPD2qRzPcxOTcfiyK5UNv2m",
+      "tokens": 10,
+      "role": "user",
+      "createdAt": "2025-10-04T16:39:08.969Z"
     }
   ],
   "historico": [
@@ -280,6 +289,13 @@
       "data": "2025-10-02T17:14:13.860Z",
       "tipo_acao": "token_consumed",
       "descricao": "25 tokens consumidos para geração de imagem"
+    },
+    {
+      "id": "beec56a1-eec0-4746-9795-9402171e74bb",
+      "usuario_id": "fc812d43-16a1-49ce-b33f-ee1531b0f409",
+      "data": "2025-10-04T16:39:08.986Z",
+      "tipo_acao": "user_created",
+      "descricao": "Usuário criado"
     }
   ]
 }

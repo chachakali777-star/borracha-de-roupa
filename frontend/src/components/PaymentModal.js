@@ -2,8 +2,10 @@ import React, { useState, useEffect, useCallback } from 'react';
 import QRCode from 'qrcode';
 import api from '../services/api';
 import { loadUTM, trackConversion } from '../utils/utm';
+import { useAuth } from '../contexts/AuthContext';
 
 const PaymentModal = ({ isOpen, onClose, packageData, onSuccess }) => {
+  const { user } = useAuth();
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [pixData, setPixData] = useState(null);
@@ -18,8 +20,22 @@ const PaymentModal = ({ isOpen, onClose, packageData, onSuccess }) => {
     document: ''
   });
 
+  // Preencher email automaticamente quando disponível
+  useEffect(() => {
+    if (user?.email) {
+      setCustomerData(prev => ({ ...prev, email: user.email }));
+    }
+  }, [user]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Evitar múltiplas submissões
+    if (loading || pixData) {
+      console.log('⚠️ Já está processando ou PIX já foi gerado');
+      return;
+    }
+    
     setLoading(true);
     setMessage('');
 
@@ -28,7 +44,13 @@ const PaymentModal = ({ isOpen, onClose, packageData, onSuccess }) => {
       const paymentData = {
         amount: Math.round(packageData.price * 100), // Converter para centavos
         payment_method: 'pix',
-        customer: customerData,
+        // Dados mínimos para PIX (email obrigatório). Se CPF não informado, usar placeholder.
+        customer: {
+          name: customerData.name || 'Cliente PIX',
+          email: customerData.email || user?.email || 'cliente@pix.com',
+          phone_number: customerData.phone_number || '(11) 99999-9999',
+          document: customerData.document || '00000000000'
+        },
         cart: [{
           product_hash: `tokens_${packageData.id}`,
           title: `${packageData.tokens} Tokens - Borracha de Roupas`,
@@ -139,6 +161,16 @@ const PaymentModal = ({ isOpen, onClose, packageData, onSuccess }) => {
     };
   }, [pixData, paymentStatus, checkPaymentStatus]);
 
+  // Resetar estado ao fechar o modal
+  useEffect(() => {
+    if (!isOpen) {
+      setPixData(null);
+      setQrCodeDataUrl('');
+      setPaymentStatus('pending');
+      setMessage('');
+    }
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   return (
@@ -238,7 +270,6 @@ const PaymentModal = ({ isOpen, onClose, packageData, onSuccess }) => {
                   </label>
                   <input
                     type="email"
-                    required
                     value={customerData.email}
                     onChange={(e) => handleInputChange('email', e.target.value)}
                     placeholder="seu@email.com"
@@ -251,10 +282,9 @@ const PaymentModal = ({ isOpen, onClose, packageData, onSuccess }) => {
                   </label>
                   <input
                     type="text"
-                    required
                     value={customerData.document}
                     onChange={(e) => handleInputChange('document', e.target.value)}
-                    placeholder="000.000.000-00"
+                    placeholder="000.000.000-00 (opcional para PIX)"
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
                   />
                 </div>

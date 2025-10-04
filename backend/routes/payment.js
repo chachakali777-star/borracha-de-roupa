@@ -65,32 +65,12 @@ router.post('/create', authenticateToken, async (req, res) => {
       });
     }
 
-    // Determinar offer_hash baseado no valor
-    let offerHash = 'qd3cr'; // Hash padrão
+    // SOLUÇÃO TEMPORÁRIA: Usar sempre o hash padrão 'qd3cr' que funciona
+    // A Nitro Pay vai processar o valor correto baseado no 'amount'
+    const offerHash = 'qd3cr';
     const valueInCents = parseInt(amount);
-    console.log('💰 Valor recebido:', valueInCents, 'centavos');
-
-    // Para VIP (R$ 49,90), usar o mesmo hash que funciona para R$ 100,00
-    // A Nitro Pay vai processar o valor correto independente do offer_hash
-    if (valueInCents === 4990) {
-      offerHash = 'qd3cr'; // Usar hash padrão que sabemos que funciona
-      console.log('👑 Pagamento VIP detectado, usando hash padrão');
-    } else if (nitroConfig && nitroConfig.offers) {
-      // Mapear valor para tokens e encontrar offer_hash correspondente
-      // Pacotes atuais
-      if (valueInCents === 2000) offerHash = nitroConfig.offers['50'];      // R$ 20,00 = 50 tokens
-      else if (valueInCents === 5000) offerHash = nitroConfig.offers['375']; // R$ 50,00 = 375 tokens
-      else if (valueInCents === 7500) offerHash = nitroConfig.offers['500']; // R$ 75,00 = 500 tokens
-      else if (valueInCents === 18000) offerHash = nitroConfig.offers['2000']; // R$ 180,00 = 2000 tokens
-      // Pacotes antigos (manter para compatibilidade)
-      else if (valueInCents === 500) offerHash = nitroConfig.offers['30'];      // R$ 5,00 = 25 tokens
-      else if (valueInCents === 1000) offerHash = nitroConfig.offers['30']; // R$ 10,00 = 100 tokens
-      else if (valueInCents === 3000) offerHash = nitroConfig.offers['230']; // R$ 30,00 = 500 tokens
-      else if (valueInCents === 6000) offerHash = nitroConfig.offers['470']; // R$ 60,00 = 1000 tokens
-      else if (valueInCents === 10000) offerHash = nitroConfig.offers['1000']; // R$ 100,00 = 2000 tokens
-    }
-
-    console.log('🎯 Offer Hash selecionado:', offerHash);
+    console.log('💰 Valor recebido:', valueInCents, 'centavos (R$', (valueInCents / 100).toFixed(2), ')');
+    console.log('🎯 Offer Hash selecionado:', offerHash, '(hash universal)');
 
     const defaultWebhook = `https://borracharoupa.fun/api/payment/webhook`;
     const webhookWithUtm = withQuery(postback_url || defaultWebhook, utm);
