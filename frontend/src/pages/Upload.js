@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
+import Navbar from '../components/Navbar';
 import AccessModal from '../components/AccessModal';
 import InsufficientTokensModal from '../components/InsufficientTokensModal';
 import { trackUploadImage, trackViewContent, trackInitiateCheckout, trackAddToCart } from '../utils/metaPixel';
@@ -138,7 +139,7 @@ const Upload = () => {
   };
 
   const handleVipPayment = () => {
-    console.log('🚀 Redirecionando para Nitro Pagamentos...');
+    console.log('🚀 Redirecionando para PerfectPay...');
     
     // Rastrear início de checkout no Meta Pixel
     trackInitiateCheckout(49.90, 'BRL', ['vip_upgrade']);
@@ -147,47 +148,21 @@ const Upload = () => {
     trackAddToCart(49.90, 'BRL', 'vip_upgrade');
     
     // Redirecionar diretamente para o link do Nitro Pagamentos
-    window.open('https://go.nitropagamentos.com/uwivxoxyie_ct54df4qkt', '_blank');
+    window.open('https://go.nitropagamentos.com/3pbth', '_blank');
     
     // Fechar o modal
     setShowVipModal(false);
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-100 via-purple-50 to-white">
-      {/* Header */}
-      <div className="bg-white shadow-sm">
-        <div className="max-w-md mx-auto px-4 py-3 flex items-center justify-between">
-          {/* VIP Badge */}
-          <div
-            className="bg-yellow-400 text-black px-3 py-1 rounded-full text-sm font-bold flex items-center cursor-pointer"
-            onClick={() => setShowVipModal(true)}
-          >
-            👑 VIP
-          </div>
-          
-          {/* Title */}
-          <h1 className="text-2xl font-bold text-pink-500">
-            Experimentar
-          </h1>
-          
-          {/* Tokens Display */}
-          <div className="bg-pink-100 text-pink-600 px-3 py-1 rounded-full text-sm font-medium">
-            💎 {user?.tokens || 0}
-          </div>
-        </div>
-      </div>
-
+    <div className="min-h-screen bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-900">
+      {/* Navbar */}
+      <Navbar />
+      
       {/* Main Content */}
-      <div className="max-w-md mx-auto px-4 py-6">
+      <div className="max-w-md mx-auto px-4 py-6 pt-20">
         {/* Token Info Card */}
-        <div className="bg-white rounded-2xl shadow-lg p-4 mb-6 text-center">
-          <div className="text-pink-600 text-lg font-semibold mb-2">
-            ✨ Virtual Try-On com IA
-          </div>
-          <p className="text-gray-600 text-sm mb-3">
-            Faça upload de sua foto e de uma roupa para experimentar virtualmente
-          </p>
+        <div className="bg-zinc-900/90 rounded-2xl shadow-lg p-4 mb-6 text-center border border-rose-500/30">
           
           {/* Aviso para usuários não logados */}
           {!user && (
@@ -204,140 +179,140 @@ const Upload = () => {
             </div>
           )}
           
-          <div className="bg-pink-50 rounded-xl p-3">
-            <p className="text-gray-700 text-sm">
-              <span className="font-semibold">Custo:</span> 25 tokens por experimento
+          <div className="bg-rose-950/50 rounded-xl p-3 border border-rose-500/20">
+            <p className="text-zinc-300 text-sm">
+              <span className="font-semibold text-rose-400">Custo:</span> 25 tokens por experimento
             </p>
-            <p className="text-gray-700 text-sm">
-              <span className="font-semibold">Disponível:</span> {user ? `${user.tokens || 0} tokens` : 'Faça login para ver'}
-            </p>
+            <p className="text-zinc-300 text-sm">
+              <span className="font-semibold text-rose-400">Disponível:</span> {user ? `${user.tokens || 0} tokens` : 'Faça login para ver'}
+              </p>
+            </div>
           </div>
-        </div>
 
-        <div className="bg-white rounded-2xl shadow-lg p-6 mb-20">
+        <div className="bg-zinc-900/90 rounded-2xl shadow-lg p-6 mb-20 border border-rose-500/30">
 
-          {!result ? (
+            {!result ? (
             <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Upload da pessoa */}
+                  {/* Upload da pessoa */}
               <div>
                 <div className="text-center mb-4">
-                  <h3 className="text-lg font-bold text-gray-800 mb-1">👤 Sua Foto</h3>
-                  <p className="text-gray-600 text-sm">Faça upload de uma foto sua clara</p>
-                </div>
-                <div className="border-2 border-dashed border-pink-300 rounded-2xl p-6 text-center hover:border-pink-400 transition-all duration-300 bg-pink-50">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handlePersonFileSelect}
-                    className="hidden"
-                    id="person-upload"
-                  />
-                  <label
-                    htmlFor="person-upload"
+                  <h3 className="text-lg font-bold text-white mb-1">👤 Sua Foto</h3>
+                  <p className="text-zinc-400 text-sm">Faça upload de uma foto sua clara</p>
+                    </div>
+                <div className="border-2 border-dashed border-rose-500/50 rounded-2xl p-6 text-center hover:border-rose-500 transition-all duration-300 bg-zinc-800/50">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handlePersonFileSelect}
+                        className="hidden"
+                        id="person-upload"
+                      />
+                      <label
+                        htmlFor="person-upload"
                     className="cursor-pointer flex flex-col items-center space-y-3"
-                  >
-                    {personPreview ? (
-                      <div className="relative">
-                        <img
-                          src={personPreview}
-                          alt="Preview da pessoa"
+                      >
+                        {personPreview ? (
+                          <div className="relative">
+                            <img
+                              src={personPreview}
+                              alt="Preview da pessoa"
                           className="w-32 h-32 object-cover rounded-xl shadow-lg"
-                        />
+                            />
                         <div className="absolute inset-0 bg-black/20 rounded-xl flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
                           <span className="text-white text-xs font-medium">Trocar foto</span>
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="w-32 h-32 bg-pink-100 rounded-xl flex items-center justify-center border-2 border-pink-200">
+                            </div>
+                          </div>
+                        ) : (
+                      <div className="w-32 h-32 bg-rose-950/50 rounded-xl flex items-center justify-center border-2 border-rose-500/30">
+                            <div className="text-center">
+                          <span className="text-4xl mb-1 block text-rose-400">👤</span>
+                          <span className="text-rose-400 text-xs">Clique para selecionar</span>
+                            </div>
+                          </div>
+                        )}
                         <div className="text-center">
-                          <span className="text-4xl mb-1 block text-pink-400">👤</span>
-                          <span className="text-pink-600 text-xs">Clique para selecionar</span>
-                        </div>
-                      </div>
-                    )}
-                    <div className="text-center">
-                      <span className="text-gray-800 text-sm font-medium block">
-                        {personFile ? personFile.name : 'Nenhuma foto selecionada'}
-                      </span>
-                      <p className="text-gray-500 text-xs mt-1">
+                      <span className="text-white text-sm font-medium block">
+                            {personFile ? personFile.name : 'Nenhuma foto selecionada'}
+                          </span>
+                      <p className="text-zinc-400 text-xs mt-1">
                         JPG, PNG, GIF (máx. 10MB)
-                      </p>
+                          </p>
+                        </div>
+                      </label>
                     </div>
-                  </label>
-                </div>
-              </div>
+                  </div>
 
-              {/* Upload da roupa */}
+                  {/* Upload da roupa */}
               <div>
                 <div className="text-center mb-4">
-                  <h3 className="text-lg font-bold text-gray-800 mb-1">👕 Roupa</h3>
-                  <p className="text-gray-600 text-sm">Faça upload da roupa que deseja experimentar</p>
-                </div>
-                <div className="border-2 border-dashed border-purple-300 rounded-2xl p-6 text-center hover:border-purple-400 transition-all duration-300 bg-purple-50">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleClothingFileSelect}
-                    className="hidden"
-                    id="clothing-upload"
-                  />
-                  <label
-                    htmlFor="clothing-upload"
+                  <h3 className="text-lg font-bold text-white mb-1">👕 Roupa</h3>
+                  <p className="text-zinc-400 text-sm">Faça upload da roupa que deseja experimentar</p>
+                    </div>
+                <div className="border-2 border-dashed border-purple-500/50 rounded-2xl p-6 text-center hover:border-purple-500 transition-all duration-300 bg-zinc-800/50">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleClothingFileSelect}
+                        className="hidden"
+                        id="clothing-upload"
+                      />
+                      <label
+                        htmlFor="clothing-upload"
                     className="cursor-pointer flex flex-col items-center space-y-3"
-                  >
-                    {clothingPreview ? (
-                      <div className="relative">
-                        <img
-                          src={clothingPreview}
-                          alt="Preview da roupa"
+                      >
+                        {clothingPreview ? (
+                          <div className="relative">
+                            <img
+                              src={clothingPreview}
+                              alt="Preview da roupa"
                           className="w-32 h-32 object-cover rounded-xl shadow-lg"
-                        />
+                            />
                         <div className="absolute inset-0 bg-black/20 rounded-xl flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
                           <span className="text-white text-xs font-medium">Trocar roupa</span>
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="w-32 h-32 bg-purple-100 rounded-xl flex items-center justify-center border-2 border-purple-200">
-                        <div className="text-center">
+                            </div>
+                          </div>
+                        ) : (
+                      <div className="w-32 h-32 bg-purple-950/50 rounded-xl flex items-center justify-center border-2 border-purple-500/30">
+                            <div className="text-center">
                           <span className="text-4xl mb-1 block text-purple-400">👕</span>
-                          <span className="text-purple-600 text-xs">Clique para selecionar</span>
-                        </div>
-                      </div>
-                    )}
-                    <div className="text-center">
-                      <span className="text-gray-800 text-sm font-medium block">
-                        {clothingFile ? clothingFile.name : 'Nenhuma roupa selecionada'}
-                      </span>
-                      <p className="text-gray-500 text-xs mt-1">
+                          <span className="text-purple-400 text-xs">Clique para selecionar</span>
+                            </div>
+                          </div>
+                        )}
+                        <div className="text-center">
+                      <span className="text-white text-sm font-medium block">
+                            {clothingFile ? clothingFile.name : 'Nenhuma roupa selecionada'}
+                          </span>
+                      <p className="text-zinc-400 text-xs mt-1">
                         JPG, PNG, GIF (máx. 10MB)
-                      </p>
-                    </div>
-                  </label>
+                          </p>
+                        </div>
+                      </label>
+                  </div>
                 </div>
-              </div>
 
-              {error && (
+                {error && (
                 <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-xl text-sm">
                   {error}
-                </div>
-              )}
-
-              <button
-                type="submit"
-                disabled={loading || !personFile || !clothingFile}
-                className="w-full bg-pink-500 hover:bg-pink-600 text-white font-bold py-4 px-6 rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {loading ? (
-                  <div className="flex items-center justify-center space-x-2">
-                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                    <span>Processando com IA...</span>
                   </div>
-                ) : (
-                  '🚀 Experimentar Agora ✨'
                 )}
-              </button>
-            </form>
-          ) : (
+
+                    <button
+                      type="submit"
+                      disabled={loading || !personFile || !clothingFile}
+                  className="w-full bg-rose-600 hover:bg-rose-700 text-white font-bold py-4 px-6 rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                    {loading ? (
+                  <div className="flex items-center justify-center space-x-2">
+                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                        <span>Processando com IA...</span>
+                      </div>
+                    ) : (
+                  '🚀 Experimentar Agora ✨'
+                    )}
+                  </button>
+              </form>
+            ) : (
             <div className="space-y-6">
               {/* Success Message */}
               <div className="text-center">
@@ -348,13 +323,13 @@ const Upload = () => {
 
               {/* Result Image */}
               <div className="text-center">
-                <h3 className="text-lg font-bold text-gray-800 mb-4">
+                <h3 className="text-lg font-bold text-white mb-4">
                   ✨ Resultado Final
                 </h3>
-                <div className="bg-gray-50 border border-gray-200 rounded-2xl p-4">
-                  <img
-                    src={`https://borracharoupa.fun${result.processedImageUrl}`}
-                    alt="Resultado do Virtual Try-On"
+                <div className="bg-zinc-800/50 border border-rose-500/30 rounded-2xl p-4">
+                    <img
+                      src={`http://localhost:5000${result.processedImageUrl}`}
+                      alt="Resultado do Virtual Try-On"
                     className="w-full h-auto rounded-xl shadow-lg mb-4"
                   />
                   
@@ -363,7 +338,7 @@ const Upload = () => {
                     onClick={async () => {
                       setDownloadLoading(true);
                       try {
-                        const imageUrl = `https://borracharoupa.fun${result.processedImageUrl}`;
+                        const imageUrl = `http://localhost:5000${result.processedImageUrl}`;
                         const response = await fetch(imageUrl);
                         const blob = await response.blob();
                         const url = window.URL.createObjectURL(blob);
@@ -377,7 +352,7 @@ const Upload = () => {
                       } catch (error) {
                         console.error('Erro ao baixar imagem:', error);
                         // Fallback: abrir em nova aba
-                        window.open(`https://borracharoupa.fun${result.processedImageUrl}`, '_blank');
+                        window.open(`http://localhost:5000${result.processedImageUrl}`, '_blank');
                       } finally {
                         setDownloadLoading(false);
                       }
@@ -395,9 +370,9 @@ const Upload = () => {
                     )}
                   </button>
                   
-                  <p className="text-center text-gray-600 text-sm">
-                    Sua foto com a roupa experimentada virtualmente! 🎉
-                  </p>
+                  <p className="text-center text-zinc-300 text-sm">
+                      Sua foto com a roupa experimentada virtualmente! 🎉
+                    </p>
                 </div>
               </div>
 
@@ -405,52 +380,19 @@ const Upload = () => {
               <div className="space-y-3">
                 <button
                   onClick={resetForm}
-                  className="w-full bg-pink-500 hover:bg-pink-600 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200"
+                  className="w-full bg-rose-600 hover:bg-rose-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200"
                 >
                   🔄 Experimentar Outra Roupa
                 </button>
                 <button
                   onClick={() => navigate('/')}
-                  className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-3 px-6 rounded-xl transition-all duration-200"
+                  className="w-full bg-zinc-700 hover:bg-zinc-600 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200"
                 >
                   🏠 Voltar ao Dashboard
                 </button>
               </div>
             </div>
-          )}
-        </div>
-      </div>
-
-      {/* Bottom Navigation */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200">
-        <div className="max-w-md mx-auto px-4 py-3">
-          <div className="flex justify-center space-x-8">
-            {/* Ver Conta */}
-            <button
-              onClick={() => navigate('/profile')}
-              className="flex flex-col items-center space-y-1 text-gray-600 hover:text-pink-500 transition-colors duration-200"
-            >
-              <div className="w-6 h-6 flex items-center justify-center">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" className="w-6 h-6">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                </svg>
-              </div>
-              <span className="text-xs font-medium">Ver Conta</span>
-            </button>
-
-            {/* Início */}
-            <button
-              onClick={() => navigate('/')}
-              className="flex flex-col items-center space-y-1 text-gray-600 hover:text-pink-500 transition-colors duration-200"
-            >
-              <div className="w-6 h-6 flex items-center justify-center">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" className="w-6 h-6">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                </svg>
-              </div>
-              <span className="text-xs font-medium">Início</span>
-            </button>
-          </div>
+            )}
         </div>
       </div>
 

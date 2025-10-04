@@ -19,7 +19,7 @@ function getUTMHeaders() {
 }
 
 const api = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || 'https://borracharoupa.fun/api',
+  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:5000/api',
   timeout: 30000,
 });
 

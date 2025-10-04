@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import Navbar from '../components/Navbar';
+import LoginAgeGateModal from '../components/LoginAgeGateModal';
 import { trackCompleteRegistration } from '../utils/metaPixel';
 
 const Register = () => {
@@ -61,32 +62,32 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-100 via-purple-50 to-white">
+    <div className="min-h-screen bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-900">
       <Navbar />
       
       <div className="flex items-center justify-center min-h-screen pt-20">
         {/* Background Effects */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse"></div>
-          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse delay-1000"></div>
+          <div className="absolute -top-40 -right-40 w-80 h-80 bg-rose-600/20 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse"></div>
+          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-red-600/20 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse delay-1000"></div>
         </div>
         
         <div className="relative z-10 max-w-md w-full space-y-8 py-12 px-4 sm:px-6 lg:px-8">
           {/* Logo and Title */}
           <div className="text-center">
             <div className="flex justify-center mb-6">
-              <div className="w-20 h-20 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center shadow-2xl shadow-purple-500/25">
-                <span className="text-white font-bold text-3xl">B</span>
+              <div className="w-20 h-20 rounded-2xl flex items-center justify-center shadow-2xl p-2">
+                <img src="/img/logo.png" alt="Logo" className="w-full h-full object-contain" />
               </div>
             </div>
-            <h2 className="text-4xl font-bold text-pink-500 mb-2">
+            <h2 className="text-4xl font-bold text-rose-500 mb-2">
               Borracha de Roupa
             </h2>
-            <p className="mt-4 text-gray-600">
+            <p className="mt-4 text-zinc-300">
               Crie sua conta ou{' '}
               <Link
                 to="/login"
-                className="font-medium text-pink-500 hover:text-pink-600 transition-colors duration-300"
+                className="font-medium text-rose-400 hover:text-rose-500 transition-colors duration-300"
               >
                 faça login
               </Link>
@@ -94,8 +95,8 @@ const Register = () => {
             
             {/* Mensagem de redirecionamento */}
             {redirectTo === '/tokens' && (
-              <div className="mt-4 p-3 bg-pink-500/10 border border-pink-500/30 rounded-lg">
-                <p className="text-pink-600 text-sm">
+              <div className="mt-4 p-3 bg-rose-950/30 border border-rose-500/30 rounded-lg">
+                <p className="text-rose-400 text-sm">
                   💎 Após criar sua conta, você será direcionado para comprar tokens
                 </p>
               </div>
@@ -103,11 +104,11 @@ const Register = () => {
           </div>
 
           {/* Register Form */}
-          <div className="bg-white rounded-3xl shadow-xl p-8 border border-gray-100">
+          <div className="bg-zinc-900/90 rounded-3xl shadow-xl p-8 border border-rose-500/30">
             <form className="space-y-6" onSubmit={handleSubmit}>
               <div className="space-y-4">
                 <div>
-                  <label htmlFor="name" className="block text-gray-700 text-sm font-medium mb-2">
+                  <label htmlFor="name" className="block text-white text-sm font-medium mb-2">
                     Nome Completo
                   </label>
                   <input
@@ -115,7 +116,7 @@ const Register = () => {
                     name="name"
                     type="text"
                     required
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all duration-200"
+                    className="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-xl text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all duration-200"
                     placeholder="Seu nome completo"
                     value={formData.name}
                     onChange={handleChange}
@@ -123,7 +124,7 @@ const Register = () => {
                 </div>
                 
                 <div>
-                  <label htmlFor="email" className="block text-gray-700 text-sm font-medium mb-2">
+                  <label htmlFor="email" className="block text-white text-sm font-medium mb-2">
                     Email
                   </label>
                   <input
@@ -131,7 +132,7 @@ const Register = () => {
                     name="email"
                     type="email"
                     required
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all duration-200"
+                    className="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-xl text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all duration-200"
                     placeholder="seu@email.com"
                     value={formData.email}
                     onChange={handleChange}
@@ -139,7 +140,7 @@ const Register = () => {
                 </div>
                 
                 <div>
-                  <label htmlFor="password" className="block text-gray-700 text-sm font-medium mb-2">
+                  <label htmlFor="password" className="block text-white text-sm font-medium mb-2">
                     Senha
                   </label>
                   <input
@@ -147,7 +148,7 @@ const Register = () => {
                     name="password"
                     type="password"
                     required
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all duration-200"
+                    className="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-xl text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all duration-200"
                     placeholder="••••••••"
                     value={formData.password}
                     onChange={handleChange}
@@ -155,7 +156,7 @@ const Register = () => {
                 </div>
                 
                 <div>
-                  <label htmlFor="confirmPassword" className="block text-gray-700 text-sm font-medium mb-2">
+                  <label htmlFor="confirmPassword" className="block text-white text-sm font-medium mb-2">
                     Confirmar Senha
                   </label>
                   <input
@@ -163,7 +164,7 @@ const Register = () => {
                     name="confirmPassword"
                     type="password"
                     required
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all duration-200"
+                    className="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-xl text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all duration-200"
                     placeholder="••••••••"
                     value={formData.confirmPassword}
                     onChange={handleChange}
@@ -180,7 +181,7 @@ const Register = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-pink-500 hover:bg-pink-600 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 transform hover:scale-[1.02] shadow-lg hover:shadow-pink-500/25 disabled:opacity-50 disabled:transform-none disabled:cursor-not-allowed"
+                className="w-full bg-rose-600 hover:bg-rose-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 transform hover:scale-[1.02] shadow-lg hover:shadow-rose-500/25 disabled:opacity-50 disabled:transform-none disabled:cursor-not-allowed"
               >
                 {loading ? (
                   <div className="flex items-center justify-center">
@@ -195,6 +196,9 @@ const Register = () => {
           </div>
         </div>
       </div>
+
+      {/* Age Gate Modal */}
+      <LoginAgeGateModal />
     </div>
   );
 };

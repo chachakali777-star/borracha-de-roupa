@@ -3,6 +3,7 @@ const multer = require('multer');
 const axios = require('axios');
 const path = require('path');
 const fs = require('fs');
+const sharp = require('sharp');
 const User = require('../models/User');
 const { authenticateToken } = require('../middleware/auth');
 
@@ -348,6 +349,321 @@ router.post('/process-two-images', authenticateToken, upload.fields([
 
     res.status(500).json({ 
       message: 'Erro ao processar imagens',
+      error: error.message 
+    });
+  }
+});
+
+// Processamento de despir com IA
+router.post('/undress', authenticateToken, upload.single('image'), async (req, res) => {
+  console.log('Endpoint /undress chamado');
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: 'É necessário enviar uma imagem' });
+    }
+
+    // Verificar se usuário tem tokens
+    const user = User.findById(req.user.id);
+    if (!user) {
+      return res.status(404).json({ message: 'Usuário não encontrado' });
+    }
+
+    if (user.tokens < 25) {
+      return res.status(400).json({ message: 'Tokens insuficientes. Necessário: 25 tokens. Disponível: ' + user.tokens + ' tokens' });
+    }
+
+    // Consumir tokens ANTES do processamento
+    const updatedUser = User.consumeToken(req.user.id);
+
+    const imageFile = req.file;
+    console.log('Iniciando processamento de despir com IA...');
+    console.log('Imagem:', imageFile.filename);
+
+    // Converter imagem para base64
+    const imageBase64 = fs.readFileSync(imageFile.path, 'base64');
+
+    // Preparar dados para API da Fashn.ai (modelo de despir)
+    const requestData = {
+      model_name: 'undress-v1.0', // Modelo específico para despir
+      inputs: {
+        image: `data:image/jpeg;base64,${imageBase64}`
+      }
+    };
+
+    console.log('Enviando requisição para Fashn.ai (despir)...');
+
+    // Chamar API da Fashn.ai
+    const response = await axios.post('https://api.fashn.ai/v1/run', requestData, {
+      headers: {
+        'Authorization': `Bearer ${process.env.API_KEY_FASHN}`,
+        'Content-Type': 'application/json'
+      }
+    });
+
+    const predictionId = response.data.id;
+    console.log('Prediction ID:', predictionId);
+
+    // Fazer polling para verificar status
+    let attempts = 0;
+    const maxAttempts = 30; // 5 minutos máximo
+    let status = 'starting';
+
+    while (attempts < maxAttempts && status !== 'completed' && status !== 'failed') {
+      await new Promise(resolve => setTimeout(resolve, 10000)); // Aguardar 10 segundos
+      
+      try {
+        const statusResponse = await axios.get(`https://api.fashn.ai/v1/status/${predictionId}`, {
+          headers: {
+            'Authorization': `Bearer ${process.env.API_KEY_FASHN}`
+          }
+        });
+        
+        status = statusResponse.data.status;
+        console.log(`Tentativa ${attempts + 1}: Status = ${status}`);
+        console.log('Resposta completa do status:', JSON.stringify(statusResponse.data, null, 2));
+        attempts++;
+      } catch (statusError) {
+        console.error('Erro ao verificar status:', statusError.message);
+        attempts++;
+      }
+    }
+
+    if (status === 'completed') {
+      // Tentar diferentes abordagens para obter o resultado
+      let resultData;
+      
+      try {
+        // Primeiro, verificar se o resultado está na resposta de status
+        const finalStatusResponse = await axios.get(`https://api.fashn.ai/v1/status/${predictionId}`, {
+          headers: {
+            'Authorization': `Bearer ${process.env.API_KEY_FASHN}`
+          }
+        });
+        
+        console.log('Resposta final do status:', JSON.stringify(finalStatusResponse.data, null, 2));
+        
+        // Verificar se há URL de resultado na resposta
+        if (finalStatusResponse.data.output && finalStatusResponse.data.output.length > 0) {
+          console.log('Baixando resultado da URL:', finalStatusResponse.data.output[0]);
+          const resultResponse = await axios.get(finalStatusResponse.data.output[0], {
+            responseType: 'arraybuffer'
+          });
+          resultData = resultResponse.data;
+        } else if (finalStatusResponse.data.result_url) {
+          console.log('Baixando resultado da URL:', finalStatusResponse.data.result_url);
+          const resultResponse = await axios.get(finalStatusResponse.data.result_url, {
+            responseType: 'arraybuffer'
+          });
+          resultData = resultResponse.data;
+        } else if (finalStatusResponse.data.result) {
+          // Se o resultado está em base64 na resposta
+          console.log('Resultado encontrado em base64 na resposta');
+          const base64Data = finalStatusResponse.data.result.replace(/^data:image\/[a-z]+;base64,/, '');
+          resultData = Buffer.from(base64Data, 'base64');
+        } else {
+          // Tentar endpoints de download
+          console.log('Tentando baixar resultado via endpoints...');
+          
+          const endpoints = [
+            `/v1/output/${predictionId}`,
+            `/v1/result/${predictionId}`,
+            `/v1/download/${predictionId}`,
+            `/v1/images/${predictionId}`
+          ];
+          
+          let lastError;
+          for (const endpoint of endpoints) {
+            try {
+              console.log(`Tentando endpoint: ${endpoint}`);
+              const resultResponse = await axios.get(`https://api.fashn.ai${endpoint}`, {
+                headers: {
+                  'Authorization': `Bearer ${process.env.API_KEY_FASHN}`
+                },
+                responseType: 'arraybuffer'
+              });
+              resultData = resultResponse.data;
+              console.log(`Sucesso com endpoint: ${endpoint}`);
+              break;
+            } catch (error) {
+              console.log(`Falha com endpoint ${endpoint}: ${error.response?.status}`);
+              lastError = error;
+            }
+          }
+          
+          if (!resultData) {
+            throw lastError || new Error('Nenhum endpoint funcionou para baixar o resultado');
+          }
+        }
+      } catch (error) {
+        console.error('Erro ao obter resultado:', error.message);
+        throw error;
+      }
+
+      // Salvar imagem processada
+      const processedImagePath = path.join(__dirname, '../uploads', `undress-${imageFile.filename}`);
+      fs.writeFileSync(processedImagePath, resultData);
+
+      // Limpar arquivo temporário
+      fs.unlinkSync(imageFile.path);
+
+      console.log('Processamento de despir concluído com sucesso!');
+
+      res.json({
+        message: 'Imagem processada com sucesso!',
+        processedImageUrl: `/uploads/undress-${imageFile.filename}`,
+        tokensRemaining: updatedUser.tokens,
+        predictionId: predictionId
+      });
+
+    } else if (status === 'failed') {
+      throw new Error('Processamento falhou na Fashn.ai');
+    } else {
+      throw new Error('Timeout: Processamento demorou muito para ser concluído');
+    }
+
+  } catch (error) {
+    console.error('Erro no processamento de despir:', error);
+    
+    // Limpar arquivo temporário em caso de erro
+    if (req.file && fs.existsSync(req.file.path)) {
+      fs.unlinkSync(req.file.path);
+    }
+
+    res.status(500).json({ 
+      message: 'Erro ao processar imagem',
+      error: error.message 
+    });
+  }
+});
+
+// Mock para despir - simula processamento com efeitos visuais
+router.post('/undress-mock', authenticateToken, upload.single('image'), async (req, res) => {
+  console.log('Endpoint /undress-mock chamado');
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: 'É necessário enviar uma imagem' });
+    }
+
+    // Verificar se usuário tem tokens
+    const user = User.findById(req.user.id);
+    if (!user) {
+      return res.status(404).json({ message: 'Usuário não encontrado' });
+    }
+
+    if (user.tokens < 25) {
+      return res.status(400).json({ message: 'Tokens insuficientes. Necessário: 25 tokens. Disponível: ' + user.tokens + ' tokens' });
+    }
+
+    // Consumir tokens ANTES do processamento
+    const updatedUser = User.consumeToken(req.user.id);
+
+    const imageFile = req.file;
+    console.log('🎭 Iniciando processamento mock de despir...');
+    console.log('Imagem:', imageFile.filename);
+
+    // Simular processamento (aguardar 3-5 segundos)
+    console.log('⏳ Simulando processamento com IA...');
+    await new Promise(resolve => setTimeout(resolve, 3000 + Math.random() * 2000));
+
+    // Aplicar efeitos visuais com Sharp (simulação mais realista de "despir")
+    const processedImagePath = path.join(__dirname, '../uploads', `undress-mock-${imageFile.filename}`);
+    
+    try {
+      // Primeiro, redimensionar e preparar a imagem
+      const { data, info } = await sharp(imageFile.path)
+        .resize(512, 512, { 
+          fit: 'inside', 
+          withoutEnlargement: true,
+          background: { r: 0, g: 0, b: 0, alpha: 0 }
+        })
+        .raw()
+        .toBuffer({ resolveWithObject: true });
+
+      // Simular remoção de roupas com processamento de pixels
+      const processedData = Buffer.alloc(data.length);
+      
+      for (let i = 0; i < data.length; i += 3) {
+        const r = data[i];
+        const g = data[i + 1];
+        const b = data[i + 2];
+        
+        // Detectar áreas de roupa (cores escuras/coloridas)
+        const isClothing = (
+          (r < 200 && g < 200 && b < 200) || // Cores escuras
+          (Math.abs(r - g) > 30 || Math.abs(g - b) > 30 || Math.abs(r - b) > 30) // Cores saturadas
+        );
+        
+        if (isClothing) {
+          // Simular pele: tons de bege/rosa
+          const skinTone = Math.random() * 0.3 + 0.7; // 0.7-1.0
+          processedData[i] = Math.min(255, r * skinTone + 20);     // R
+          processedData[i + 1] = Math.min(255, g * skinTone + 15); // G
+          processedData[i + 2] = Math.min(255, b * skinTone + 10); // B
+        } else {
+          // Manter áreas de pele/background
+          processedData[i] = r;
+          processedData[i + 1] = g;
+          processedData[i + 2] = b;
+        }
+      }
+      
+      // Aplicar efeitos finais
+      await sharp(processedData, {
+        raw: {
+          width: info.width,
+          height: info.height,
+          channels: 3
+        }
+      })
+      .modulate({
+        brightness: 1.05,   // Aumentar brilho sutil
+        saturation: 1.1,    // Aumentar saturação
+        hue: 2              // Pequeno ajuste de cor
+      })
+      .sharpen(0.3)         // Aumentar nitidez
+      .blur(0.2)            // Desfoque muito sutil
+      .png({ quality: 95 })
+      .toFile(processedImagePath);
+
+      console.log('✅ Processamento mock concluído com sucesso!');
+
+      // Limpar arquivo temporário
+      fs.unlinkSync(imageFile.path);
+
+      res.json({
+        message: 'Imagem processada com sucesso! (Modo Demonstração)',
+        processedImageUrl: `/uploads/undress-mock-${imageFile.filename}`,
+        tokensRemaining: updatedUser.tokens,
+        predictionId: `mock-${Date.now()}`,
+        note: 'Simulação de remoção de roupas aplicada (demonstração)'
+      });
+
+    } catch (sharpError) {
+      console.error('Erro no Sharp:', sharpError);
+      
+      // Fallback: apenas copiar arquivo
+      fs.copyFileSync(imageFile.path, processedImagePath);
+      fs.unlinkSync(imageFile.path);
+
+      res.json({
+        message: 'Imagem processada com sucesso! (Modo Simples)',
+        processedImageUrl: `/uploads/undress-mock-${imageFile.filename}`,
+        tokensRemaining: updatedUser.tokens,
+        predictionId: `mock-simple-${Date.now()}`,
+        note: 'Processamento básico aplicado'
+      });
+    }
+
+  } catch (error) {
+    console.error('Erro no processamento mock:', error);
+    
+    // Limpar arquivo temporário em caso de erro
+    if (req.file && fs.existsSync(req.file.path)) {
+      fs.unlinkSync(req.file.path);
+    }
+
+    res.status(500).json({ 
+      message: 'Erro ao processar imagem',
       error: error.message 
     });
   }

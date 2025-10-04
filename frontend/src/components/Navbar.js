@@ -33,16 +33,16 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className="bg-black/20 backdrop-blur-md border-b border-purple-500/20 shadow-2xl fixed top-0 left-0 right-0 z-50">
+    <nav className="bg-zinc-900/95 backdrop-blur-md border-b border-rose-500/30 shadow-2xl fixed top-0 left-0 right-0 z-50">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <Link to="/" className="flex items-center space-x-3 group">
-              <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300">
-                <span className="text-white font-bold text-lg">B</span>
+              <div className="w-10 h-10 rounded-lg flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300 p-1">
+                <img src="/img/logo.png" alt="Logo" className="w-full h-full object-contain" />
               </div>
               <div>
-                <h1 className="text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                <h1 className="text-xl font-bold bg-gradient-to-r from-rose-400 to-red-400 bg-clip-text text-transparent">
                   Borracha de Roupa
                 </h1>
               </div>
@@ -56,20 +56,28 @@ const Navbar = () => {
                 <div className="hidden md:flex items-center space-x-2">
                   <Link
                     to="/upload"
-                    className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-purple-500/25"
+                    className="bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-700 hover:to-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-rose-500/25"
                   >
                     ✨ Experimentar
                   </Link>
                   <Link
                     to="/tokens"
-                    className="text-gray-300 hover:text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-300 hover:bg-white/10"
+                    className="text-zinc-300 hover:text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-300 hover:bg-white/10"
                   >
                     💎 Tokens
                   </Link>
+                  {!user.isVip && (
+                    <Link
+                      to="/?vip=true"
+                      className="bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-black px-4 py-2 rounded-lg text-sm font-bold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-yellow-500/25"
+                    >
+                      👑 VIP
+                    </Link>
+                  )}
                   {user.role === 'admin' && (
                     <Link
                       to="/admin"
-                      className="text-gray-300 hover:text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-300 hover:bg-white/10"
+                      className="text-zinc-300 hover:text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-300 hover:bg-white/10"
                     >
                       ⚙️ Admin
                     </Link>
@@ -183,15 +191,21 @@ const Navbar = () => {
                 <div className="hidden md:flex items-center space-x-2">
                   <Link
                     to="/upload"
-                    className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-purple-500/25"
+                    className="bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-700 hover:to-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-rose-500/25"
                   >
                     ✨ Experimentar
                   </Link>
                   <Link
                     to="/tokens"
-                    className="text-gray-300 hover:text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-300 hover:bg-white/10"
+                    className="text-zinc-300 hover:text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-300 hover:bg-white/10"
                   >
                     💎 Tokens
+                  </Link>
+                  <Link
+                    to="/?vip=true"
+                    className="bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-black px-4 py-2 rounded-lg text-sm font-bold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-yellow-500/25"
+                  >
+                    👑 VIP
                   </Link>
                 </div>
                 
@@ -199,13 +213,13 @@ const Navbar = () => {
                 <div className="flex items-center space-x-2">
                   <Link
                     to="/login"
-                    className="text-gray-300 hover:text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-300 hover:bg-white/10"
+                    className="text-zinc-300 hover:text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-300 hover:bg-white/10"
                   >
                     Entrar
                   </Link>
                   <Link
                     to="/register"
-                    className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-purple-500/25"
+                    className="bg-gradient-to-r from-rose-600 to-purple-600 hover:from-rose-700 hover:to-purple-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-rose-500/25"
                   >
                     Cadastrar
                   </Link>

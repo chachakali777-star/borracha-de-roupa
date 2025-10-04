@@ -5,7 +5,7 @@
       "nome": "Administrador",
       "email": "admin@fashn.ai",
       "senha": "$2a$10$ty5hsTSW8KsopEH7HKNCXuChY6YP5bfFWylEgBpZX20MrxRznQZbG",
-      "tokens": 725,
+      "tokens": 650,
       "role": "admin",
       "createdAt": "2025-09-07T22:46:33.479Z"
     },
@@ -259,6 +259,27 @@
       "data": "2025-09-20T20:03:46.513Z",
       "tipo_acao": "utm_conversion",
       "descricao": "Conversão com UTM: {\"utm_source\":\"meta\",\"utm_medium\":\"cpc\",\"utm_campaign\":\"vip\",\"utm_term\":\"teste\",\"utm_content\":\"criativo_a\",\"referrer\":\"http://facebook.com\",\"landing_page\":\"http://localhost:3000/\"}"
+    },
+    {
+      "id": "49a8a5c7-d3ad-4b30-9e96-3b9f47ca407d",
+      "usuario_id": "bbac8138-beb8-43d2-9d9e-4bdb0ad7b972",
+      "data": "2025-10-02T16:58:45.762Z",
+      "tipo_acao": "token_consumed",
+      "descricao": "25 tokens consumidos para geração de imagem"
+    },
+    {
+      "id": "dca90044-2959-4f8d-97ec-0ec8fe4d8c8f",
+      "usuario_id": "bbac8138-beb8-43d2-9d9e-4bdb0ad7b972",
+      "data": "2025-10-02T17:12:36.087Z",
+      "tipo_acao": "token_consumed",
+      "descricao": "25 tokens consumidos para geração de imagem"
+    },
+    {
+      "id": "a91a02ab-8499-48b3-abc6-b3e995e4c56f",
+      "usuario_id": "bbac8138-beb8-43d2-9d9e-4bdb0ad7b972",
+      "data": "2025-10-02T17:14:13.860Z",
+      "tipo_acao": "token_consumed",
+      "descricao": "25 tokens consumidos para geração de imagem"
     }
   ]
 }
