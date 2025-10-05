@@ -191,6 +191,37 @@ const Dashboard = () => {
             </div>
           </div>
         )}
+
+        {/* Token Info Card */}
+        <div className="bg-gradient-to-br from-zinc-900/95 to-zinc-800/95 rounded-2xl shadow-lg p-6 mb-6 border border-rose-500/30 backdrop-blur-sm">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <div className="w-14 h-14 bg-gradient-to-br from-rose-500 to-rose-600 rounded-xl flex items-center justify-center shadow-lg">
+                <span className="text-white text-2xl">💎</span>
+              </div>
+              <div>
+                <p className="text-3xl font-bold text-white">{user?.tokens || 0}</p>
+                <p className="text-zinc-400 text-sm">Tokens disponíveis</p>
+              </div>
+            </div>
+            <div className="flex flex-col items-end space-y-2">
+              <button
+                onClick={() => setShowSimpleModal(true)}
+                className="bg-rose-600 hover:bg-rose-700 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-all duration-200 shadow-md"
+              >
+                + Comprar
+              </button>
+              {!user?.isVip && (
+                <button
+                  onClick={() => setShowVipModal(true)}
+                  className="bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-black text-xs font-bold px-3 py-1.5 rounded-lg transition-all duration-200 shadow-md"
+                >
+                  👑 VIP
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
         
         {/* Featured Card - Trocar roupa */}
         <div className="mb-6">
@@ -275,30 +306,6 @@ const Dashboard = () => {
                   </div>
                   ))}
                 </div>
-
-        {/* Token Info Card */}
-        <div className="bg-zinc-900/90 rounded-2xl shadow-lg p-6 mb-6 border border-rose-500/30">
-          <div className="text-center">
-            <div className="flex items-center justify-center mb-4">
-              <div className="w-12 h-12 bg-rose-600 rounded-full flex items-center justify-center mr-4">
-                <span className="text-white text-xl">💎</span>
-                  </div>
-              <div>
-                <p className="text-2xl font-bold text-white">{user?.tokens || 0}</p>
-                <p className="text-zinc-400 text-sm">Tokens disponíveis</p>
-                  </div>
-                  </div>
-            <p className="text-zinc-300 text-sm mb-4">
-              Cada processamento consome 25 tokens
-            </p>
-                <button
-              onClick={() => setShowSimpleModal(true)}
-              className="w-full bg-rose-600 hover:bg-rose-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200"
-                >
-                  💰 Carregar Tokens
-            </button>
-                  </div>
-            </div>
             
       </div>
 
