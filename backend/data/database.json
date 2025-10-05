@@ -35,6 +35,24 @@
       "tokens": 10,
       "role": "user",
       "createdAt": "2025-10-04T16:39:08.969Z"
+    },
+    {
+      "id": "6ac9d592-1445-449d-ad04-57dee7593030",
+      "nome": " ahaaaaam",
+      "email": "aaaa@aaaaa.aaa",
+      "senha": "$2a$10$8O.O83rRE4ANqA94CodvDethnMQPOcbMbdlt/CQii.sTGP0GWctJS",
+      "tokens": 10,
+      "role": "user",
+      "createdAt": "2025-10-05T00:44:58.549Z"
+    },
+    {
+      "id": "039186f2-b9c0-4354-936b-461a826f68b7",
+      "nome": " ahaaaaaaam",
+      "email": "asas@a.aaa",
+      "senha": "$2a$10$ePzjsTEV3l3/3oiX/db05u7lStp6VUNV43bBMMOjAv18N71VwJvfa",
+      "tokens": 10,
+      "role": "user",
+      "createdAt": "2025-10-05T00:47:40.731Z"
     }
   ],
   "historico": [
@@ -294,6 +312,20 @@
       "id": "beec56a1-eec0-4746-9795-9402171e74bb",
       "usuario_id": "fc812d43-16a1-49ce-b33f-ee1531b0f409",
       "data": "2025-10-04T16:39:08.986Z",
+      "tipo_acao": "user_created",
+      "descricao": "Usuário criado"
+    },
+    {
+      "id": "12b1b0ba-5b34-4a85-82f7-2b41c6fb6ef1",
+      "usuario_id": "6ac9d592-1445-449d-ad04-57dee7593030",
+      "data": "2025-10-05T00:44:58.567Z",
+      "tipo_acao": "user_created",
+      "descricao": "Usuário criado"
+    },
+    {
+      "id": "803e3347-2106-4ddc-9650-ad9aca033c9c",
+      "usuario_id": "039186f2-b9c0-4354-936b-461a826f68b7",
+      "data": "2025-10-05T00:47:40.737Z",
       "tipo_acao": "user_created",
       "descricao": "Usuário criado"
     }

@@ -60,17 +60,12 @@ const Dashboard = () => {
       return;
     }
     
-    // Se a categoria requer login e o usuário está logado, verificar tokens
+    // Se a categoria requer login e o usuário está logado, sempre mostrar modal VIP
     if (category.requiresLogin && isLoggedIn) {
       // Rastrear visualização de conteúdo premium
       trackViewContent(category.id, 'premium_content');
       
-      // Verificar se tem tokens suficientes (25 tokens por imagem)
-      if (user.tokens < 25) {
-        setShowInsufficientTokensModal(true);
-        return;
-      }
-      
+      // Sempre mostrar modal VIP para cards menores (não verificar tokens)
       setShowVipModal(true);
       return;
     }
