@@ -238,8 +238,13 @@ const Admin = () => {
                           {user.nome}
                         </div>
                         <div className="text-sm text-gray-500">
-                          {user.email}
+                          📧 {user.email}
                         </div>
+                        {user.telefone && (
+                          <div className="text-sm text-gray-500">
+                            📱 {user.telefone}
+                          </div>
+                        )}
                         <div className="text-sm text-gray-500">
                           Criado em: {new Date(user.createdAt).toLocaleDateString('pt-BR')}
                         </div>

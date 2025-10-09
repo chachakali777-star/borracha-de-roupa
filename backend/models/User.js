@@ -21,7 +21,7 @@ class User {
 
   static async create(userData) {
     const data = this.readData();
-    const { nome, email, senha, role = 'user' } = userData;
+    const { nome, email, telefone, senha, role = 'user' } = userData;
 
     // Verificar se email já existe
     const existingUser = data.usuarios.find(user => user.email === email);
@@ -36,8 +36,9 @@ class User {
       id: uuidv4(),
       nome,
       email,
+      telefone,
       senha: hashedPassword,
-      tokens: 10, // Tokens iniciais
+      tokens: 25, // Tokens iniciais
       role,
       createdAt: new Date().toISOString()
     };
@@ -52,6 +53,7 @@ class User {
       id: newUser.id,
       nome: newUser.nome,
       email: newUser.email,
+      telefone: newUser.telefone,
       tokens: newUser.tokens,
       role: newUser.role,
       createdAt: newUser.createdAt
@@ -115,6 +117,7 @@ class User {
       id: user.id,
       nome: user.nome,
       email: user.email,
+      telefone: user.telefone,
       tokens: user.tokens,
       role: user.role,
       createdAt: user.createdAt

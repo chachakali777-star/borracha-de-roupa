@@ -53,6 +53,52 @@
       "tokens": 10,
       "role": "user",
       "createdAt": "2025-10-05T00:47:40.731Z"
+    },
+    {
+      "id": "95c0c29b-5f13-4f84-9856-a2ffe4ae50e5",
+      "nome": "wwwwwwwwwww",
+      "email": "w@w.www",
+      "senha": "$2a$10$kFjYfk2L4OsNGCGMET6Eje5fY.O7Egj1Ggo5z/HDq1CekdW.0hyhC",
+      "tokens": 10,
+      "role": "user",
+      "createdAt": "2025-10-09T15:35:30.061Z"
+    },
+    {
+      "id": "0b312072-7f8f-4534-85bb-671c2ac089d7",
+      "nome": "www",
+      "email": "ww@w.www",
+      "senha": "$2a$10$ChYXS.zZE8j2AYKs/WWa1OJYo9F9u/uhtZRdxEF0IhfI6/0vKwFnG",
+      "tokens": 10,
+      "role": "user",
+      "createdAt": "2025-10-09T15:38:18.684Z"
+    },
+    {
+      "id": "bad7af5f-a039-46e5-af83-ea3bd40af41c",
+      "nome": "wwww",
+      "email": "www@w.www",
+      "senha": "$2a$10$TqR/CJFhcFaBHs2sEudYUuazhd157Qby/IwPc2S0SFiNjq/RHsH2q",
+      "tokens": 10,
+      "role": "user",
+      "createdAt": "2025-10-09T15:49:13.338Z"
+    },
+    {
+      "id": "125d8ad5-8daf-4bcc-b11a-301ca6483eb5",
+      "nome": "wwww a",
+      "email": "asaas@a.aaa",
+      "senha": "$2a$10$zWoCqP8VmYQnKG4iB2RMA.odOjO/SihILtbuwggn1oiQfy/Ra1bKq",
+      "tokens": 10,
+      "role": "user",
+      "createdAt": "2025-10-09T15:52:05.318Z"
+    },
+    {
+      "id": "b1c7827e-9c65-4a0c-b9fb-66a45163a113",
+      "nome": "wwww asdfsd",
+      "email": "asaasaa@a.aaa",
+      "telefone": "www@w.www",
+      "senha": "$2a$10$P7KhmSMlDxMqJHBXSfcOUe/LNdfEUaHSPOR87sUnw35daBLoAI07O",
+      "tokens": 25,
+      "role": "user",
+      "createdAt": "2025-10-09T15:58:14.259Z"
     }
   ],
   "historico": [
@@ -326,6 +372,55 @@
       "id": "803e3347-2106-4ddc-9650-ad9aca033c9c",
       "usuario_id": "039186f2-b9c0-4354-936b-461a826f68b7",
       "data": "2025-10-05T00:47:40.737Z",
+      "tipo_acao": "user_created",
+      "descricao": "Usuário criado"
+    },
+    {
+      "id": "2a34d95b-d59f-45d5-b8fe-fa333eead976",
+      "usuario_id": "95c0c29b-5f13-4f84-9856-a2ffe4ae50e5",
+      "data": "2025-10-09T15:35:30.063Z",
+      "tipo_acao": "user_created",
+      "descricao": "Usuário criado"
+    },
+    {
+      "id": "1465d3ee-9fff-4733-9d4f-2849d9af1c8b",
+      "usuario_id": "0b312072-7f8f-4534-85bb-671c2ac089d7",
+      "data": "2025-10-09T15:38:18.686Z",
+      "tipo_acao": "user_created",
+      "descricao": "Usuário criado"
+    },
+    {
+      "id": "9ae4e3ba-47b3-4be3-a570-f48c59c6b12f",
+      "usuario_id": "e5d101ac-fcbe-4fa4-8edd-36c655a1d271",
+      "data": "2025-10-09T15:47:12.531Z",
+      "tipo_acao": "user_created",
+      "descricao": "Usuário criado"
+    },
+    {
+      "id": "51b438cd-22cf-41cb-afec-a20977653edc",
+      "usuario_id": "e5d101ac-fcbe-4fa4-8edd-36c655a1d271",
+      "data": "2025-10-09T15:48:06.792Z",
+      "tipo_acao": "user_deleted",
+      "descricao": "Usuário excluído"
+    },
+    {
+      "id": "74fb213a-579f-48ea-b434-683783c4bcd3",
+      "usuario_id": "bad7af5f-a039-46e5-af83-ea3bd40af41c",
+      "data": "2025-10-09T15:49:13.342Z",
+      "tipo_acao": "user_created",
+      "descricao": "Usuário criado"
+    },
+    {
+      "id": "f492a2a2-2a5e-46f9-ac08-fd2723386e55",
+      "usuario_id": "125d8ad5-8daf-4bcc-b11a-301ca6483eb5",
+      "data": "2025-10-09T15:52:05.324Z",
+      "tipo_acao": "user_created",
+      "descricao": "Usuário criado"
+    },
+    {
+      "id": "05a71428-8a77-4ccf-b465-9aa78dfc699e",
+      "usuario_id": "b1c7827e-9c65-4a0c-b9fb-66a45163a113",
+      "data": "2025-10-09T15:58:14.260Z",
       "tipo_acao": "user_created",
       "descricao": "Usuário criado"
     }

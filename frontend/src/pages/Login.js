@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import Navbar from '../components/Navbar';
-import LoginAgeGateModal from '../components/LoginAgeGateModal';
 import { trackLogin } from '../utils/metaPixel';
 
 const Login = () => {
@@ -172,9 +171,6 @@ const Login = () => {
           </div>
         </div>
       </div>
-
-      {/* Age Gate Modal */}
-      <LoginAgeGateModal />
     </div>
   );
 };

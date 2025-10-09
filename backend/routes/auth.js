@@ -8,13 +8,13 @@ const router = express.Router();
 // Registro
 router.post('/register', async (req, res) => {
   try {
-    const { nome, email, senha } = req.body;
+    const { nome, email, telefone, senha } = req.body;
 
-    if (!nome || !email || !senha) {
+    if (!nome || !email || !telefone || !senha) {
       return res.status(400).json({ message: 'Todos os campos são obrigatórios' });
     }
 
-    const user = await User.create({ nome, email, senha });
+    const user = await User.create({ nome, email, telefone, senha });
     
     const token = jwt.sign(
       { id: user.id, email: user.email, role: user.role },

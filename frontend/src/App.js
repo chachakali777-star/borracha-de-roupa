@@ -13,14 +13,12 @@ import Admin from './pages/Admin';
 import Dashboard from './pages/Dashboard';
 import Tokens from './pages/Tokens';
 import Profile from './pages/Profile';
-import AgeGateModal from './components/AgeGateModal';
 
 function App() {
   return (
     <AuthProvider>
       <Router>
         <div className="min-h-screen h-nsfw">
-          <AgeGateModal />
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
