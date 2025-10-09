@@ -48,14 +48,14 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-900">
+    <div className="min-h-screen bg-pink-50">
       <Navbar />
       
       <div className="flex items-center justify-center min-h-screen pt-20">
         {/* Background Effects */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-40 -right-40 w-80 h-80 bg-rose-600/20 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse"></div>
-          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-red-600/20 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse delay-1000"></div>
+          <div className="absolute -top-40 -right-40 w-80 h-80 bg-pink-300/30 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse"></div>
+          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-pink-400/30 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse delay-1000"></div>
         </div>
         
         <div className="relative z-10 max-w-md w-full space-y-8 py-12 px-4 sm:px-6 lg:px-8">
@@ -66,14 +66,14 @@ const Login = () => {
                 <img src="/img/logo.png" alt="Logo" className="w-full h-full object-contain" />
               </div>
             </div>
-            <h2 className="text-4xl font-bold text-rose-500 mb-2">
+            <h2 className="text-4xl font-bold text-pink-600 mb-2">
               Borracha de Roupa
             </h2>
-            <p className="mt-4 text-zinc-300">
+            <p className="mt-4 text-gray-600">
               Faça login para acessar sua conta ou{' '}
               <Link
                 to="/register"
-                className="font-medium text-rose-400 hover:text-rose-500 transition-colors duration-300"
+                className="font-medium text-pink-500 hover:text-pink-600 transition-colors duration-300"
               >
                 crie uma conta
               </Link>
@@ -81,15 +81,15 @@ const Login = () => {
             
             {/* Mensagem de redirecionamento */}
             {redirectTo === '/upload' && (
-              <div className="mt-4 p-3 bg-rose-950/30 border border-rose-500/30 rounded-lg">
-                <p className="text-rose-400 text-sm">
+              <div className="mt-4 p-3 bg-pink-100 border border-pink-200 rounded-lg">
+                <p className="text-pink-600 text-sm">
                   ✨ Após fazer login, você poderá gerar imagens com IA
                 </p>
               </div>
             )}
             {redirectTo === '/tokens' && (
-              <div className="mt-4 p-3 bg-rose-950/30 border border-rose-500/30 rounded-lg">
-                <p className="text-rose-400 text-sm">
+              <div className="mt-4 p-3 bg-pink-100 border border-pink-200 rounded-lg">
+                <p className="text-pink-600 text-sm">
                   💎 Após fazer login, você poderá comprar tokens
                 </p>
               </div>
@@ -97,16 +97,16 @@ const Login = () => {
           </div>
 
           {/* Login Form */}
-          <div className="bg-zinc-900/90 rounded-3xl shadow-xl p-8 border border-rose-500/30">
+          <div className="bg-white rounded-3xl shadow-xl p-8 border border-pink-200">
             <form className="space-y-6" onSubmit={handleSubmit}>
               <div className="space-y-4">
                 <div>
-                  <label htmlFor="email" className="block text-white text-sm font-medium mb-2">
+                  <label htmlFor="email" className="block text-gray-700 text-sm font-medium mb-2">
                     Email
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <svg className="h-5 w-5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
                       </svg>
                     </div>
@@ -115,7 +115,7 @@ const Login = () => {
                       name="email"
                       type="email"
                       required
-                      className="w-full pl-10 pr-4 py-3 bg-zinc-800 border border-zinc-700 rounded-xl text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all duration-200"
+                      className="w-full pl-10 pr-4 py-3 bg-pink-50 border border-pink-200 rounded-xl text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all duration-200"
                       placeholder="seu@email.com"
                       value={formData.email}
                       onChange={handleChange}
@@ -124,12 +124,12 @@ const Login = () => {
                 </div>
 
                 <div>
-                  <label htmlFor="password" className="block text-white text-sm font-medium mb-2">
+                  <label htmlFor="password" className="block text-gray-700 text-sm font-medium mb-2">
                     Senha
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <svg className="h-5 w-5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                       </svg>
                     </div>
@@ -138,7 +138,7 @@ const Login = () => {
                       name="password"
                       type="password"
                       required
-                      className="w-full pl-10 pr-4 py-3 bg-zinc-800 border border-zinc-700 rounded-xl text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all duration-200"
+                      className="w-full pl-10 pr-4 py-3 bg-pink-50 border border-pink-200 rounded-xl text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all duration-200"
                       placeholder="••••••••"
                       value={formData.password}
                       onChange={handleChange}
@@ -156,7 +156,7 @@ const Login = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-rose-600 hover:bg-rose-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 transform hover:scale-[1.02] shadow-lg hover:shadow-rose-500/25 disabled:opacity-50 disabled:transform-none disabled:cursor-not-allowed"
+                className="w-full bg-pink-500 hover:bg-pink-600 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 transform hover:scale-[1.02] shadow-lg hover:shadow-pink-500/25 disabled:opacity-50 disabled:transform-none disabled:cursor-not-allowed"
               >
                 {loading ? (
                   <div className="flex items-center justify-center">

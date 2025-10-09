@@ -30,7 +30,7 @@ const Undress = () => {
   // Mostrar loading se ainda estiver carregando
   if (authLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-100 via-purple-50 to-white">
+      <div className="min-h-screen flex items-center justify-center bg-pink-50">
         <div className="text-center">
           <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-pink-500 mx-auto mb-4"></div>
           <p className="text-gray-600">Carregando...</p>
@@ -113,7 +113,7 @@ const Undress = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-900">
+    <div className="min-h-screen bg-pink-50">
       {/* Navbar */}
       <Navbar />
       
@@ -135,7 +135,7 @@ const Undress = () => {
         </div>
 
         {/* Info Card */}
-        <div className="bg-zinc-900/90 rounded-2xl shadow-lg p-4 mb-6 text-center border border-rose-500/30">
+        <div className="bg-white rounded-2xl shadow-lg p-4 mb-6 text-center border border-pink-200">
           <div className="text-pink-600 text-lg font-semibold mb-2">
             🎭 Remover Roupas com IA
           </div>
@@ -159,28 +159,28 @@ const Undress = () => {
           )}
           
           {/* Token Info Card */}
-          <div className="bg-gradient-to-br from-zinc-900/95 to-zinc-800/95 rounded-2xl shadow-lg p-6 mb-6 border border-rose-500/30 backdrop-blur-sm">
+          <div className="bg-pink-100 rounded-2xl shadow-lg p-6 mb-6 border border-pink-200">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-4">
-                <div className="w-14 h-14 bg-gradient-to-br from-rose-500 to-rose-600 rounded-xl flex items-center justify-center shadow-lg">
+                <div className="w-14 h-14 bg-pink-500 rounded-xl flex items-center justify-center shadow-lg">
                   <span className="text-white text-2xl">💎</span>
                 </div>
                 <div>
-                  <p className="text-3xl font-bold text-white">{user?.tokens || 0}</p>
-                  <p className="text-zinc-400 text-sm">Tokens disponíveis</p>
+                  <p className="text-3xl font-bold text-pink-600">{user?.tokens || 0}</p>
+                  <p className="text-gray-600 text-sm">Tokens disponíveis</p>
                 </div>
               </div>
               <div className="flex flex-col items-end space-y-2">
                 <button
                   onClick={() => navigate('/tokens')}
-                  className="bg-rose-600 hover:bg-rose-700 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-all duration-200 shadow-md"
+                  className="bg-pink-500 hover:bg-pink-600 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-all duration-200 shadow-md"
                 >
                   + Comprar
                 </button>
                 {!user?.isVip && (
                   <button
                     onClick={() => window.open('https://go.nitropagamentos.com/3pbth', '_blank')}
-                    className="bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-black text-xs font-bold px-3 py-1.5 rounded-lg transition-all duration-200 shadow-md"
+                    className="bg-yellow-400 hover:bg-yellow-500 text-black text-xs font-bold px-3 py-1.5 rounded-lg transition-all duration-200 shadow-md"
                   >
                     👑 VIP
                   </button>
@@ -190,7 +190,7 @@ const Undress = () => {
         </div>
         </div>
 
-        <div className="bg-zinc-900/90 rounded-2xl shadow-lg p-6 mb-20 border border-rose-500/30">
+        <div className="bg-white rounded-2xl shadow-lg p-6 mb-20 border border-pink-200">
           {!result ? (
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Upload da imagem */}
@@ -251,7 +251,7 @@ const Undress = () => {
               <button
                 type="submit"
                 disabled={loading || !imageFile}
-                className="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-4 px-6 rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-pink-500 hover:bg-pink-600 text-white font-bold py-4 px-6 rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {loading ? (
                   <div className="flex items-center justify-center space-x-2">
@@ -277,7 +277,7 @@ const Undress = () => {
                 <h3 className="text-lg font-bold text-gray-800 mb-4">
                   ✨ Resultado Final
                 </h3>
-                <div className="bg-gray-50 border border-gray-200 rounded-2xl p-4">
+                <div className="bg-pink-50 border border-pink-200 rounded-2xl p-4">
                   <img
                     src={`http://localhost:5000${result.processedImageUrl}`}
                     alt="Resultado do processamento"

@@ -147,7 +147,7 @@ const Dashboard = () => {
   // Mostrar loading se ainda estiver carregando
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-100 via-purple-50 to-white">
+      <div className="min-h-screen flex items-center justify-center bg-pink-50">
         <div className="text-center">
           <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-pink-500 mx-auto mb-4"></div>
           <p className="text-gray-600">Carregando...</p>
@@ -157,7 +157,7 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-pink-50">
       {/* Navbar */}
       <Navbar />
       
@@ -165,21 +165,21 @@ const Dashboard = () => {
       <div className="max-w-md mx-auto px-4 py-6 pt-20">
         {/* Mensagem de boas-vindas para usuários não logados */}
         {!isLoggedIn && (
-          <div className="bg-gradient-to-r from-rose-600 to-red-600 text-white rounded-2xl p-4 mb-6 text-center border border-rose-500/50">
-            <h2 className="text-lg font-bold mb-2">✨ Bem-vindo ao Borracha de Roupas!</h2>
-            <p className="text-sm opacity-90 mb-3">
+          <div className="bg-pink-100 text-gray-800 rounded-2xl p-4 mb-6 text-center border border-pink-200">
+            <h2 className="text-lg font-bold mb-2 text-pink-600">✨ Bem-vindo ao Borracha de Roupas!</h2>
+            <p className="text-sm mb-3 text-gray-600">
               Explore nossa plataforma de IA para experimentar roupas virtualmente
             </p>
             <div className="flex space-x-2 justify-center">
               <button
                 onClick={() => navigate('/register')}
-                className="bg-white text-rose-600 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-zinc-100 transition-colors"
+                className="bg-pink-500 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-pink-600 transition-colors"
               >
                 Criar Conta
               </button>
               <button
                 onClick={() => navigate('/login')}
-                className="bg-white/20 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-white/30 transition-colors"
+                className="bg-pink-200 text-pink-600 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-pink-300 transition-colors"
               >
                 Fazer Login
               </button>
@@ -188,28 +188,28 @@ const Dashboard = () => {
         )}
 
         {/* Token Info Card */}
-        <div className="bg-gradient-to-br from-zinc-900/95 to-zinc-800/95 rounded-2xl shadow-lg p-6 mb-6 border border-rose-500/30 backdrop-blur-sm">
+        <div className="bg-pink-100 rounded-2xl shadow-lg p-6 mb-6 border border-pink-200">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <div className="w-14 h-14 bg-gradient-to-br from-rose-500 to-rose-600 rounded-xl flex items-center justify-center shadow-lg">
+              <div className="w-14 h-14 bg-pink-500 rounded-xl flex items-center justify-center shadow-lg">
                 <span className="text-white text-2xl">💎</span>
               </div>
               <div>
-                <p className="text-3xl font-bold text-white">{user?.tokens || 0}</p>
-                <p className="text-zinc-400 text-sm">Tokens disponíveis</p>
+                <p className="text-3xl font-bold text-pink-600">{user?.tokens || 0}</p>
+                <p className="text-gray-600 text-sm">Tokens disponíveis</p>
               </div>
             </div>
             <div className="flex flex-col items-end space-y-2">
               <button
                 onClick={() => setShowSimpleModal(true)}
-                className="bg-rose-600 hover:bg-rose-700 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-all duration-200 shadow-md"
+                className="bg-pink-500 hover:bg-pink-600 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-all duration-200 shadow-md"
               >
                 + Comprar
               </button>
               {!user?.isVip && (
                 <button
                   onClick={() => setShowVipModal(true)}
-                  className="bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-black text-xs font-bold px-3 py-1.5 rounded-lg transition-all duration-200 shadow-md"
+                  className="bg-yellow-400 hover:bg-yellow-500 text-black text-xs font-bold px-3 py-1.5 rounded-lg transition-all duration-200 shadow-md"
                 >
                   👑 VIP
                 </button>
@@ -222,11 +222,11 @@ const Dashboard = () => {
         <div className="mb-6">
           <div
             onClick={() => handleCategoryClick(categories[0])}
-            className="bg-zinc-900/90 rounded-2xl shadow-lg overflow-hidden cursor-pointer transform transition-all duration-200 hover:scale-105 hover:shadow-2xl border border-rose-500/30"
+            className="bg-white rounded-2xl shadow-lg overflow-hidden cursor-pointer transform transition-all duration-200 hover:scale-105 hover:shadow-xl border border-pink-200"
           >
             {/* Featured Image */}
             <div 
-              className="relative bg-gradient-to-br from-rose-400 to-amber-300 flex items-center justify-center"
+              className="relative bg-gradient-to-br from-pink-200 to-pink-300 flex items-center justify-center"
               style={{ 
                 height: '320px', 
                 minHeight: '320px'
@@ -247,11 +247,11 @@ const Dashboard = () => {
             </div>
 
             {/* Featured Info */}
-            <div className="p-4 text-center bg-zinc-900">
-              <h3 className="font-bold text-white text-lg mb-1">
+            <div className="p-4 text-center bg-white">
+              <h3 className="font-bold text-gray-800 text-lg mb-1">
                 {categories[0].title}
               </h3>
-              <p className="text-zinc-400 text-sm">
+              <p className="text-gray-600 text-sm">
                 {categories[0].description}
                 </p>
               </div>
@@ -264,10 +264,10 @@ const Dashboard = () => {
             <div
               key={category.id}
               onClick={() => handleCategoryClick(category)}
-              className="bg-zinc-900/90 rounded-2xl shadow-lg overflow-hidden cursor-pointer transform transition-all duration-200 hover:scale-105 hover:shadow-2xl relative border border-rose-500/30"
+              className="bg-white rounded-2xl shadow-lg overflow-hidden cursor-pointer transform transition-all duration-200 hover:scale-105 hover:shadow-xl relative border border-pink-200"
             >
               {/* Media Content */}
-              <div className="relative h-32 bg-gradient-to-br from-rose-200 to-amber-200 flex items-center justify-center">
+              <div className="relative h-32 bg-gradient-to-br from-pink-200 to-pink-300 flex items-center justify-center">
                 <NSFWBadge />
                 {category.image ? (
                   <img 
@@ -290,11 +290,11 @@ const Dashboard = () => {
           </div>
 
                 {/* Category Info */}
-                <div className="p-3 bg-zinc-900">
-                  <h3 className="font-semibold text-white text-center mb-1 text-sm">
+                <div className="p-3 bg-white">
+                  <h3 className="font-semibold text-gray-800 text-center mb-1 text-sm">
                     {category.title}
                   </h3>
-                  <p className="text-zinc-400 text-xs text-center">
+                  <p className="text-gray-600 text-xs text-center">
                     {category.description}
                   </p>
                 </div>
@@ -306,17 +306,17 @@ const Dashboard = () => {
 
       {/* VIP Modal */}
       {showVipModal && (
-        <div className="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-zinc-900 rounded-2xl shadow-xl max-w-md w-full p-6 border-2 border-rose-500/50">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl shadow-xl max-w-md w-full p-6 border-2 border-pink-200">
             {/* Header */}
               <div className="text-center mb-6">
               <div className="w-16 h-16 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-3xl">👑</span>
           </div>
-              <h2 className="text-2xl font-bold text-white mb-2">
+              <h2 className="text-2xl font-bold text-gray-800 mb-2">
                 Upgrade para VIP
               </h2>
-              <p className="text-zinc-300">
+              <p className="text-gray-600">
                 Desbloqueie todos os recursos premium
                         </p>
                       </div>
@@ -329,32 +329,32 @@ const Dashboard = () => {
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
                 </div>
-                <span className="text-zinc-200">Acesso a todos os recursos</span>
+                <span className="text-gray-700">Acesso a todos os recursos</span>
               </div>
               <div className="flex items-center space-x-3">
-                <div className="w-6 h-6 bg-green-500/20 rounded-full flex items-center justify-center">
-                  <svg className="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center">
+                  <svg className="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
                   </div>
-                <span className="text-zinc-200">Processamento ilimitado</span>
+                <span className="text-gray-700">Processamento ilimitado</span>
                   </div>
               <div className="flex items-center space-x-3">
-                <div className="w-6 h-6 bg-green-500/20 rounded-full flex items-center justify-center">
-                  <svg className="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center">
+                  <svg className="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
                   </div>
-                <span className="text-zinc-200">Suporte prioritário</span>
+                <span className="text-gray-700">Suporte prioritário</span>
                   </div>
             </div>
             
             {/* Price */}
               <div className="text-center mb-6">
-              <div className="text-3xl font-bold text-rose-500 mb-1">
+              <div className="text-3xl font-bold text-pink-600 mb-1">
                 R$ 49,90
                 </div>
-              <div className="text-zinc-400 text-sm">
+              <div className="text-gray-600 text-sm">
                 Pagamento único
                     </div>
                   </div>
@@ -363,13 +363,13 @@ const Dashboard = () => {
             <div className="space-y-3">
               <button
                 onClick={handleVipPayment}
-                className="w-full bg-gradient-to-r from-rose-600 to-purple-600 hover:from-rose-700 hover:to-purple-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200"
+                className="w-full bg-pink-500 hover:bg-pink-600 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200"
               >
                 💰 Comprar VIP Agora
               </button>
               <button
                 onClick={() => setShowVipModal(false)}
-                className="w-full bg-zinc-700 hover:bg-zinc-600 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200"
+                className="w-full bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-3 px-6 rounded-xl transition-all duration-200"
               >
                 Cancelar
               </button>

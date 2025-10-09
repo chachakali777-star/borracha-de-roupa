@@ -33,7 +33,7 @@ const Upload = () => {
   // Mostrar loading se ainda estiver carregando
   if (authLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-100 via-purple-50 to-white">
+      <div className="min-h-screen flex items-center justify-center bg-pink-50">
         <div className="text-center">
           <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-pink-500 mx-auto mb-4"></div>
           <p className="text-gray-600">Carregando...</p>
@@ -155,7 +155,7 @@ const Upload = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-900">
+    <div className="min-h-screen bg-pink-50">
       {/* Navbar */}
       <Navbar />
       
@@ -180,28 +180,28 @@ const Upload = () => {
           )}
           
           {/* Token Info Card */}
-          <div className="bg-gradient-to-br from-zinc-900/95 to-zinc-800/95 rounded-2xl shadow-lg p-6 mb-6 border border-rose-500/30 backdrop-blur-sm">
+          <div className="bg-pink-100 rounded-2xl shadow-lg p-6 mb-6 border border-pink-200">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-4">
-                <div className="w-14 h-14 bg-gradient-to-br from-rose-500 to-rose-600 rounded-xl flex items-center justify-center shadow-lg">
+                <div className="w-14 h-14 bg-pink-500 rounded-xl flex items-center justify-center shadow-lg">
                   <span className="text-white text-2xl">💎</span>
                 </div>
                 <div>
-                  <p className="text-3xl font-bold text-white">{user?.tokens || 0}</p>
-                  <p className="text-zinc-400 text-sm">Tokens disponíveis</p>
+                  <p className="text-3xl font-bold text-pink-600">{user?.tokens || 0}</p>
+                  <p className="text-gray-600 text-sm">Tokens disponíveis</p>
                 </div>
               </div>
               <div className="flex flex-col items-end space-y-2">
                 <button
                   onClick={() => navigate('/tokens')}
-                  className="bg-rose-600 hover:bg-rose-700 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-all duration-200 shadow-md"
+                  className="bg-pink-500 hover:bg-pink-600 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-all duration-200 shadow-md"
                 >
                   + Comprar
                 </button>
                 {!user?.isVip && (
                   <button
                     onClick={() => window.open('https://go.nitropagamentos.com/3pbth', '_blank')}
-                    className="bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-black text-xs font-bold px-3 py-1.5 rounded-lg transition-all duration-200 shadow-md"
+                    className="bg-yellow-400 hover:bg-yellow-500 text-black text-xs font-bold px-3 py-1.5 rounded-lg transition-all duration-200 shadow-md"
                   >
                     👑 VIP
                   </button>
@@ -211,17 +211,17 @@ const Upload = () => {
         </div>
           </div>
 
-        <div className="bg-zinc-900/90 rounded-2xl shadow-lg p-6 mb-20 border border-rose-500/30">
+        <div className="bg-white rounded-2xl shadow-lg p-6 mb-20 border border-pink-200">
 
             {!result ? (
             <form onSubmit={handleSubmit} className="space-y-6">
                   {/* Upload da pessoa */}
               <div>
                 <div className="text-center mb-4">
-                  <h3 className="text-lg font-bold text-white mb-1">👤 Sua Foto</h3>
-                  <p className="text-zinc-400 text-sm">Faça upload de uma foto sua clara</p>
+                  <h3 className="text-lg font-bold text-gray-800 mb-1">👤 Sua Foto</h3>
+                  <p className="text-gray-600 text-sm">Faça upload de uma foto sua clara</p>
                     </div>
-                <div className="border-2 border-dashed border-rose-500/50 rounded-2xl p-6 text-center hover:border-rose-500 transition-all duration-300 bg-zinc-800/50">
+                <div className="border-2 border-dashed border-pink-300 rounded-2xl p-6 text-center hover:border-pink-400 transition-all duration-300 bg-pink-50">
                       <input
                         type="file"
                         accept="image/*"
@@ -245,18 +245,18 @@ const Upload = () => {
                             </div>
                           </div>
                         ) : (
-                      <div className="w-32 h-32 bg-rose-950/50 rounded-xl flex items-center justify-center border-2 border-rose-500/30">
+                      <div className="w-32 h-32 bg-pink-100 rounded-xl flex items-center justify-center border-2 border-pink-300">
                             <div className="text-center">
-                          <span className="text-4xl mb-1 block text-rose-400">👤</span>
-                          <span className="text-rose-400 text-xs">Clique para selecionar</span>
+                          <span className="text-4xl mb-1 block text-pink-500">👤</span>
+                          <span className="text-pink-600 text-xs">Clique para selecionar</span>
                             </div>
                           </div>
                         )}
                         <div className="text-center">
-                      <span className="text-white text-sm font-medium block">
+                      <span className="text-gray-800 text-sm font-medium block">
                             {personFile ? personFile.name : 'Nenhuma foto selecionada'}
                           </span>
-                      <p className="text-zinc-400 text-xs mt-1">
+                      <p className="text-gray-600 text-xs mt-1">
                         JPG, PNG, GIF (máx. 10MB)
                           </p>
                         </div>
@@ -267,10 +267,10 @@ const Upload = () => {
                   {/* Upload da roupa */}
               <div>
                 <div className="text-center mb-4">
-                  <h3 className="text-lg font-bold text-white mb-1">👕 Roupa</h3>
-                  <p className="text-zinc-400 text-sm">Faça upload da roupa que deseja experimentar</p>
+                  <h3 className="text-lg font-bold text-gray-800 mb-1">👕 Roupa</h3>
+                  <p className="text-gray-600 text-sm">Faça upload da roupa que deseja experimentar</p>
                     </div>
-                <div className="border-2 border-dashed border-purple-500/50 rounded-2xl p-6 text-center hover:border-purple-500 transition-all duration-300 bg-zinc-800/50">
+                <div className="border-2 border-dashed border-pink-300 rounded-2xl p-6 text-center hover:border-pink-400 transition-all duration-300 bg-pink-50">
                       <input
                         type="file"
                         accept="image/*"
@@ -294,18 +294,18 @@ const Upload = () => {
                             </div>
                           </div>
                         ) : (
-                      <div className="w-32 h-32 bg-purple-950/50 rounded-xl flex items-center justify-center border-2 border-purple-500/30">
+                      <div className="w-32 h-32 bg-pink-100 rounded-xl flex items-center justify-center border-2 border-pink-300">
                             <div className="text-center">
-                          <span className="text-4xl mb-1 block text-purple-400">👕</span>
-                          <span className="text-purple-400 text-xs">Clique para selecionar</span>
+                          <span className="text-4xl mb-1 block text-pink-500">👕</span>
+                          <span className="text-pink-600 text-xs">Clique para selecionar</span>
                             </div>
                           </div>
                         )}
                         <div className="text-center">
-                      <span className="text-white text-sm font-medium block">
+                      <span className="text-gray-800 text-sm font-medium block">
                             {clothingFile ? clothingFile.name : 'Nenhuma roupa selecionada'}
                           </span>
-                      <p className="text-zinc-400 text-xs mt-1">
+                      <p className="text-gray-600 text-xs mt-1">
                         JPG, PNG, GIF (máx. 10MB)
                           </p>
                         </div>
@@ -322,7 +322,7 @@ const Upload = () => {
                     <button
                       type="submit"
                       disabled={loading || !personFile || !clothingFile}
-                  className="w-full bg-rose-600 hover:bg-rose-700 text-white font-bold py-4 px-6 rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full bg-pink-500 hover:bg-pink-600 text-white font-bold py-4 px-6 rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                     {loading ? (
                   <div className="flex items-center justify-center space-x-2">
@@ -345,10 +345,10 @@ const Upload = () => {
 
               {/* Result Image */}
               <div className="text-center">
-                <h3 className="text-lg font-bold text-white mb-4">
+                <h3 className="text-lg font-bold text-gray-800 mb-4">
                   ✨ Resultado Final
                 </h3>
-                <div className="bg-zinc-800/50 border border-rose-500/30 rounded-2xl p-4">
+                <div className="bg-pink-50 border border-pink-200 rounded-2xl p-4">
                     <img
                       src={`http://localhost:5000${result.processedImageUrl}`}
                       alt="Resultado do Virtual Try-On"

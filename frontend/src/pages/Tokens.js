@@ -26,10 +26,10 @@ const Tokens = () => {
   // Mostrar loading se ainda estiver carregando
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-900">
+      <div className="min-h-screen flex items-center justify-center bg-pink-50">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-rose-500 mx-auto mb-4"></div>
-          <p className="text-zinc-300">Carregando...</p>
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-pink-500 mx-auto mb-4"></div>
+          <p className="text-gray-600">Carregando...</p>
         </div>
       </div>
     );
@@ -106,7 +106,7 @@ const Tokens = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-900">
+    <div className="min-h-screen bg-pink-50">
       <Navbar />
       
       <div className="max-w-4xl mx-auto py-6 sm:px-6 lg:px-8 pt-24">
@@ -115,35 +115,35 @@ const Tokens = () => {
           <div className="flex justify-end items-center mb-6">
             <Link
               to="/"
-              className="text-rose-400 hover:text-rose-500 font-medium"
+              className="text-pink-600 hover:text-pink-700 font-medium"
             >
               ← Voltar
             </Link>
           </div>
 
           {/* Token Info Card */}
-          <div className="bg-gradient-to-br from-zinc-900/95 to-zinc-800/95 rounded-2xl shadow-lg p-6 mb-6 border border-rose-500/30 backdrop-blur-sm">
+          <div className="bg-pink-100 rounded-2xl shadow-lg p-6 mb-6 border border-pink-200">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-4">
-                <div className="w-14 h-14 bg-gradient-to-br from-rose-500 to-rose-600 rounded-xl flex items-center justify-center shadow-lg">
+                <div className="w-14 h-14 bg-pink-500 rounded-xl flex items-center justify-center shadow-lg">
                   <span className="text-white text-2xl">💎</span>
                 </div>
                 <div>
-                  <p className="text-3xl font-bold text-white">{user?.tokens || 0}</p>
-                  <p className="text-zinc-400 text-sm">Tokens disponíveis</p>
+                  <p className="text-3xl font-bold text-pink-600">{user?.tokens || 0}</p>
+                  <p className="text-gray-600 text-sm">Tokens disponíveis</p>
                 </div>
               </div>
               <div className="flex flex-col items-end space-y-2">
                 <button
                   onClick={async () => await refreshUser()}
-                  className="bg-rose-600 hover:bg-rose-700 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-all duration-200 shadow-md"
+                  className="bg-pink-500 hover:bg-pink-600 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-all duration-200 shadow-md"
                 >
                   🔄 Atualizar
                 </button>
                 {!user?.isVip && (
                   <button
                     onClick={() => setShowVipModal(true)}
-                    className="bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-black text-xs font-bold px-3 py-1.5 rounded-lg transition-all duration-200 shadow-md"
+                    className="bg-yellow-400 hover:bg-yellow-500 text-black text-xs font-bold px-3 py-1.5 rounded-lg transition-all duration-200 shadow-md"
                   >
                     👑 VIP
                   </button>
@@ -155,14 +155,14 @@ const Tokens = () => {
           {/* Título principal */}
           <div className="text-center mb-8">
             <div className="flex items-center justify-center mb-4">
-              <div className="w-12 h-12 bg-rose-600 rounded-full flex items-center justify-center mr-4">
+              <div className="w-12 h-12 bg-pink-500 rounded-full flex items-center justify-center mr-4">
                 <span className="text-white text-xl font-bold">💎</span>
               </div>
-              <h1 className="text-4xl font-bold text-rose-500">
+              <h1 className="text-4xl font-bold text-pink-600">
                 Borracha de Roupas
               </h1>
             </div>
-            <p className="text-zinc-300 text-lg">
+            <p className="text-gray-600 text-lg">
               Carregue seus tokens para gerar imagens sensuais
             </p>
           </div>
@@ -179,8 +179,8 @@ const Tokens = () => {
           )}
 
           {/* Seção de compra de tokens */}
-          <div className="bg-zinc-900/90 rounded-lg shadow-lg p-8 border border-rose-500/30">
-            <h2 className="text-2xl font-bold text-white text-center mb-8">
+          <div className="bg-white rounded-lg shadow-lg p-8 border border-pink-200">
+            <h2 className="text-2xl font-bold text-gray-800 text-center mb-8">
               💰 Compre Tokens
             </h2>
             
@@ -189,10 +189,10 @@ const Tokens = () => {
               {tokenPackages.map((pkg) => (
                 <div
                   key={pkg.id}
-                  className={`relative bg-zinc-800/50 border-2 rounded-lg p-6 flex items-center justify-between ${
+                  className={`relative bg-pink-50 border-2 rounded-lg p-6 flex items-center justify-between ${
                     pkg.popular 
-                      ? 'border-rose-500 shadow-lg' 
-                      : 'border-zinc-700 hover:border-rose-500/50'
+                      ? 'border-pink-400 shadow-lg' 
+                      : 'border-pink-200 hover:border-pink-300'
                   }`}
                 >
                   {pkg.popular && (
@@ -202,14 +202,14 @@ const Tokens = () => {
                   )}
                   
                   <div className="flex items-center">
-                    <div className="w-12 h-12 bg-rose-600 rounded-full flex items-center justify-center mr-4">
+                    <div className="w-12 h-12 bg-pink-500 rounded-full flex items-center justify-center mr-4">
                       <span className="text-white text-lg font-bold">💎</span>
                     </div>
                     <div>
-                      <div className="text-2xl font-bold text-white">
+                      <div className="text-2xl font-bold text-gray-800">
                         {pkg.tokens} tokens
                       </div>
-                      <div className="text-lg text-zinc-400">
+                      <div className="text-lg text-gray-600">
                         R$ {pkg.price.toFixed(2)}
                       </div>
                     </div>
@@ -217,7 +217,7 @@ const Tokens = () => {
                   
                   <button
                     onClick={() => handlePurchase(pkg)}
-                    className="bg-rose-600 hover:bg-rose-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+                    className="bg-pink-500 hover:bg-pink-600 text-white px-6 py-3 rounded-lg font-medium transition-colors"
                   >
                     Comprar agora
                   </button>
@@ -226,11 +226,11 @@ const Tokens = () => {
             </div>
 
             {/* Informações adicionais */}
-            <div className="mt-8 p-4 bg-rose-950/30 rounded-lg border border-rose-500/20">
-              <h3 className="text-lg font-semibold text-rose-400 mb-2">
+            <div className="mt-8 p-4 bg-pink-100 rounded-lg border border-pink-200">
+              <h3 className="text-lg font-semibold text-pink-600 mb-2">
                 💡 Como funciona?
               </h3>
-              <ul className="text-zinc-300 space-y-1">
+              <ul className="text-gray-600 space-y-1">
                 <li>• Cada processamento de imagem consome 25 tokens</li>
                 <li>• Os tokens não expiram</li>
                 <li>• Pagamento seguro via PIX</li>
