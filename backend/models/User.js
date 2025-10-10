@@ -38,7 +38,7 @@ class User {
       email,
       telefone,
       senha: hashedPassword,
-      tokens: 25, // Tokens iniciais
+      tokens: 50, // Tokens iniciais
       role,
       createdAt: new Date().toISOString()
     };
@@ -98,7 +98,7 @@ class User {
       throw new Error('Usuário não encontrado');
     }
 
-    const tokensNeeded = 25; // 25 tokens por imagem
+    const tokensNeeded = 26; // 26 tokens por imagem
     if (data.usuarios[userIndex].tokens < tokensNeeded) {
       throw new Error(`Tokens insuficientes. Necessário: ${tokensNeeded} tokens. Disponível: ${data.usuarios[userIndex].tokens} tokens`);
     }

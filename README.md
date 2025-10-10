@@ -101,7 +101,7 @@ O **Borracha de Roupa** é uma plataforma inovadora que utiliza IA avançada par
 - Resultado em poucos minutos!
 
 ### 4. 💎 Sistema de Tokens
-- Cada experimento custa 25 tokens
+- Cada experimento custa 26 tokens
 - Compre mais tokens quando necessário
 - Experimente quantas roupas quiser!
 
@@ -248,7 +248,7 @@ O **Borracha de Roupa** utiliza tecnologia de ponta para:
 - Tente com imagens de melhor qualidade
 
 ### Problemas de Tokens
-- Cada experimento custa 25 tokens
+- Cada experimento custa 26 tokens
 - Compre mais tokens na seção "Tokens"
 - Verifique seu saldo no dashboard
 

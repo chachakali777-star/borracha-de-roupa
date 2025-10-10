@@ -99,6 +99,16 @@
       "tokens": 25,
       "role": "user",
       "createdAt": "2025-10-09T15:58:14.259Z"
+    },
+    {
+      "id": "badd9795-7631-48bb-b15f-4634204520c5",
+      "nome": "aaaaaaa",
+      "email": "aaaaaaa@aaaaa.aaa",
+      "telefone": "51997162624",
+      "senha": "$2a$10$qij78gF6WQgvmlhXMrrH8uh3TvY1udHADWBjcP8IriPBicHpAiUV2",
+      "tokens": 25,
+      "role": "user",
+      "createdAt": "2025-10-10T20:46:00.012Z"
     }
   ],
   "historico": [
@@ -423,6 +433,20 @@
       "data": "2025-10-09T15:58:14.260Z",
       "tipo_acao": "user_created",
       "descricao": "Usuário criado"
+    },
+    {
+      "id": "9e32bf8d-262d-4504-99f0-702b8810bf3d",
+      "usuario_id": "badd9795-7631-48bb-b15f-4634204520c5",
+      "data": "2025-10-10T20:46:00.023Z",
+      "tipo_acao": "user_created",
+      "descricao": "Usuário criado"
+    },
+    {
+      "id": "1bfc26bb-6c29-4aed-956d-91743eca3294",
+      "usuario_id": "badd9795-7631-48bb-b15f-4634204520c5",
+      "data": "2025-10-10T20:51:59.780Z",
+      "tipo_acao": "token_consumed",
+      "descricao": "25 tokens consumidos para geração de imagem"
     }
   ]
 }

@@ -85,10 +85,13 @@ router.post('/process', authenticateToken, upload.single('image'), async (req, r
     // Limpar arquivo temporário
     fs.unlinkSync(req.file.path);
 
+    // Pegar tokens atualizados após consumo
+    const updatedUser = User.findById(req.user.id);
+    
     res.json({
       message: 'Imagem processada com sucesso',
       processedImageUrl: `/uploads/processed-${req.file.filename}`,
-      tokensRemaining: user.tokens - 1
+      tokensRemaining: updatedUser.tokens
     });
 
   } catch (error) {
@@ -176,7 +179,7 @@ router.post('/process-two-images', authenticateToken, upload.fields([
     }
 
     if (user.tokens < 25) {
-      return res.status(400).json({ message: 'Tokens insuficientes. Necessário: 25 tokens. Disponível: ' + user.tokens + ' tokens' });
+      return res.status(400).json({ message: 'Tokens insuficientes. Necessário: 26 tokens. Disponível: ' + user.tokens + ' tokens' });
     }
 
     // Consumir tokens ANTES do processamento
@@ -369,7 +372,7 @@ router.post('/undress', authenticateToken, upload.single('image'), async (req, r
     }
 
     if (user.tokens < 25) {
-      return res.status(400).json({ message: 'Tokens insuficientes. Necessário: 25 tokens. Disponível: ' + user.tokens + ' tokens' });
+      return res.status(400).json({ message: 'Tokens insuficientes. Necessário: 26 tokens. Disponível: ' + user.tokens + ' tokens' });
     }
 
     // Consumir tokens ANTES do processamento
@@ -551,7 +554,7 @@ router.post('/undress-mock', authenticateToken, upload.single('image'), async (r
     }
 
     if (user.tokens < 25) {
-      return res.status(400).json({ message: 'Tokens insuficientes. Necessário: 25 tokens. Disponível: ' + user.tokens + ' tokens' });
+      return res.status(400).json({ message: 'Tokens insuficientes. Necessário: 26 tokens. Disponível: ' + user.tokens + ' tokens' });
     }
 
     // Consumir tokens ANTES do processamento

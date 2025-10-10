@@ -394,7 +394,7 @@ const Dashboard = () => {
       <InsufficientTokensModal
         isOpen={showInsufficientTokensModal}
         onClose={() => setShowInsufficientTokensModal(false)}
-        requiredTokens={25}
+        requiredTokens={26}
         currentTokens={user?.tokens || 0}
       />
 

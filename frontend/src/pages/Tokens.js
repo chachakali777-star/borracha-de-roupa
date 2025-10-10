@@ -231,7 +231,7 @@ const Tokens = () => {
                 💡 Como funciona?
               </h3>
               <ul className="text-gray-600 space-y-1">
-                <li>• Cada processamento de imagem consome 25 tokens</li>
+                <li>• Cada processamento de imagem consome 26 tokens</li>
                 <li>• Os tokens não expiram</li>
                 <li>• Pagamento seguro via PIX</li>
                 <li>• Tokens creditados instantaneamente</li>

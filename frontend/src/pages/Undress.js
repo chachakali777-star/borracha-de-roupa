@@ -68,7 +68,7 @@ const Undress = () => {
       return;
     }
 
-    if (user.tokens < 25) {
+    if (user.tokens < 26) {
       setShowInsufficientTokensModal(true);
       return;
     }
@@ -367,7 +367,7 @@ const Undress = () => {
       <InsufficientTokensModal
         isOpen={showInsufficientTokensModal}
         onClose={() => setShowInsufficientTokensModal(false)}
-        requiredTokens={25}
+        requiredTokens={26}
         currentTokens={user?.tokens || 0}
       />
     </div>
