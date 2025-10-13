@@ -1,4 +1,5 @@
 import axios from 'axios';
+import API_CONFIG from '../config/api.config';
 
 function getUTMHeaders() {
   try {
@@ -19,7 +20,7 @@ function getUTMHeaders() {
 }
 
 const api = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:5000/api',
+  baseURL: API_CONFIG.API_URL,
   timeout: 30000,
 });
 
@@ -50,4 +51,6 @@ api.interceptors.response.use(
   }
 );
 
+// Exportar API e configuração de URL base
+export const API_BASE_URL = API_CONFIG.BASE_URL;
 export default api;

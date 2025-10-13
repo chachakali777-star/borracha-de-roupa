@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import api from '../services/api';
+import api, { API_BASE_URL } from '../services/api';
 import Navbar from '../components/Navbar';
 import AccessModal from '../components/AccessModal';
 import InsufficientTokensModal from '../components/InsufficientTokensModal';
@@ -350,7 +350,7 @@ const Upload = () => {
                 </h3>
                 <div className="bg-pink-50 border border-pink-200 rounded-2xl p-4">
                     <img
-                      src={`http://localhost:5000${result.processedImageUrl}`}
+                      src={`${API_BASE_URL}${result.processedImageUrl}`}
                       alt="Resultado do Virtual Try-On"
                     className="w-full h-auto rounded-xl shadow-lg mb-4"
                   />
@@ -360,7 +360,7 @@ const Upload = () => {
                     onClick={async () => {
                       setDownloadLoading(true);
                       try {
-                        const imageUrl = `http://localhost:5000${result.processedImageUrl}`;
+                        const imageUrl = `${API_BASE_URL}${result.processedImageUrl}`;
                         const response = await fetch(imageUrl);
                         const blob = await response.blob();
                         const url = window.URL.createObjectURL(blob);
@@ -374,7 +374,7 @@ const Upload = () => {
                       } catch (error) {
                         console.error('Erro ao baixar imagem:', error);
                         // Fallback: abrir em nova aba
-                        window.open(`http://localhost:5000${result.processedImageUrl}`, '_blank');
+                        window.open(`${API_BASE_URL}${result.processedImageUrl}`, '_blank');
                       } finally {
                         setDownloadLoading(false);
                       }

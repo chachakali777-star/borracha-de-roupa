@@ -5,7 +5,7 @@
       "nome": "Administrador",
       "email": "admin@fashn.ai",
       "senha": "$2a$10$ty5hsTSW8KsopEH7HKNCXuChY6YP5bfFWylEgBpZX20MrxRznQZbG",
-      "tokens": 650,
+      "tokens": 624,
       "role": "admin",
       "createdAt": "2025-09-07T22:46:33.479Z"
     },
@@ -447,6 +447,13 @@
       "data": "2025-10-10T20:51:59.780Z",
       "tipo_acao": "token_consumed",
       "descricao": "25 tokens consumidos para geração de imagem"
+    },
+    {
+      "id": "dc64b133-09b3-40ec-a24b-2b8372a68e3c",
+      "usuario_id": "bbac8138-beb8-43d2-9d9e-4bdb0ad7b972",
+      "data": "2025-10-13T14:45:49.807Z",
+      "tipo_acao": "token_consumed",
+      "descricao": "26 tokens consumidos para geração de imagem"
     }
   ]
 }
